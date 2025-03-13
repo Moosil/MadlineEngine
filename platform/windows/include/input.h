@@ -57,7 +57,7 @@ struct Input
 {
 	std::array<Button, Button::BUTTONS_COUNT> keyBoard;
 	
-	Vector2<int> cursorPos = Vector2<int>::ZERO;
+	glm::vec<2, int> cursorPos = glm::vec<2, int>(0,0);
 	
 	Button lmb = {};
 	Button rmb = {};

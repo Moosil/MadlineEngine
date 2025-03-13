@@ -7,7 +7,6 @@
 
 #include <data_type.h>
 #include <string>
-#include <glm/glm.hpp>
 
 class Madline {
 public:
@@ -231,6 +230,6 @@ private:
 //	MirrorReflection reflection;
 };
 
-const glm::vec2 Madline::CARRY_OFFSET_TARGET = glm::vec2<float>(0, -12);
+const glm::vec2 Madline::CARRY_OFFSET_TARGET = glm::vec2(0, -12);
 
 #endif//CELESTEPET_MADLINE_H

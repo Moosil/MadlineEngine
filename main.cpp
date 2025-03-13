@@ -41,7 +41,7 @@ int main() {
 		POINT point;
 		GetCursorPos(&point);
 		ScreenToClient(gameWindow.getHwnd(), &point);
-		gameWindow.input.cursorPos = point;
+		gameWindow.input.cursorPos = vec2iFromPoint(point);
 
 		RECT rect = {};
 		GetWindowRect(gameWindow.getHwnd(), &rect);
