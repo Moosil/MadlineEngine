@@ -7,191 +7,21 @@
 
 #include <ostream>
 #include <windows.h>
+#include <glm/glm.hpp>
 
-#pragma region Vector
-template<typename T>
-class Vector2 {
-public:
-	T x, y;
+glm::vec<2, int> vec2iFromPoint(POINT point);
 
-	Vector2() : x(0), y(0){};
-
-	explicit Vector2(T val) : x(val), y(val){};
-
-	Vector2(T x, T y) : x(x), y(y){};
-
-	Vector2(const Vector2 &from) : x(from.x), y(from.y){};
-
-	bool operator==(const Vector2 &other) const {
-		return x == other.x && y == other.y;
-	}
-
-	bool operator!=(const Vector2 &other) const {
-		return x != other.x || y != other.y;
-	}
-
-	bool operator>(const Vector2 &other) const {
-		if (x == other.x) {
-			return y > other.y;
-		} else {
-			return x > other.x;
-		}
-	}
-
-	bool operator<(const Vector2 &other) const {
-		if (x == other.x) {
-			return y < other.y;
-		} else {
-			return x < other.x;
-		}
-	}
-
-	bool operator>=(const Vector2 &other) const {
-		if (x == other.x) {
-			return y >= other.y;
-		} else {
-			return x >= other.x;
-		}
-	}
-
-	bool operator<=(const Vector2 &other) const {
-		if (x == other.x) {
-			return y <= other.y;
-		} else {
-			return x <= other.x;
-		}
-	}
-
-	Vector2 operator[](int idx) {
-		if (idx == 0) {
-			return x;
-		} else if (idx == 1) {
-			return y;
-		} else {
-			return nullptr;
-		}
-	}
-
-	Vector2 operator+() const {
-		return this;
-	}
-
-	Vector2 operator+(const Vector2 &other) const {
-		return Vector2(x + other.x, y + other.y);
-	}
-
-	Vector2 operator-() const {
-		return this * -1;
-	}
-
-	Vector2 operator-(const Vector2 &other) const {
-		return Vector2(x + other.x, y + other.y);
-	}
-
-	Vector2 operator*(T scalar) const {
-		return Vector2(x * scalar, y * scalar);
-	}
-
-	Vector2 operator*(const Vector2 &other) const {
-		return Vector2(x * other.x, y * other.y);
-	}
-
-	Vector2 operator/(T scalar) const {
-		return Vector2(x / scalar, y / scalar);
-	}
-
-	Vector2 operator/(const Vector2 &other) const {
-		return Vector2(x / other.x, y / other.y);
-	}
-
-	friend std::ostream &operator<<(std::ostream &out, const Vector2<T> vector2) {
-		out << '(' << vector2.x << ',' << vector2.y << ')';
-		return out;
-	}
-
-	inline static const Vector2 ZERO{};
-	inline static const Vector2 ONE{1};
-	inline static const Vector2 UP{0, -1};
-	inline static const Vector2 DOWN{0, 1};
-	inline static const Vector2 LEFT{-1, 0};
-	inline static const Vector2 RIGHT{1, 0};
-};
-
-template<>
-class Vector2<float> {
-public:
-	float x, y;
-
-	Vector2();
-
-	explicit Vector2(float val);
-
-	explicit Vector2(const Vector2<int> &other);
-
-	Vector2(float x, float y);
-
-	Vector2(const Vector2 &other) = default;
-
-	Vector2<float> operator*(int scalar) const;
-
-	Vector2<float> operator/(int scalar) const;
-
-	friend std::ostream &operator<<(std::ostream &out, const Vector2<float> vector2);
-
-	static const Vector2 ZERO;
-	static const Vector2 ONE;
-	static const Vector2 UP;
-	static const Vector2 DOWN;
-	static const Vector2 LEFT;
-	static const Vector2 RIGHT;
-};
-
-template<>
-class Vector2<int> {
-public:
-	int x, y;
-
-	Vector2();
-
-	explicit Vector2(int val);
-
-	Vector2(POINT point);
-
-	explicit Vector2(const Vector2<float> &other);
-
-	Vector2(int x, int y);
-
-	Vector2(const Vector2 &other) = default;
-
-	Vector2<float> operator*(float scalar) const;
-
-	Vector2<float> operator*(const Vector2<float> &other) const;
-
-	Vector2<float> operator/(float scalar) const;
-
-	Vector2<float> operator/(const Vector2<float> &other) const;
-
-	friend std::ostream &operator<<(std::ostream &out, const Vector2<int> vector2);
-
-	static const Vector2 ZERO;
-	static const Vector2 ONE;
-	static const Vector2 UP;
-	static const Vector2 DOWN;
-	static const Vector2 LEFT;
-	static const Vector2 RIGHT;
-};
-#pragma endregion
 #pragma region Rect
 template<typename T>
 class Rect2 {
 public:
-	Vector2<T> pos, size;
+	glm::vec<2, T> pos, size;
 
 	Rect2() : pos(), size(){};
 
 	Rect2(const Rect2 &other) = default;
 
-	Rect2(Vector2<T> pos, Vector2<T> size) : pos(pos), size(size){};
+	Rect2(glm::vec<2, T> pos, glm::vec<2, T> size) : pos(pos), size(size){};
 
 	Rect2(T x, T y, T width, T height) : pos(Vector2<T>(x, y)), size(Vector2<T>(width, height)){};
 
@@ -207,7 +37,7 @@ public:
 template<>
 class Rect2<float> {
 public:
-	Vector2<float> pos, size;
+	glm::vec2 pos, size;
 	
 	Rect2();
 	
@@ -215,7 +45,7 @@ public:
 	
 	explicit Rect2(const Rect2<int> &other);
 
-	Rect2(Vector2<float> pos, Vector2<float> size);
+	Rect2(glm::vec2 pos, glm::vec2 size);
 
 	Rect2(float x, float y, float width, float height);
 };
@@ -223,7 +53,7 @@ public:
 template<>
 class Rect2<int> {
 public:
-	Vector2<int> pos, size;
+	glm::vec<2, int> pos, size;
 
 	Rect2();
 	
@@ -233,7 +63,7 @@ public:
 	
 	explicit Rect2(const Rect2<float> &other);
 	
-	Rect2(Vector2<int> pos, Vector2<int> size);
+	Rect2(glm::vec<2, int> pos, glm::vec<2, int> size);
 
 	Rect2(int x, int y, int width, int height);
 };
@@ -246,11 +76,11 @@ public:
 	
 	explicit Colour(unsigned char v);
 	
+	explicit Colour(std::string hex);
+	
 	Colour(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255);
 	
 	static Colour fromFloat(float r, float g, float b, float a = 1.);
-	
-	explicit Colour(std::string hex);
 	
 	std::string getHex(bool with_alpha = false);
 	
