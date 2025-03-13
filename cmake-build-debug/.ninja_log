@@ -1,0 +1,14 @@
+# ninja log v5
+49	2298	7634755399245922	CMakeFiles/CelestePet.dir/platform/windows/src/input.cpp.obj	720021c29aa8c965
+40	3755	7636102741032026	CMakeFiles/CelestePet.dir/main.cpp.obj	d68cac99955d3b41
+51	444	7636105455685765	build.ninja	cd1396751435314d
+2779	3090	7635408907166741	CelestePet.exe	6732d674df514407
+5	35	0	C:/Users/School/CLionProjects/CelestePet/cmake-build-debug/CMakeFiles/cmake.verify_globs	dc36194e4a15a91c
+53	3148	7636102735001860	CMakeFiles/CelestePet.dir/game/src/game_logic.cpp.obj	ce44753acf9f111e
+40	3334	7634755409562775	CMakeFiles/CelestePet.dir/platform/windows/src/data_type.cpp.obj	e999b5d270aaa975
+39	2779	7635408904096173	CMakeFiles/CelestePet.dir/platform/windows/src/game_window.cpp.obj	f0779da587741b2f
+58	2974	7636102733243502	CMakeFiles/CelestePet.dir/game/src/madline.cpp.obj	e0cdcf95fd3868ac
+7	50	0	C:/Users/School/CLionProjects/CelestePet/cmake-build-debug/CMakeFiles/cmake.verify_globs	dc36194e4a15a91c
+59	1511	7636108828441279	CMakeFiles/CelestePet.dir/platform/vulkan/src/vk_engine.cpp.obj	b7852c6d2b70c7c8
+5	42	0	C:/Users/School/CLionProjects/CelestePet/cmake-build-debug/CMakeFiles/cmake.verify_globs	dc36194e4a15a91c
+48	992	7636108955131546	CMakeFiles/CelestePet.dir/platform/vulkan/src/vk_engine.cpp.obj	b7852c6d2b70c7c8
