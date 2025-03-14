@@ -10,12 +10,12 @@ struct GameData {
 };
 static GameData data;
 
-bool initGameplay() {
+bool Game::initGameplay() {
 	data = {};
 	return true;
 }
 
-bool process(float delta, GameWindow gameWindow) {
+bool Game::process(float delta, Window gameWindow) {
 	data.frameCounter += 1;
 	data.timeCounter += delta;
 	if (data.timeCounter >= 0.01) {
@@ -27,6 +27,6 @@ bool process(float delta, GameWindow gameWindow) {
 	return true;
 }
 
-void onCloseGame() {
+void Game::onCloseGame() {
 
 }

@@ -5,39 +5,39 @@
 #include <data_type.h>
 #include <format>
 
-glm::vec<2, int> vec2iFromPoint(POINT point) {
+glm::vec<2, int> Game::vec2iFromPoint(POINT point) {
 	return {point.x, point.y};
 }
 
 #pragma region Rect2
 #pragma region Rect2<float> methods
-Rect2<float>::Rect2() : pos(), size(){}
+Game::Rect2<float>::Rect2() : pos(), size(){}
 
-Rect2<float>::Rect2(glm::vec2 pos, glm::vec2 size) : pos(pos), size(size){}
+Game::Rect2<float>::Rect2(glm::vec2 pos, glm::vec2 size) : pos(pos), size(size){}
 
-Rect2<float>::Rect2(float x, float y, float width, float height) : pos(glm::vec2(x, y)), size(glm::vec2(width, height)){}
+Game::Rect2<float>::Rect2(float x, float y, float width, float height) : pos(glm::vec2(x, y)), size(glm::vec2(width, height)){}
 
-Rect2<float>::Rect2(const Rect2<int>& other) : pos(static_cast<glm::vec2>(other.pos)), size(static_cast<glm::vec2>(other.size)) {}
+Game::Rect2<float>::Rect2(const Rect2<int>& other) : pos(static_cast<glm::vec2>(other.pos)), size(static_cast<glm::vec2>(other.size)) {}
 #pragma endregion
 
 #pragma region Rect2<int> methods
-Rect2<int>::Rect2() : pos(), size(){}
+Game::Rect2<int>::Rect2() : pos(), size(){}
 
-Rect2<int>::Rect2(RECT rect): pos(glm::vec<2, int>(rect.left, rect.top)), size(glm::vec<2, int>(rect.right - rect.left, rect.bottom - rect.top)) {}
+Game::Rect2<int>::Rect2(RECT rect): pos(glm::vec<2, int>(rect.left, rect.top)), size(glm::vec<2, int>(rect.right - rect.left, rect.bottom - rect.top)) {}
 
-Rect2<int>::Rect2(glm::vec<2, int> pos, glm::vec<2, int> size) : pos(pos), size(size){}
+Game::Rect2<int>::Rect2(glm::vec<2, int> pos, glm::vec<2, int> size) : pos(pos), size(size){}
 
-Rect2<int>::Rect2(int x, int y, int width, int height) : pos(glm::vec<2, int>(x, y)), size(glm::vec<2, int>(width, height)){}
+Game::Rect2<int>::Rect2(int x, int y, int width, int height) : pos(glm::vec<2, int>(x, y)), size(glm::vec<2, int>(width, height)){}
 
-Rect2<int>::Rect2(const Rect2<float> &other) : pos(static_cast<glm::vec<2, int>>(other.pos)), size(static_cast<glm::vec<2, int>>(other.size)) {}
+Game::Rect2<int>::Rect2(const Rect2<float> &other) : pos(static_cast<glm::vec<2, int>>(other.pos)), size(static_cast<glm::vec<2, int>>(other.size)) {}
 #pragma endregion
 #pragma endregion
 #pragma region Colour
-Colour::Colour(): r(0), g(0), b(0), a(0) {}
-Colour::Colour(unsigned char v): r(v), g(v), b(v), a(v) {}
-Colour::Colour(unsigned char r, unsigned char g, unsigned char b, unsigned char a):
+Game::Colour::Colour(): r(0), g(0), b(0), a(0) {}
+Game::Colour::Colour(unsigned char v): r(v), g(v), b(v), a(v) {}
+Game::Colour::Colour(unsigned char r, unsigned char g, unsigned char b, unsigned char a):
 	r(r), g(g), b(b), a(a){}
-Colour Colour::fromFloat(float r, float g, float b, float a){
+Game::Colour Game::Colour::fromFloat(float r, float g, float b, float a){
     return {
         static_cast<unsigned char>(r * 255),
 	    static_cast<unsigned char>(g * 255),
@@ -45,7 +45,7 @@ Colour Colour::fromFloat(float r, float g, float b, float a){
 	    static_cast<unsigned char>(a * 255)
     };
 }
-Colour::Colour(std::string hex) {
+Game::Colour::Colour(std::string hex) {
 	if(hex.at(0) == '#') {
 		hex.erase(0, 1);
 	}
@@ -62,7 +62,7 @@ Colour::Colour(std::string hex) {
 	}
 }
 
-std::string Colour::getHex(bool with_alpha) {
+std::string Game::Colour::getHex(bool with_alpha) {
 	std::string hex = std::format("{:x}", r) + std::format("{:x}", g) + std::format("{:x}", b);
 	if (with_alpha) {
 		hex += std::format("{:x}", a);
@@ -70,8 +70,8 @@ std::string Colour::getHex(bool with_alpha) {
 	return hex;
 }
 #pragma region Constants
-const Colour Colour::NONE{0,0,0,0};
-const Colour Colour::WHITE{255,255,255,255};
-const Colour Colour::BLACK{0,0,0,255};
+const Game::Colour Game::Colour::NONE{0,0,0,0};
+const Game::Colour Game::Colour::WHITE{255,255,255,255};
+const Game::Colour Game::Colour::BLACK{0,0,0,255};
 #pragma endregion
 #pragma endregion

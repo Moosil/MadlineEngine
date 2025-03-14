@@ -5,14 +5,14 @@
 #include <input.h>
 #include <algorithm>
 
-void resetInput(Input &input) {
+void Game::resetInput(Game::Input &input) {
 	input.lmb = {};
 	input.rmb = {};
 	
 	std::fill(input.keyBoard.begin(), input.keyBoard.end(), Button());
 }
 
-void processInputAfter(Input &input) {
+void Game::processInputAfter(Game::Input &input) {
 	for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
 		input.keyBoard[i].pressed = false;
 		input.keyBoard[i].released = false;
@@ -30,7 +30,7 @@ void processInputAfter(Input &input) {
 	input.lmb.altPressed = false;
 }
 
-void processEventButton(Button &b, bool newState) {
+void Game::processEventButton(Game::Button &b, bool newState) {
 	if (newState) {
 		if (!b.held) {
 			b.pressed = true;

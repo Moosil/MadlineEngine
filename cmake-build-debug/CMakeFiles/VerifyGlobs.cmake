@@ -13,7 +13,7 @@ if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   file(TOUCH_NOCREATE "C:/Users/School/CLionProjects/CelestePet/cmake-build-debug/CMakeFiles/cmake.verify_globs")
 endif()
 
-# ENGINE_SOURCES at CMakeLists.txt:10 (file)
+# VULKAN_SOURCES at CMakeLists.txt:10 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "C:/Users/School/CLionProjects/CelestePet/platform/vulkan/src/*.cpp")
 set(OLD_GLOB
   "C:/Users/School/CLionProjects/CelestePet/platform/vulkan/src/vk_engine.cpp"

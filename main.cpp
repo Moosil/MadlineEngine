@@ -19,11 +19,11 @@ bool readEntireFile(const std::string &name, std::vector<char> &data);
 
 bool writeEntireFile(const std::string &name, void *buffer, size_t s);
 
-GameWindow gameWindow{};
+Game::Window gameWindow{};
 
 int main() {
 
-	if (!initGameplay()) { return -1; }
+	if (!Game::initGameplay()) { return -1; }
 
 	auto lastFrameTime = std::chrono::high_resolution_clock::now();
 
@@ -41,7 +41,7 @@ int main() {
 		POINT point;
 		GetCursorPos(&point);
 		ScreenToClient(gameWindow.getHwnd(), &point);
-		gameWindow.input.cursorPos = vec2iFromPoint(point);
+		gameWindow.input.cursorPos = Game::vec2iFromPoint(point);
 
 		RECT rect = {};
 		GetWindowRect(gameWindow.getHwnd(), &rect);
@@ -57,7 +57,7 @@ int main() {
 		processInputAfter(gameWindow.input);
 	}
 
-	onCloseGame();
+	Game::onCloseGame();
 
 	return 0;
 }

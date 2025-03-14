@@ -8,10 +8,12 @@
 #include <input.h>
 #include <game_window.h>
 
-bool initGameplay();
+namespace Game {
+	bool initGameplay();
 
-bool process(float delta, GameWindow gameWindow);
+	bool process(float delta, Window gameWindow);
 
-void onCloseGame();
+	void onCloseGame();
+}
 
 #endif//CELESTEPET_GAME_LOGIC_H
