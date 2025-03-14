@@ -61,12 +61,12 @@ public:
 	float autoJumpTimer;
 	glm::vec<2, int> dashDir;
 //	Booster currentBooster;
-	static Colour normalHairColour;
-	static Colour flyPowerHairColour;
-	static Colour usedHairColour;
-	static Colour flashHairColour;
-	static Colour twoDashesHairColour;
-	Colour overrideHairColour;
+	static Game::Colour normalHairColour;
+	static Game::Colour flyPowerHairColour;
+	static Game::Colour usedHairColour;
+	static Game::Colour flashHairColour;
+	static Game::Colour twoDashesHairColour;
+	Game::Colour overrideHairColour;
 	enum introTypes { Transition, Respawn, WalkInRight, WalkInLeft, Jump, WakeUp, Fall, TempleMirrorVoid, None };
 	introTypes introType;
 private:
