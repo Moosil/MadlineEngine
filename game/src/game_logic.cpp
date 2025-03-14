@@ -15,7 +15,7 @@ bool Game::initGameplay() {
 	return true;
 }
 
-bool Game::process(float delta, Window gameWindow) {
+bool Game::process(float delta) {
 	data.frameCounter += 1;
 	data.timeCounter += delta;
 	if (data.timeCounter >= 0.01) {

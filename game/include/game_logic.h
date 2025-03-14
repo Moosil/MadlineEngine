@@ -11,7 +11,7 @@
 namespace Game {
 	bool initGameplay();
 
-	bool process(float delta, Window gameWindow);
+	bool process(float delta);
 
 	void onCloseGame();
 }

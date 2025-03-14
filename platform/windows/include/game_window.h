@@ -5,12 +5,18 @@
 #ifndef CELESTEPET_GAME_WINDOW_H
 #define CELESTEPET_GAME_WINDOW_H
 
+#include <GLFW/glfw3.h>
+
 #include <Windows.h>
 #include <cassert>
 #include <exception>
 #include <iostream>
 #include <vector>
 #include <input.h>
+#include <game_logic.h>
+#include <chrono>
+
+
 
 namespace Game {
 	class Window {
@@ -24,8 +30,12 @@ namespace Game {
 		Rect2<int> screenRect;
 
 		explicit Window(int minFps = 5);
+		
+		int mainLoop();
 
-		HWND getHwnd();
+		GLFWwindow* m_window;
+		
+		static float getDeltaTime(std::chrono::high_resolution_clock::time_point &lastFrameTime);
 
 		void set_focused(bool val);
 
@@ -64,11 +74,9 @@ namespace Game {
 		std::vector<int> get_buttons_released();
 
 	private:
-		HWND m_hwnd;
+		static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-		static LRESULT CALLBACK staticWindowProc(HWND p_hwnd, unsigned int msg, WPARAM wp, LPARAM lp);
-
-		LRESULT windowProc(unsigned int msg, WPARAM wp, LPARAM lp);
+//		LRESULT windowProc(unsigned int msg, WPARAM wp, LPARAM lp);
 	};
 }
 
