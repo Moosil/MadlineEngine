@@ -5,9 +5,14 @@
 #ifndef CELESTEPET_DATA_TYPE_H
 #define CELESTEPET_DATA_TYPE_H
 
-#include <ostream>
-#include <windows.h>
-#include <glm/glm.hpp>
+#include <string>
+#include <exception>
+#include <format>
+#include "glm/glm.hpp"
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif//_WIN32
 
 namespace Game {
 	glm::vec<2, int> vec2iFromPoint(POINT point);

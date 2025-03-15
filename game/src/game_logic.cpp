@@ -1,8 +1,7 @@
 //
 // Created by School on 2025/3/11.
 //
-#include <game_logic.h>
-#include <iostream>
+#include "game_logic.h"
 
 struct GameData {
 	int frameCounter = 0;

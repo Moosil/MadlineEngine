@@ -52,51 +52,51 @@ build cmake_object_order_depends_target_CelestePet: phony || CMakeFiles/CelesteP
 build CMakeFiles/CelestePet.dir/main.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/main.cpp || cmake_object_order_depends_target_CelestePet
   DEP_FILE = CMakeFiles\CelestePet.dir\main.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/platform/windows/include -IC:/Users/School/CLionProjects/CelestePet/platform/vulkan/include -IC:/Users/School/CLionProjects/CelestePet/thirdparty -isystem C:/VulkanSDK/1.4.304.1/Include
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
   OBJECT_DIR = CMakeFiles\CelestePet.dir
   OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir
 
-build CMakeFiles/CelestePet.dir/platform/windows/src/data_type.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/windows/src/data_type.cpp || cmake_object_order_depends_target_CelestePet
-  DEP_FILE = CMakeFiles\CelestePet.dir\platform\windows\src\data_type.cpp.obj.d
+build CMakeFiles/CelestePet.dir/platform/src/vulkan/vulkan_engine.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/src/vulkan/vulkan_engine.cpp || cmake_object_order_depends_target_CelestePet
+  DEP_FILE = CMakeFiles\CelestePet.dir\platform\src\vulkan\vulkan_engine.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/platform/windows/include -IC:/Users/School/CLionProjects/CelestePet/platform/vulkan/include -IC:/Users/School/CLionProjects/CelestePet/thirdparty -isystem C:/VulkanSDK/1.4.304.1/Include
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
   OBJECT_DIR = CMakeFiles\CelestePet.dir
-  OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\windows\src
+  OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\src\vulkan
 
-build CMakeFiles/CelestePet.dir/platform/windows/src/game_window.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/windows/src/game_window.cpp || cmake_object_order_depends_target_CelestePet
-  DEP_FILE = CMakeFiles\CelestePet.dir\platform\windows\src\game_window.cpp.obj.d
+build CMakeFiles/CelestePet.dir/platform/src/windows/data_type.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/src/windows/data_type.cpp || cmake_object_order_depends_target_CelestePet
+  DEP_FILE = CMakeFiles\CelestePet.dir\platform\src\windows\data_type.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/platform/windows/include -IC:/Users/School/CLionProjects/CelestePet/platform/vulkan/include -IC:/Users/School/CLionProjects/CelestePet/thirdparty -isystem C:/VulkanSDK/1.4.304.1/Include
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
   OBJECT_DIR = CMakeFiles\CelestePet.dir
-  OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\windows\src
+  OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\src\windows
 
-build CMakeFiles/CelestePet.dir/platform/windows/src/input.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/windows/src/input.cpp || cmake_object_order_depends_target_CelestePet
-  DEP_FILE = CMakeFiles\CelestePet.dir\platform\windows\src\input.cpp.obj.d
+build CMakeFiles/CelestePet.dir/platform/src/windows/game_window.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/src/windows/game_window.cpp || cmake_object_order_depends_target_CelestePet
+  DEP_FILE = CMakeFiles\CelestePet.dir\platform\src\windows\game_window.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/platform/windows/include -IC:/Users/School/CLionProjects/CelestePet/platform/vulkan/include -IC:/Users/School/CLionProjects/CelestePet/thirdparty -isystem C:/VulkanSDK/1.4.304.1/Include
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
   OBJECT_DIR = CMakeFiles\CelestePet.dir
-  OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\windows\src
+  OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\src\windows
+
+build CMakeFiles/CelestePet.dir/platform/src/windows/input.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/src/windows/input.cpp || cmake_object_order_depends_target_CelestePet
+  DEP_FILE = CMakeFiles\CelestePet.dir\platform\src\windows\input.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
+  OBJECT_DIR = CMakeFiles\CelestePet.dir
+  OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\src\windows
 
 build CMakeFiles/CelestePet.dir/game/src/game_logic.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/game/src/game_logic.cpp || cmake_object_order_depends_target_CelestePet
   DEP_FILE = CMakeFiles\CelestePet.dir\game\src\game_logic.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/platform/windows/include -IC:/Users/School/CLionProjects/CelestePet/platform/vulkan/include -IC:/Users/School/CLionProjects/CelestePet/thirdparty -isystem C:/VulkanSDK/1.4.304.1/Include
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
   OBJECT_DIR = CMakeFiles\CelestePet.dir
   OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\game\src
 
 build CMakeFiles/CelestePet.dir/game/src/madline.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/game/src/madline.cpp || cmake_object_order_depends_target_CelestePet
   DEP_FILE = CMakeFiles\CelestePet.dir\game\src\madline.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/platform/windows/include -IC:/Users/School/CLionProjects/CelestePet/platform/vulkan/include -IC:/Users/School/CLionProjects/CelestePet/thirdparty -isystem C:/VulkanSDK/1.4.304.1/Include
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
   OBJECT_DIR = CMakeFiles\CelestePet.dir
   OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\game\src
-
-build CMakeFiles/CelestePet.dir/platform/vulkan/src/vk_engine.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/vulkan/src/vk_engine.cpp || cmake_object_order_depends_target_CelestePet
-  DEP_FILE = CMakeFiles\CelestePet.dir\platform\vulkan\src\vk_engine.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/platform/windows/include -IC:/Users/School/CLionProjects/CelestePet/platform/vulkan/include -IC:/Users/School/CLionProjects/CelestePet/thirdparty -isystem C:/VulkanSDK/1.4.304.1/Include
-  OBJECT_DIR = CMakeFiles\CelestePet.dir
-  OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\vulkan\src
 
 
 # =============================================================================
@@ -106,7 +106,7 @@ build CMakeFiles/CelestePet.dir/platform/vulkan/src/vk_engine.cpp.obj: CXX_COMPI
 #############################################
 # Link the executable CelestePet.exe
 
-build CelestePet.exe: CXX_EXECUTABLE_LINKER__CelestePet_Debug CMakeFiles/CelestePet.dir/main.cpp.obj CMakeFiles/CelestePet.dir/platform/windows/src/data_type.cpp.obj CMakeFiles/CelestePet.dir/platform/windows/src/game_window.cpp.obj CMakeFiles/CelestePet.dir/platform/windows/src/input.cpp.obj CMakeFiles/CelestePet.dir/game/src/game_logic.cpp.obj CMakeFiles/CelestePet.dir/game/src/madline.cpp.obj CMakeFiles/CelestePet.dir/platform/vulkan/src/vk_engine.cpp.obj | C$:/VulkanSDK/1.4.304.1/Lib/vulkan-1.lib
+build CelestePet.exe: CXX_EXECUTABLE_LINKER__CelestePet_Debug CMakeFiles/CelestePet.dir/main.cpp.obj CMakeFiles/CelestePet.dir/platform/src/vulkan/vulkan_engine.cpp.obj CMakeFiles/CelestePet.dir/platform/src/windows/data_type.cpp.obj CMakeFiles/CelestePet.dir/platform/src/windows/game_window.cpp.obj CMakeFiles/CelestePet.dir/platform/src/windows/input.cpp.obj CMakeFiles/CelestePet.dir/game/src/game_logic.cpp.obj CMakeFiles/CelestePet.dir/game/src/madline.cpp.obj | C$:/VulkanSDK/1.4.304.1/Lib/vulkan-1.lib
   FLAGS = -g
   LINK_LIBRARIES = C:/VulkanSDK/1.4.304.1/Lib/vulkan-1.lib  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\CelestePet.dir

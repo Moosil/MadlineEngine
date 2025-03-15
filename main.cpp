@@ -1,13 +1,7 @@
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 
-#include <chrono>
-#include <game_logic.h>
-#include <windows.h>
-#include <input.h>
-#include <iostream>
-
-float getDeltaTime(std::chrono::high_resolution_clock::time_point &lastFrameTime);
+#include "CelestePetHeaders.h"
 
 std::string getLastErrorString();
 
@@ -27,48 +21,24 @@ int main() {
 
 	auto lastFrameTime = std::chrono::high_resolution_clock::now();
 
-	while (gameWindow.running) {
-		MSG msg = {};
-		while (PeekMessage(&msg, gameWindow.getHwnd(), 0, 0, PM_REMOVE) > 0) {
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
+	while (gameWindow.is_running()) {
+		float dt = gameWindow.getDeltaTime();
+		float adt = (dt > 1.f / (float) gameWindow.getMinFps()) ? 1.f / (float) gameWindow.getMinFps() : dt;// augmented delta time
+
+		if (!Game::process(adt, gameWindow)) {
+			gameWindow.stop_running();
 		}
 
 		if (!gameWindow.is_focused()) {
-			resetInput(gameWindow.input);
+			resetInput(gameWindow.getInput());
 		}
 
-		POINT point;
-		GetCursorPos(&point);
-		ScreenToClient(gameWindow.getHwnd(), &point);
-		gameWindow.input.cursorPos = Game::vec2iFromPoint(point);
-
-		RECT rect = {};
-		GetWindowRect(gameWindow.getHwnd(), &rect);
-		gameWindow.screenRect = rect;
-
-		float dt = getDeltaTime(lastFrameTime);
-		float adt = (dt > 1.f / (float) gameWindow.minFps) ? 1.f / (float) gameWindow.minFps : dt;// augmented delta time
-
-		if (!process(adt, gameWindow)) {
-			gameWindow.running = false;
-		}
-
-		processInputAfter(gameWindow.input);
+		processInputAfter(gameWindow.getInput());
 	}
 
 	Game::onCloseGame();
 
 	return 0;
-}
-
-float getDeltaTime(std::chrono::high_resolution_clock::time_point &lastFrameTime) {
-	auto now = std::chrono::high_resolution_clock::now();
-
-	long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(now - lastFrameTime).count();
-	float rez = (float) microseconds / 1000000.0f;
-	lastFrameTime = std::chrono::high_resolution_clock::now();
-	return rez;
 }
 
 std::string getLastErrorString() {

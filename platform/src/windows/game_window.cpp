@@ -2,11 +2,11 @@
 // Created by School on 2025/3/12.
 //
 
-#include <game_window.h>
+#include "windows/game_window.h"
 
 Game::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
 	WNDCLASS wc = {sizeof(WNDCLASS)};
-	const std::string className = "Celeste Pet Background";
+	const std::string className = CLASS_NAME;
 	
 	if (!GetClassInfo(GetModuleHandle(nullptr), className.c_str(), &wc)) {
 		wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
@@ -26,7 +26,7 @@ Game::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
     m_hwnd = CreateWindowEx(
         WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT | WS_EX_LAYERED,
         wc.lpszClassName,
-        "Madline",
+        WINDOW_NAME,
         WS_POPUP | WS_VISIBLE,
         0,
         0,
@@ -36,6 +36,8 @@ Game::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
     );
 	
 	assert(m_hwnd);
+	
+	lastFrameTime = std::chrono::high_resolution_clock::now();
 }
 
 LRESULT CALLBACK Game::Window::staticWindowProc(HWND p_hwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
@@ -146,8 +148,46 @@ LRESULT Game::Window::windowProc(unsigned int msg, WPARAM wp, LPARAM lp) {
 	return rez;
 }
 
-HWND Game::Window::getHwnd() {
-	return m_hwnd;
+float Game::Window::getDeltaTime() {
+	auto now = std::chrono::high_resolution_clock::now();
+	
+	long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(now - lastFrameTime).count();
+	float rez = (float) microseconds / 1000000.0f;
+	lastFrameTime = std::chrono::high_resolution_clock::now();
+	return rez;
+}
+
+void Game::Window::gameLoop() {
+	MSG msg = {};
+	while (PeekMessage(&msg, m_hwnd, 0, 0, PM_REMOVE) > 0) {
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+	
+	POINT point;
+	GetCursorPos(&point);
+	ScreenToClient(m_hwnd, &point);
+	input.cursorPos = Game::vec2iFromPoint(point);
+
+	RECT rect = {};
+	GetWindowRect(m_hwnd, &rect);
+	screenRect = rect;
+}
+
+
+int Game::Window::getMinFps() const {
+	return minFps;
+}
+
+bool Game::Window::is_running() const {
+	return running;
+}
+void Game::Window::stop_running() {
+	running = false;
+}
+
+Game::Input *Game::Window::getInput() {
+	return &input;
 }
 
 void Game::Window::set_focused(bool val) {
@@ -158,19 +198,19 @@ bool Game::Window::is_focused() const {
 	return input.focused;
 }
 
-bool Game::Window::is_button_pressed(int buttonIndex) {
+bool Game::Window::is_button_pressed(int buttonIndex) const {
 	return input.keyBoard[buttonIndex].pressed;
 }
 
-bool Game::Window::is_button_triggered(int buttonIndex) {
+bool Game::Window::is_button_triggered(int buttonIndex) const {
 	return input.keyBoard[buttonIndex].triggered;
 }
 
-bool Game::Window::is_button_held(int buttonIndex) {
+bool Game::Window::is_button_held(int buttonIndex) const {
 	return input.keyBoard[buttonIndex].held;
 }
 
-bool Game::Window::is_button_released(int buttonIndex) {
+bool Game::Window::is_button_released(int buttonIndex) const {
 	return input.keyBoard[buttonIndex].released;
 }
 
@@ -206,7 +246,7 @@ bool  Game::Window::is_rmb_released() const {
 	return input.rmb.pressed;
 }
 
-std::vector<int> Game::Window::get_buttons_pressed() {
+std::vector<int> Game::Window::get_buttons_pressed() const {
 	std::vector<int> pressed;
 	for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
 		if (input.keyBoard[i].pressed) {
@@ -216,7 +256,7 @@ std::vector<int> Game::Window::get_buttons_pressed() {
 	return pressed;
 }
 
-std::vector<int> Game::Window::get_buttons_triggered() {
+std::vector<int> Game::Window::get_buttons_triggered() const {
 	std::vector<int> triggered;
 	for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
 		if (input.keyBoard[i].triggered) {
@@ -226,7 +266,7 @@ std::vector<int> Game::Window::get_buttons_triggered() {
 	return triggered;
 }
 
-std::vector<int> Game::Window::get_buttons_held() {
+std::vector<int> Game::Window::get_buttons_held() const {
 	std::vector<int> held;
 	for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
 		if (input.keyBoard[i].held) {
@@ -236,7 +276,7 @@ std::vector<int> Game::Window::get_buttons_held() {
 	return held;
 }
 
-std::vector<int> Game::Window::get_buttons_released() {
+std::vector<int> Game::Window::get_buttons_released() const {
 	std::vector<int> released;
 	for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
 		if (input.keyBoard[i].released) {

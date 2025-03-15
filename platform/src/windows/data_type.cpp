@@ -2,8 +2,7 @@
 // Created by School on 2025/3/11.
 //
 
-#include <data_type.h>
-#include <format>
+#include "windows/data_type.h"
 
 glm::vec<2, int> Game::vec2iFromPoint(POINT point) {
 	return {point.x, point.y};

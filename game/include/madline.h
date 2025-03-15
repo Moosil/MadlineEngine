@@ -5,8 +5,12 @@
 #ifndef CELESTEPET_MADLINE_H
 #define CELESTEPET_MADLINE_H
 
-#include <data_type.h>
 #include <string>
+#include "glm/glm.hpp"
+
+#ifdef _WIN32
+#include "windows/data_type.h"
+#endif//_WIN32
 
 class Madline {
 public:
@@ -151,7 +155,7 @@ private:
 	static constexpr float INFINITE_DASHES_FIRST_TIME = .5;
 	static constexpr float FLY_POWER_FLASH_TIME = .5;
 	static constexpr float THROW_RECOIL = 80;
-	static const glm::vec2 CARRY_OFFSET_TARGET;
+	static constexpr glm::vec2 CARRY_OFFSET_TARGET = glm::vec2(0, -12);
 	static constexpr float CHASER_STATE_MAX_TIME = 4;
 	
 //	Level level;
@@ -229,7 +233,5 @@ private:
 	float windHairTimer;
 //	MirrorReflection reflection;
 };
-
-const glm::vec2 Madline::CARRY_OFFSET_TARGET = glm::vec2(0, -12);
 
 #endif//CELESTEPET_MADLINE_H

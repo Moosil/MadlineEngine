@@ -6,8 +6,12 @@
 #define CELESTEPET_INPUT_H
 
 #include <array>
-#include <windows.h>
-#include <data_type.h>
+
+#include "glm/glm.hpp"
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif//_WIN32
 
 namespace Game {
 	struct Button
@@ -54,8 +58,7 @@ namespace Game {
 		};
 	};
 	
-	struct Input
-	{
+	struct Input {
 		std::array<Button, Button::BUTTONS_COUNT> keyBoard;
 		
 		glm::vec<2, int> cursorPos = glm::vec<2, int>(0,0);
@@ -65,10 +68,9 @@ namespace Game {
 		
 		bool focused = false;
 	};
+	void resetInput(Input *input);
 	
-	void resetInput(Input &input);
-	
-	void processInputAfter(Input &input);
+	void processInputAfter(Input *input);
 	
 	void processEventButton(Button &b, bool newState);
 }
