@@ -14,7 +14,7 @@
 #include <iostream>
 #include <vector>
 
-#include <glm/glm.hpp>
+#include <glm.hpp>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -23,6 +23,10 @@
 #include "windows/input.h"
 #include "windows/game_window.h"
 #endif// _WIN32
+
+#ifdef RENDER_VULKAN
+#include "vulkan/vk_engine.h"
+#endif
 
 #include "game_logic.h"
 #include "madline.h"

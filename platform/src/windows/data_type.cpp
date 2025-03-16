@@ -8,42 +8,26 @@ glm::vec<2, int> Game::vec2iFromPoint(POINT point) {
 	return {point.x, point.y};
 }
 
-#pragma region Rect2
-#pragma region Rect2<float> methods
-Game::Rect2<float>::Rect2() : pos(), size(){}
-
-Game::Rect2<float>::Rect2(glm::vec2 pos, glm::vec2 size) : pos(pos), size(size){}
-
-Game::Rect2<float>::Rect2(float x, float y, float width, float height) : pos(glm::vec2(x, y)), size(glm::vec2(width, height)){}
-
-Game::Rect2<float>::Rect2(const Rect2<int>& other) : pos(static_cast<glm::vec2>(other.pos)), size(static_cast<glm::vec2>(other.size)) {}
-#pragma endregion
-
-#pragma region Rect2<int> methods
-Game::Rect2<int>::Rect2() : pos(), size(){}
-
-Game::Rect2<int>::Rect2(RECT rect): pos(glm::vec<2, int>(rect.left, rect.top)), size(glm::vec<2, int>(rect.right - rect.left, rect.bottom - rect.top)) {}
-
-Game::Rect2<int>::Rect2(glm::vec<2, int> pos, glm::vec<2, int> size) : pos(pos), size(size){}
-
-Game::Rect2<int>::Rect2(int x, int y, int width, int height) : pos(glm::vec<2, int>(x, y)), size(glm::vec<2, int>(width, height)){}
-
-Game::Rect2<int>::Rect2(const Rect2<float> &other) : pos(static_cast<glm::vec<2, int>>(other.pos)), size(static_cast<glm::vec<2, int>>(other.size)) {}
-#pragma endregion
-#pragma endregion
 #pragma region Colour
 Game::Colour::Colour(): r(0), g(0), b(0), a(0) {}
-Game::Colour::Colour(unsigned char v): r(v), g(v), b(v), a(v) {}
-Game::Colour::Colour(unsigned char r, unsigned char g, unsigned char b, unsigned char a):
-	r(r), g(g), b(b), a(a){}
-Game::Colour Game::Colour::fromFloat(float r, float g, float b, float a){
-    return {
-        static_cast<unsigned char>(r * 255),
-	    static_cast<unsigned char>(g * 255),
-	    static_cast<unsigned char>(b * 255),
-	    static_cast<unsigned char>(a * 255)
-    };
-}
+
+template<typename T, typename U,
+	std::enable_if_t<std::is_convertible_v<T, unsigned char>, bool>,
+	std::enable_if_t<std::is_convertible_v<U, unsigned char>, bool>
+>
+Game::Colour::Colour(const T &v, const U &a):
+	r(static_cast<unsigned char>(v)),
+	g(static_cast<unsigned char>(v)),
+	b(static_cast<unsigned char>(v)),
+	a(static_cast<unsigned char>(a)){}
+
+template<typename T, std::enable_if_t<std::is_convertible_v<T, unsigned char>, bool>>
+Game::Colour::Colour(const T &r, const T &g, const T &b, const T &a):
+	r(static_cast<unsigned char>(r)),
+	g(static_cast<unsigned char>(g)),
+	b(static_cast<unsigned char>(b)),
+	a(static_cast<unsigned char>(a)){}
+
 Game::Colour::Colour(std::string hex) {
 	if(hex.at(0) == '#') {
 		hex.erase(0, 1);

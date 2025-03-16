@@ -5,7 +5,7 @@
 #ifndef CELESTEPET_GAME_LOGIC_H
 #define CELESTEPET_GAME_LOGIC_H
 
-#include <iostream>
+#include <format>
 
 #ifdef _WIN32
 #include "windows/game_window.h"
@@ -14,7 +14,7 @@
 namespace Game {
 	bool initGameplay();
 
-	bool process(float delta, Window gameWindow);
+	bool process(float delta, Window& gameWindow);
 
 	void onCloseGame();
 }

@@ -243,13 +243,31 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
 //Value Computed by CMake
-CelestePet_BINARY_DIR:STATIC=C:/Users/School/CLionProjects/CelestePet/cmake-build-debug
+CelestePet_BINARY_DIR:STATIC=C:/Users/School/CLionProjects/CelestePet/cmake-build-debug/third_party
 
 //Value Computed by CMake
-CelestePet_IS_TOP_LEVEL:STATIC=ON
+CelestePet_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
-CelestePet_SOURCE_DIR:STATIC=C:/Users/School/CLionProjects/CelestePet
+CelestePet_SOURCE_DIR:STATIC=C:/Users/School/CLionProjects/CelestePet/third_party
+
+//Value Computed by CMake
+Game_BINARY_DIR:STATIC=C:/Users/School/CLionProjects/CelestePet/cmake-build-debug/game
+
+//Value Computed by CMake
+Game_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+Game_SOURCE_DIR:STATIC=C:/Users/School/CLionProjects/CelestePet/game
+
+//Value Computed by CMake
+Platforms_BINARY_DIR:STATIC=C:/Users/School/CLionProjects/CelestePet/cmake-build-debug/platform
+
+//Value Computed by CMake
+Platforms_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+Platforms_SOURCE_DIR:STATIC=C:/Users/School/CLionProjects/CelestePet/platform
 
 //Path to a program.
 Vulkan_GLSLANG_VALIDATOR_EXECUTABLE:FILEPATH=C:/VulkanSDK/1.4.304.1/Bin/glslangValidator.exe
@@ -262,6 +280,12 @@ Vulkan_INCLUDE_DIR:PATH=C:/VulkanSDK/1.4.304.1/Include
 
 //Path to a library.
 Vulkan_LIBRARY:FILEPATH=C:/VulkanSDK/1.4.304.1/Lib/vulkan-1.lib
+
+//Dependencies for the target
+imgui_LIB_DEPENDS:STATIC=general;Vulkan::Vulkan;
+
+//Dependencies for the target
+vkbootstrap_LIB_DEPENDS:STATIC=general;Vulkan::Vulkan;
 
 
 ########################
@@ -366,7 +390,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=2
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

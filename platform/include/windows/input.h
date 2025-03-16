@@ -7,7 +7,7 @@
 
 #include <array>
 
-#include "glm/glm.hpp"
+#include <glm.hpp>
 
 #ifdef _WIN32
 #include <Windows.h>

@@ -5,6 +5,9 @@
 #ifndef CELESTEPET_CELESTEPETCONSTS_H
 #define CELESTEPET_CELESTEPETCONSTS_H
 
+#define DEBUG_CELESTE
+#define RENDER_VULKAN
+
 #define WINDOW_NAME "Madline"
 #define CLASS_NAME "Celeste Pet Background"
 

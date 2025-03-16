@@ -47,56 +47,87 @@ cmake_ninja_workdir = C$:/Users/School/CLionProjects/CelestePet/cmake-build-debu
 #############################################
 # Order-only phony target for CelestePet
 
-build cmake_object_order_depends_target_CelestePet: phony || CMakeFiles/CelestePet.dir
+build cmake_object_order_depends_target_CelestePet: phony || cmake_object_order_depends_target_imgui cmake_object_order_depends_target_vkbootstrap
 
-build CMakeFiles/CelestePet.dir/main.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/main.cpp || cmake_object_order_depends_target_CelestePet
-  DEP_FILE = CMakeFiles\CelestePet.dir\main.cpp.obj.d
+build CMakeFiles/CelestePet.dir/platform/src/vulkan/vk_engine.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/src/vulkan/vk_engine.cpp || cmake_object_order_depends_target_CelestePet
+  DEFINES = -DGLM_FORCE_DEPTH_ZERO_TO_ONE
+  DEP_FILE = CMakeFiles\CelestePet.dir\platform\src\vulkan\vk_engine.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -IC:/Users/School/CLionProjects/CelestePet/third_party/vma -IC:/Users/School/CLionProjects/CelestePet/third_party/glm -IC:/Users/School/CLionProjects/CelestePet/third_party/stb_image -IC:/Users/School/CLionProjects/CelestePet/third_party/vkbootstrap -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
   OBJECT_DIR = CMakeFiles\CelestePet.dir
-  OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir
+  OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\src\vulkan
 
-build CMakeFiles/CelestePet.dir/platform/src/vulkan/vulkan_engine.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/src/vulkan/vulkan_engine.cpp || cmake_object_order_depends_target_CelestePet
-  DEP_FILE = CMakeFiles\CelestePet.dir\platform\src\vulkan\vulkan_engine.cpp.obj.d
+build CMakeFiles/CelestePet.dir/platform/src/vulkan/vk_initialisers.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/src/vulkan/vk_initialisers.cpp || cmake_object_order_depends_target_CelestePet
+  DEFINES = -DGLM_FORCE_DEPTH_ZERO_TO_ONE
+  DEP_FILE = CMakeFiles\CelestePet.dir\platform\src\vulkan\vk_initialisers.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -IC:/Users/School/CLionProjects/CelestePet/third_party/vma -IC:/Users/School/CLionProjects/CelestePet/third_party/glm -IC:/Users/School/CLionProjects/CelestePet/third_party/stb_image -IC:/Users/School/CLionProjects/CelestePet/third_party/vkbootstrap -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
+  OBJECT_DIR = CMakeFiles\CelestePet.dir
+  OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\src\vulkan
+
+build CMakeFiles/CelestePet.dir/platform/src/vulkan/vk_loader.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/src/vulkan/vk_loader.cpp || cmake_object_order_depends_target_CelestePet
+  DEFINES = -DGLM_FORCE_DEPTH_ZERO_TO_ONE
+  DEP_FILE = CMakeFiles\CelestePet.dir\platform\src\vulkan\vk_loader.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -IC:/Users/School/CLionProjects/CelestePet/third_party/vma -IC:/Users/School/CLionProjects/CelestePet/third_party/glm -IC:/Users/School/CLionProjects/CelestePet/third_party/stb_image -IC:/Users/School/CLionProjects/CelestePet/third_party/vkbootstrap -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
+  OBJECT_DIR = CMakeFiles\CelestePet.dir
+  OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\src\vulkan
+
+build CMakeFiles/CelestePet.dir/platform/src/vulkan/vk_pipelines.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/src/vulkan/vk_pipelines.cpp || cmake_object_order_depends_target_CelestePet
+  DEFINES = -DGLM_FORCE_DEPTH_ZERO_TO_ONE
+  DEP_FILE = CMakeFiles\CelestePet.dir\platform\src\vulkan\vk_pipelines.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -IC:/Users/School/CLionProjects/CelestePet/third_party/vma -IC:/Users/School/CLionProjects/CelestePet/third_party/glm -IC:/Users/School/CLionProjects/CelestePet/third_party/stb_image -IC:/Users/School/CLionProjects/CelestePet/third_party/vkbootstrap -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
   OBJECT_DIR = CMakeFiles\CelestePet.dir
   OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\src\vulkan
 
 build CMakeFiles/CelestePet.dir/platform/src/windows/data_type.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/src/windows/data_type.cpp || cmake_object_order_depends_target_CelestePet
+  DEFINES = -DGLM_FORCE_DEPTH_ZERO_TO_ONE
   DEP_FILE = CMakeFiles\CelestePet.dir\platform\src\windows\data_type.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -IC:/Users/School/CLionProjects/CelestePet/third_party/vma -IC:/Users/School/CLionProjects/CelestePet/third_party/glm -IC:/Users/School/CLionProjects/CelestePet/third_party/stb_image -IC:/Users/School/CLionProjects/CelestePet/third_party/vkbootstrap -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
   OBJECT_DIR = CMakeFiles\CelestePet.dir
   OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\src\windows
 
 build CMakeFiles/CelestePet.dir/platform/src/windows/game_window.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/src/windows/game_window.cpp || cmake_object_order_depends_target_CelestePet
+  DEFINES = -DGLM_FORCE_DEPTH_ZERO_TO_ONE
   DEP_FILE = CMakeFiles\CelestePet.dir\platform\src\windows\game_window.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -IC:/Users/School/CLionProjects/CelestePet/third_party/vma -IC:/Users/School/CLionProjects/CelestePet/third_party/glm -IC:/Users/School/CLionProjects/CelestePet/third_party/stb_image -IC:/Users/School/CLionProjects/CelestePet/third_party/vkbootstrap -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
   OBJECT_DIR = CMakeFiles\CelestePet.dir
   OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\src\windows
 
 build CMakeFiles/CelestePet.dir/platform/src/windows/input.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/platform/src/windows/input.cpp || cmake_object_order_depends_target_CelestePet
+  DEFINES = -DGLM_FORCE_DEPTH_ZERO_TO_ONE
   DEP_FILE = CMakeFiles\CelestePet.dir\platform\src\windows\input.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -IC:/Users/School/CLionProjects/CelestePet/third_party/vma -IC:/Users/School/CLionProjects/CelestePet/third_party/glm -IC:/Users/School/CLionProjects/CelestePet/third_party/stb_image -IC:/Users/School/CLionProjects/CelestePet/third_party/vkbootstrap -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
   OBJECT_DIR = CMakeFiles\CelestePet.dir
   OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\platform\src\windows
 
 build CMakeFiles/CelestePet.dir/game/src/game_logic.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/game/src/game_logic.cpp || cmake_object_order_depends_target_CelestePet
+  DEFINES = -DGLM_FORCE_DEPTH_ZERO_TO_ONE
   DEP_FILE = CMakeFiles\CelestePet.dir\game\src\game_logic.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -IC:/Users/School/CLionProjects/CelestePet/third_party/vma -IC:/Users/School/CLionProjects/CelestePet/third_party/glm -IC:/Users/School/CLionProjects/CelestePet/third_party/stb_image -IC:/Users/School/CLionProjects/CelestePet/third_party/vkbootstrap -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
   OBJECT_DIR = CMakeFiles\CelestePet.dir
   OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\game\src
 
 build CMakeFiles/CelestePet.dir/game/src/madline.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/game/src/madline.cpp || cmake_object_order_depends_target_CelestePet
+  DEFINES = -DGLM_FORCE_DEPTH_ZERO_TO_ONE
   DEP_FILE = CMakeFiles\CelestePet.dir\game\src\madline.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/thirdparty -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -isystem C:/VulkanSDK/1.4.304.1/Include
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -IC:/Users/School/CLionProjects/CelestePet/third_party/vma -IC:/Users/School/CLionProjects/CelestePet/third_party/glm -IC:/Users/School/CLionProjects/CelestePet/third_party/stb_image -IC:/Users/School/CLionProjects/CelestePet/third_party/vkbootstrap -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
   OBJECT_DIR = CMakeFiles\CelestePet.dir
   OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\game\src
+
+build CMakeFiles/CelestePet.dir/src/main.cpp.obj: CXX_COMPILER__CelestePet_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/src/main.cpp || cmake_object_order_depends_target_CelestePet
+  DEFINES = -DGLM_FORCE_DEPTH_ZERO_TO_ONE
+  DEP_FILE = CMakeFiles\CelestePet.dir\src\main.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/platform/include -IC:/Users/School/CLionProjects/CelestePet/game/include -IC:/Users/School/CLionProjects/CelestePet/include -IC:/Users/School/CLionProjects/CelestePet/third_party/vma -IC:/Users/School/CLionProjects/CelestePet/third_party/glm -IC:/Users/School/CLionProjects/CelestePet/third_party/stb_image -IC:/Users/School/CLionProjects/CelestePet/third_party/vkbootstrap -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
+  OBJECT_DIR = CMakeFiles\CelestePet.dir
+  OBJECT_FILE_DIR = CMakeFiles\CelestePet.dir\src
 
 
 # =============================================================================
@@ -106,9 +137,9 @@ build CMakeFiles/CelestePet.dir/game/src/madline.cpp.obj: CXX_COMPILER__CelesteP
 #############################################
 # Link the executable CelestePet.exe
 
-build CelestePet.exe: CXX_EXECUTABLE_LINKER__CelestePet_Debug CMakeFiles/CelestePet.dir/main.cpp.obj CMakeFiles/CelestePet.dir/platform/src/vulkan/vulkan_engine.cpp.obj CMakeFiles/CelestePet.dir/platform/src/windows/data_type.cpp.obj CMakeFiles/CelestePet.dir/platform/src/windows/game_window.cpp.obj CMakeFiles/CelestePet.dir/platform/src/windows/input.cpp.obj CMakeFiles/CelestePet.dir/game/src/game_logic.cpp.obj CMakeFiles/CelestePet.dir/game/src/madline.cpp.obj | C$:/VulkanSDK/1.4.304.1/Lib/vulkan-1.lib
+build CelestePet.exe: CXX_EXECUTABLE_LINKER__CelestePet_Debug CMakeFiles/CelestePet.dir/platform/src/vulkan/vk_engine.cpp.obj CMakeFiles/CelestePet.dir/platform/src/vulkan/vk_initialisers.cpp.obj CMakeFiles/CelestePet.dir/platform/src/vulkan/vk_loader.cpp.obj CMakeFiles/CelestePet.dir/platform/src/vulkan/vk_pipelines.cpp.obj CMakeFiles/CelestePet.dir/platform/src/windows/data_type.cpp.obj CMakeFiles/CelestePet.dir/platform/src/windows/game_window.cpp.obj CMakeFiles/CelestePet.dir/platform/src/windows/input.cpp.obj CMakeFiles/CelestePet.dir/game/src/game_logic.cpp.obj CMakeFiles/CelestePet.dir/game/src/madline.cpp.obj CMakeFiles/CelestePet.dir/src/main.cpp.obj | C$:/VulkanSDK/1.4.304.1/Lib/vulkan-1.lib third_party/libvkbootstrap.a third_party/libimgui.a C$:/VulkanSDK/1.4.304.1/Lib/vulkan-1.lib || third_party/libimgui.a third_party/libvkbootstrap.a
   FLAGS = -g
-  LINK_LIBRARIES = C:/VulkanSDK/1.4.304.1/Lib/vulkan-1.lib  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_LIBRARIES = C:/VulkanSDK/1.4.304.1/Lib/vulkan-1.lib  third_party/libvkbootstrap.a  third_party/libimgui.a  C:/VulkanSDK/1.4.304.1/Lib/vulkan-1.lib  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\CelestePet.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
@@ -140,9 +171,151 @@ build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
 build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 
 # =============================================================================
+# Write statements declared in CMakeLists.txt:
+# C:/Users/School/CLionProjects/CelestePet/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target vkbootstrap
+
+
+#############################################
+# Order-only phony target for vkbootstrap
+
+build cmake_object_order_depends_target_vkbootstrap: phony || third_party/CMakeFiles/vkbootstrap.dir
+
+build third_party/CMakeFiles/vkbootstrap.dir/vkbootstrap/VkBootstrap.cpp.obj: CXX_COMPILER__vkbootstrap_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/third_party/vkbootstrap/VkBootstrap.cpp || cmake_object_order_depends_target_vkbootstrap
+  DEP_FILE = third_party\CMakeFiles\vkbootstrap.dir\vkbootstrap\VkBootstrap.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/third_party/vkbootstrap -isystem C:/VulkanSDK/1.4.304.1/Include
+  OBJECT_DIR = third_party\CMakeFiles\vkbootstrap.dir
+  OBJECT_FILE_DIR = third_party\CMakeFiles\vkbootstrap.dir\vkbootstrap
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target vkbootstrap
+
+
+#############################################
+# Link the static library third_party\libvkbootstrap.a
+
+build third_party/libvkbootstrap.a: CXX_STATIC_LIBRARY_LINKER__vkbootstrap_Debug third_party/CMakeFiles/vkbootstrap.dir/vkbootstrap/VkBootstrap.cpp.obj
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = third_party\CMakeFiles\vkbootstrap.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = third_party\libvkbootstrap.a
+  TARGET_PDB = vkbootstrap.a.dbg
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target imgui
+
+
+#############################################
+# Order-only phony target for imgui
+
+build cmake_object_order_depends_target_imgui: phony || third_party/CMakeFiles/imgui.dir
+
+build third_party/CMakeFiles/imgui.dir/imgui/imgui.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/third_party/imgui/imgui.cpp || cmake_object_order_depends_target_imgui
+  DEP_FILE = third_party\CMakeFiles\imgui.dir\imgui\imgui.cpp.obj.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
+  OBJECT_DIR = third_party\CMakeFiles\imgui.dir
+  OBJECT_FILE_DIR = third_party\CMakeFiles\imgui.dir\imgui
+
+build third_party/CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/third_party/imgui/imgui_demo.cpp || cmake_object_order_depends_target_imgui
+  DEP_FILE = third_party\CMakeFiles\imgui.dir\imgui\imgui_demo.cpp.obj.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
+  OBJECT_DIR = third_party\CMakeFiles\imgui.dir
+  OBJECT_FILE_DIR = third_party\CMakeFiles\imgui.dir\imgui
+
+build third_party/CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/third_party/imgui/imgui_draw.cpp || cmake_object_order_depends_target_imgui
+  DEP_FILE = third_party\CMakeFiles\imgui.dir\imgui\imgui_draw.cpp.obj.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
+  OBJECT_DIR = third_party\CMakeFiles\imgui.dir
+  OBJECT_FILE_DIR = third_party\CMakeFiles\imgui.dir\imgui
+
+build third_party/CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/third_party/imgui/imgui_widgets.cpp || cmake_object_order_depends_target_imgui
+  DEP_FILE = third_party\CMakeFiles\imgui.dir\imgui\imgui_widgets.cpp.obj.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
+  OBJECT_DIR = third_party\CMakeFiles\imgui.dir
+  OBJECT_FILE_DIR = third_party\CMakeFiles\imgui.dir\imgui
+
+build third_party/CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/third_party/imgui/imgui_tables.cpp || cmake_object_order_depends_target_imgui
+  DEP_FILE = third_party\CMakeFiles\imgui.dir\imgui\imgui_tables.cpp.obj.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
+  OBJECT_DIR = third_party\CMakeFiles\imgui.dir
+  OBJECT_FILE_DIR = third_party\CMakeFiles\imgui.dir\imgui
+
+build third_party/CMakeFiles/imgui.dir/imgui/imgui_impl_vulkan.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/third_party/imgui/imgui_impl_vulkan.cpp || cmake_object_order_depends_target_imgui
+  DEP_FILE = third_party\CMakeFiles\imgui.dir\imgui\imgui_impl_vulkan.cpp.obj.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
+  OBJECT_DIR = third_party\CMakeFiles\imgui.dir
+  OBJECT_FILE_DIR = third_party\CMakeFiles\imgui.dir\imgui
+
+build third_party/CMakeFiles/imgui.dir/imgui/imgui_impl_win32.cpp.obj: CXX_COMPILER__imgui_unscanned_Debug C$:/Users/School/CLionProjects/CelestePet/third_party/imgui/imgui_impl_win32.cpp || cmake_object_order_depends_target_imgui
+  DEP_FILE = third_party\CMakeFiles\imgui.dir\imgui\imgui_impl_win32.cpp.obj.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/School/CLionProjects/CelestePet/third_party/imgui -isystem C:/VulkanSDK/1.4.304.1/Include
+  OBJECT_DIR = third_party\CMakeFiles\imgui.dir
+  OBJECT_FILE_DIR = third_party\CMakeFiles\imgui.dir\imgui
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target imgui
+
+
+#############################################
+# Link the static library third_party\libimgui.a
+
+build third_party/libimgui.a: CXX_STATIC_LIBRARY_LINKER__imgui_Debug third_party/CMakeFiles/imgui.dir/imgui/imgui.cpp.obj third_party/CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.obj third_party/CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.obj third_party/CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.obj third_party/CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.obj third_party/CMakeFiles/imgui.dir/imgui/imgui_impl_vulkan.cpp.obj third_party/CMakeFiles/imgui.dir/imgui/imgui_impl_win32.cpp.obj
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = third_party\CMakeFiles\imgui.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = third_party\libimgui.a
+  TARGET_PDB = imgui.a.dbg
+
+
+#############################################
+# Utility command for edit_cache
+
+build third_party/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\School\CLionProjects\CelestePet\cmake-build-debug\third_party && "C:\Program Files\JetBrains\CLion 2023.3.4\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build third_party/edit_cache: phony third_party/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build third_party/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\School\CLionProjects\CelestePet\cmake-build-debug\third_party && "C:\Program Files\JetBrains\CLion 2023.3.4\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\School\CLionProjects\CelestePet -BC:\Users\School\CLionProjects\CelestePet\cmake-build-debug"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build third_party/rebuild_cache: phony third_party/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
 # Target aliases.
 
 build CelestePet: phony CelestePet.exe
+
+build imgui: phony third_party/libimgui.a
+
+build libimgui.a: phony third_party/libimgui.a
+
+build libvkbootstrap.a: phony third_party/libvkbootstrap.a
+
+build vkbootstrap: phony third_party/libvkbootstrap.a
 
 # =============================================================================
 # Folder targets.
@@ -152,7 +325,14 @@ build CelestePet: phony CelestePet.exe
 #############################################
 # Folder: C:/Users/School/CLionProjects/CelestePet/cmake-build-debug
 
-build all: phony CelestePet.exe
+build all: phony CelestePet.exe third_party/all
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/School/CLionProjects/CelestePet/cmake-build-debug/third_party
+
+build third_party/all: phony third_party/libvkbootstrap.a third_party/libimgui.a
 
 # =============================================================================
 # Built-in targets
@@ -175,14 +355,14 @@ build C$:/Users/School/CLionProjects/CelestePet/cmake-build-debug/CMakeFiles/cma
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE C$:/Users/School/CLionProjects/CelestePet/cmake-build-debug/CMakeFiles/cmake.verify_globs | C$:/Users/School/CLionProjects/CelestePet/cmake-build-debug/CMakeFiles/VerifyGlobs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/FindPackageMessage.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/FindVulkan.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-Initialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/WindowsPaths.cmake C$:/Users/School/CLionProjects/CelestePet/CMakeLists.txt CMakeCache.txt CMakeFiles/3.28.1/CMakeCCompiler.cmake CMakeFiles/3.28.1/CMakeCXXCompiler.cmake CMakeFiles/3.28.1/CMakeRCCompiler.cmake CMakeFiles/3.28.1/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE C$:/Users/School/CLionProjects/CelestePet/cmake-build-debug/CMakeFiles/cmake.verify_globs | C$:/Users/School/CLionProjects/CelestePet/cmake-build-debug/CMakeFiles/VerifyGlobs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/FindPackageMessage.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/FindVulkan.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-Initialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/WindowsPaths.cmake C$:/Users/School/CLionProjects/CelestePet/CMakeLists.txt C$:/Users/School/CLionProjects/CelestePet/third_party/CMakeLists.txt CMakeCache.txt CMakeFiles/3.28.1/CMakeCCompiler.cmake CMakeFiles/3.28.1/CMakeCXXCompiler.cmake CMakeFiles/3.28.1/CMakeRCCompiler.cmake CMakeFiles/3.28.1/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build C$:/Users/School/CLionProjects/CelestePet/cmake-build-debug/CMakeFiles/VerifyGlobs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/FindPackageMessage.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/FindVulkan.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-Initialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/WindowsPaths.cmake C$:/Users/School/CLionProjects/CelestePet/CMakeLists.txt CMakeCache.txt CMakeFiles/3.28.1/CMakeCCompiler.cmake CMakeFiles/3.28.1/CMakeCXXCompiler.cmake CMakeFiles/3.28.1/CMakeRCCompiler.cmake CMakeFiles/3.28.1/CMakeSystem.cmake: phony
+build C$:/Users/School/CLionProjects/CelestePet/cmake-build-debug/CMakeFiles/VerifyGlobs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCXXInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/FindPackageMessage.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/FindVulkan.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-CXX.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-Initialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2023.3.4/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/WindowsPaths.cmake C$:/Users/School/CLionProjects/CelestePet/CMakeLists.txt C$:/Users/School/CLionProjects/CelestePet/third_party/CMakeLists.txt CMakeCache.txt CMakeFiles/3.28.1/CMakeCCompiler.cmake CMakeFiles/3.28.1/CMakeCXXCompiler.cmake CMakeFiles/3.28.1/CMakeRCCompiler.cmake CMakeFiles/3.28.1/CMakeSystem.cmake: phony
 
 
 #############################################

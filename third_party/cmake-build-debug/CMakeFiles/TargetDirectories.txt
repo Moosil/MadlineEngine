@@ -1,0 +1,4 @@
+C:/Users/School/CLionProjects/CelestePet/third_party/cmake-build-debug/CMakeFiles/vkbootstrap.dir
+C:/Users/School/CLionProjects/CelestePet/third_party/cmake-build-debug/CMakeFiles/imgui.dir
+C:/Users/School/CLionProjects/CelestePet/third_party/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/School/CLionProjects/CelestePet/third_party/cmake-build-debug/CMakeFiles/rebuild_cache.dir

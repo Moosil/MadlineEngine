@@ -14,12 +14,12 @@ bool Game::initGameplay() {
 	return true;
 }
 
-bool Game::process(float delta, Window gameWindow) {
+bool Game::process(float delta, Window& gameWindow) {
 	data.frameCounter += 1;
 	data.timeCounter += delta;
-	if (data.timeCounter >= 0.01) {
-		data.timeCounter -= 0.01;
-		std::cout << "FPS: " << data.frameCounter * 100 << std::endl;
+	if (data.timeCounter >= 1.0) {
+		data.timeCounter -= 1.0;
+		std::printf("FPS: %i\n", data.frameCounter);
 		data.frameCounter = 0;
 	}
 	

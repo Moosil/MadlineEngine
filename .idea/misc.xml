@@ -9,14 +9,18 @@
       <file path="$PROJECT_DIR$/game/include" />
       <file path="$PROJECT_DIR$/game/src" />
       <file path="$PROJECT_DIR$/include" />
+      <file path="$PROJECT_DIR$/platform/include" />
       <file path="$PROJECT_DIR$/platform/include/vulkan" />
       <file path="$PROJECT_DIR$/platform/include/windows" />
+      <file path="$PROJECT_DIR$/platform/src" />
+      <file path="$PROJECT_DIR$/platform/src/vulkan" />
       <file path="$PROJECT_DIR$/platform/src/windows" />
       <file path="$PROJECT_DIR$/platform/src/windows/include" />
       <file path="$PROJECT_DIR$/platform/src/windows/src" />
       <file path="$PROJECT_DIR$/src" />
     </sourceRoots>
     <libraryRoots>
+      <file path="$PROJECT_DIR$/third_party" />
       <file path="$PROJECT_DIR$/thirdparty" />
     </libraryRoots>
   </component>

@@ -5,6 +5,7 @@
 #include "windows/game_window.h"
 
 Game::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
+	std::printf("Started Creating Window\n");
 	WNDCLASS wc = {sizeof(WNDCLASS)};
 	const std::string className = CLASS_NAME;
 	
@@ -22,9 +23,9 @@ Game::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
 	devMode.dmSize = sizeof(DEVMODEA);
 	
 	EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &devMode);
-	
-    m_hwnd = CreateWindowEx(
-        WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT | WS_EX_LAYERED,
+
+#ifdef DEBUG_CELESTE
+	m_hwnd = CreateWindow(
         wc.lpszClassName,
         WINDOW_NAME,
         WS_POPUP | WS_VISIBLE,
@@ -33,11 +34,31 @@ Game::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
         static_cast<int>(devMode.dmPelsWidth),
         static_cast<int>(devMode.dmPelsHeight),
         nullptr, nullptr, GetModuleHandle(nullptr), this
+	);
+#else
+    m_hwnd = CreateWindowEx(
+    WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT | WS_EX_LAYERED,
+    wc.lpszClassName,
+    WINDOW_NAME,
+    WS_POPUP | WS_VISIBLE,
+    0,
+    0,
+    static_cast<int>(devMode.dmPelsWidth),
+    static_cast<int>(devMode.dmPelsHeight),
+    nullptr, nullptr, GetModuleHandle(nullptr), this
     );
+#endif
 	
 	assert(m_hwnd);
 	
 	lastFrameTime = std::chrono::high_resolution_clock::now();
+	
+	std::printf("Finished Creating Window\n");
+}
+
+Game::Window::~Window() {
+    DestroyWindow(m_hwnd);
+	m_hwnd = nullptr;
 }
 
 LRESULT CALLBACK Game::Window::staticWindowProc(HWND p_hwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
@@ -171,12 +192,16 @@ void Game::Window::gameLoop() {
 
 	RECT rect = {};
 	GetWindowRect(m_hwnd, &rect);
-	screenRect = rect;
+	screenRect = static_cast<Rect2<int>>(rect);
 }
 
 
 int Game::Window::getMinFps() const {
 	return minFps;
+}
+
+Game::Rect2<int> Game::Window::getScreenRect() const {
+	return screenRect;
 }
 
 bool Game::Window::is_running() const {
@@ -285,3 +310,16 @@ std::vector<int> Game::Window::get_buttons_released() const {
 	}
 	return released;
 }
+
+#ifdef RENDER_VULKAN
+void Game::Window::getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) const {
+	
+	
+	VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
+	surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+	surfaceCreateInfo.hwnd = m_hwnd;
+	surfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
+	
+	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, surface));
+}
+#endif//RENDER_VULKAN

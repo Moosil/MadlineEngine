@@ -6,7 +6,7 @@
 #define CELESTEPET_MADLINE_H
 
 #include <string>
-#include "glm/glm.hpp"
+#include <glm.hpp>
 
 #ifdef _WIN32
 #include "windows/data_type.h"

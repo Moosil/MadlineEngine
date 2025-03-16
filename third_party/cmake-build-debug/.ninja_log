@@ -1,0 +1,11 @@
+# ninja log v5
+34	577	7637868182014626	CMakeFiles/imgui.dir/imgui/imgui_impl_vulkan.cpp.obj	7eb9a97d2d21d303
+39	1612	7637868192370596	CMakeFiles/imgui.dir/imgui/imgui_impl_win32.cpp.obj	b23ac110cf5ee72a
+17	1629	7637868192516013	CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.obj	d7deaa359159e626
+29	1757	7637868193786858	CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.obj	274b7e62540efc82
+21	2294	7637868199176919	CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.obj	f582bfbedf3505b2
+5326	6868	7637868331522081	libvkbootstrap.a	64f7fc1dd775b97a
+25	2570	7637868201917993	CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.obj	373076167a33bee2
+10	3323	7637868209431656	CMakeFiles/imgui.dir/imgui/imgui.cpp.obj	1fdbddeafab0e92f
+3323	3700	7637868213244730	libimgui.a	858ff85f25a67905
+11	5326	7637868315966089	CMakeFiles/vkbootstrap.dir/vkbootstrap/VkBootstrap.cpp.obj	5c11fa34f2e7e6bf
