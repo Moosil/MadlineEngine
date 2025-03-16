@@ -73,3 +73,11 @@
 51	5982	7638164310786831	CMakeFiles/CelestePet.dir/platform/src/windows/game_window.cpp.obj	e0a21d41e76ae03
 42	6617	7638164317120403	CMakeFiles/CelestePet.dir/platform/src/vulkan/vk_engine.cpp.obj	752caa3191cb1499
 6617	8601	7638164336925778	CelestePet.exe	30030688d50436c7
+6	37	0	C:/Users/School/CLionProjects/CelestePet/cmake-build-debug/CMakeFiles/cmake.verify_globs	dc36194e4a15a91c
+68	3945	7638205554617801	CMakeFiles/CelestePet.dir/game/src/madline.cpp.obj	d5090b2d5206549e
+53	4597	7638205561099500	CMakeFiles/CelestePet.dir/platform/src/windows/data_type.cpp.obj	3e9282574b4d93fd
+74	5114	7638205566295326	CMakeFiles/CelestePet.dir/src/main.cpp.obj	94781493be7f2c05
+63	5236	7638205567537300	CMakeFiles/CelestePet.dir/game/src/game_logic.cpp.obj	7fd9439f19037143
+58	5467	7638205569824841	CMakeFiles/CelestePet.dir/platform/src/windows/game_window.cpp.obj	e0a21d41e76ae03
+47	5955	7638205574693119	CMakeFiles/CelestePet.dir/platform/src/vulkan/vk_engine.cpp.obj	752caa3191cb1499
+5955	7916	7638205594245449	CelestePet.exe	30030688d50436c7
