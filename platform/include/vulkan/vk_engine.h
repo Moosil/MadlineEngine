@@ -5,22 +5,38 @@
 #ifndef RENDERER_VULKAN
 #define RENDERER_VULKAN
 
+#include <chrono>
+#include <thread>
+#include <iostream>
+
 #include <VkBootstrap.h>
 #include <vulkan/vulkan.h>
-#include <iostream>
+
+#include "vk_initialisers.h"
+#include "vk_types.h"
 
 
 #ifdef _WIN32
 #include "windows/game_window.h"
 #endif//_WIN32
 
+struct FrameData {
+	
+	VkCommandPool _commandPool;
+	VkCommandBuffer _mainCommandBuffer;
+	VkSemaphore _swapchainSemaphore, _renderSemaphore;
+	VkFence _renderFence;
+};
+
+constexpr unsigned int FRAME_OVERLAP = 2;
+
 namespace Game {
 	class GraphicsEngine {
 	private:
-		bool isInitialized{ false };
-		int _frameNumber {0};
+		bool isInitialized { false };
+		int frameNumber {0};
 		VkExtent2D windowExtent{ sizeof(VkExtent2D) };
-		Window* m_window{ nullptr };
+		Window* m_window { nullptr };
 		
 		VkInstance instance{};// Vulkan library handle
 		VkDebugUtilsMessengerEXT debug_messenger{};// Vulkan debug output handle
@@ -28,13 +44,19 @@ namespace Game {
 		VkDevice device{}; // Vulkan device for commands
 		VkSurfaceKHR surface{};// Vulkan window surface
 		
-		
 		VkSwapchainKHR swapchain;
 		VkFormat swapchainImageFormat;
 	
 		std::vector<VkImage> swapchainImages;
 		std::vector<VkImageView> swapchainImageViews;
 		VkExtent2D swapchainExtent;
+	
+		FrameData frames[FRAME_OVERLAP];
+	
+		FrameData& getCurrentFrame() { return frames[frameNumber % FRAME_OVERLAP]; };
+	
+		VkQueue graphicsQueue;
+		uint32_t graphicsQueueFamily;
 		
 		void initVulkan(const Game::Window& window);
 		void initSwapchain();

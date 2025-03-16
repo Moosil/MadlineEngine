@@ -107,6 +107,10 @@ void Game::GraphicsEngine::initVulkan(const Game::Window& window) {
 	// Get the VkDevice handle used in the rest of a vulkan application
 	device = vkbDevice.device;
 	chosenGPU = physicalDevice.physical_device;
+	
+	// use vkbootstrap to get a Graphics queue
+	graphicsQueue = vkbDevice.get_queue(vkb::QueueType::graphics).value();
+	graphicsQueueFamily = vkbDevice.get_queue_index(vkb::QueueType::graphics).value();
 }
 
 void Game::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height) {
@@ -145,7 +149,21 @@ void Game::GraphicsEngine::initSwapchain() {
 }
 
 void Game::GraphicsEngine::initCommands() {
-	//nothing yet
+	//create a command pool for commands submitted to the graphics queue.
+	//we also want the pool to allow for resetting of individual command buffers
+	VkCommandPoolCreateInfo commandPoolInfo = VkInit::command_pool_create_info(
+	        graphicsQueueFamily, VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT
+	);
+	
+	for (auto& frame : frames) {
+		
+		VK_CHECK(vkCreateCommandPool(device, &commandPoolInfo, nullptr, &frame._commandPool));
+		
+		// allocate the default command buffer that we will use for rendering
+		VkCommandBufferAllocateInfo cmdAllocInfo = VkInit::command_buffer_allocate_info(frame._commandPool, 1);
+		
+		VK_CHECK(vkAllocateCommandBuffers(device, &cmdAllocInfo, &frame._mainCommandBuffer));
+	}
 }
 void Game::GraphicsEngine::initSyncStructures() {
 	//nothing yet
