@@ -6,22 +6,29 @@
   <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
   <component name="CidrRootsConfiguration">
     <sourceRoots>
-      <file path="$PROJECT_DIR$/game/include" />
-      <file path="$PROJECT_DIR$/game/src" />
-      <file path="$PROJECT_DIR$/include" />
-      <file path="$PROJECT_DIR$/platform/include" />
-      <file path="$PROJECT_DIR$/platform/include/vulkan" />
-      <file path="$PROJECT_DIR$/platform/include/windows" />
-      <file path="$PROJECT_DIR$/platform/src" />
-      <file path="$PROJECT_DIR$/platform/src/vulkan" />
-      <file path="$PROJECT_DIR$/platform/src/windows" />
-      <file path="$PROJECT_DIR$/platform/src/windows/include" />
-      <file path="$PROJECT_DIR$/platform/src/windows/src" />
-      <file path="$PROJECT_DIR$/src" />
+      <file path="$PROJECT_DIR$/Engine/game/include" />
+      <file path="$PROJECT_DIR$/Engine/game/src" />
+      <file path="$PROJECT_DIR$/Engine/include" />
+      <file path="$PROJECT_DIR$/Engine/platform/include" />
+      <file path="$PROJECT_DIR$/Engine/platform/include/vulkan" />
+      <file path="$PROJECT_DIR$/Engine/platform/include/windows" />
+      <file path="$PROJECT_DIR$/Engine/platform/src" />
+      <file path="$PROJECT_DIR$/Engine/platform/src/vulkan" />
+      <file path="$PROJECT_DIR$/Engine/platform/src/windows" />
+      <file path="$PROJECT_DIR$/Engine/platform/src/windows/include" />
+      <file path="$PROJECT_DIR$/Engine/platform/src/windows/src" />
+      <file path="$PROJECT_DIR$/Engine/src" />
     </sourceRoots>
     <libraryRoots>
       <file path="$PROJECT_DIR$/third_party" />
-      <file path="$PROJECT_DIR$/thirdparty" />
     </libraryRoots>
+    <excludeRoots>
+      <file path="$PROJECT_DIR$/Engine/bin" />
+      <file path="$PROJECT_DIR$/Engine/cmake-build-debug" />
+      <file path="$PROJECT_DIR$/GameProject/bin" />
+      <file path="$PROJECT_DIR$/GameProject/cmake-build-debug" />
+      <file path="$PROJECT_DIR$/cmake-build-debug" />
+      <file path="$PROJECT_DIR$/third_party/cmake-build-debug" />
+    </excludeRoots>
   </component>
 </project>
