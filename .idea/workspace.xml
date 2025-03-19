@@ -27,13 +27,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5bc02955-c80c-4870-986a-72c9f588faaf" name="Changes" comment="ton of stuff lmao">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/include/CelestePetConsts.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/include/CelestePetConsts.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/src/windows/game_window.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/windows/game_window.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/src/game_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/src/game_engine.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="5bc02955-c80c-4870-986a-72c9f588faaf" name="Changes" comment="how tf transparent window???" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -249,7 +243,7 @@
       <workItem from="1742290460719" duration="171000" />
       <workItem from="1742292516467" duration="4977000" />
       <workItem from="1742339612608" duration="6446000" />
-      <workItem from="1742349922203" duration="7498000" />
+      <workItem from="1742349922203" duration="7801000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -347,7 +341,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742352380859</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="how tf transparent window???">
+      <option name="closed" value="true" />
+      <created>1742357656080</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1742357656080</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -383,7 +385,8 @@
     <MESSAGE value="rendering loop: vkguide.dev" />
     <MESSAGE value="mainloop: vkguide.dev&#10;moved celeste to gameproject&#10;moved engine code to engine&#10;updated all cmakelists files" />
     <MESSAGE value="ton of stuff lmao" />
-    <option name="LAST_COMMIT_MESSAGE" value="ton of stuff lmao" />
+    <MESSAGE value="how tf transparent window???" />
+    <option name="LAST_COMMIT_MESSAGE" value="how tf transparent window???" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
