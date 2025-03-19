@@ -313,7 +313,7 @@ void Madline::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height) {
 		.set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR)
 		.set_desired_extent(width, height)
 		.add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT)
-		.set_composite_alpha_flags(VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR) //TODO???
+		.set_composite_alpha_flags(VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR) //TODO??
 		.build()
 		.value();
 	
@@ -337,7 +337,7 @@ void Madline::GraphicsEngine::initSwapchain() {
 	//hardcoding the draw format to 32-bit float
 	drawImage.imageFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
 	drawImage.imageExtent = drawImageExtent;
-
+	
 	VkImageUsageFlags drawImageUsages{};
 	drawImageUsages |= VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
 	drawImageUsages |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
@@ -475,6 +475,7 @@ void Madline::GraphicsEngine::initBackgroundPipelines() {
 	computePipelineCreateInfo.pNext = nullptr;
 	computePipelineCreateInfo.layout = gradientPipelineLayout;
 	computePipelineCreateInfo.stage = stageInfo;
+	
 	
 	VK_CHECK(vkCreateComputePipelines(device,VK_NULL_HANDLE,1,&computePipelineCreateInfo, nullptr, &gradientPipeline));
 

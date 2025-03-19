@@ -37,10 +37,11 @@ Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
 	EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &devMode);
 
 #ifdef DEBUG_CELESTE
-	mHwnd = CreateWindow(
+	mHwnd = CreateWindowEx(
+        WS_EX_LAYERED | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT,
         wc.lpszClassName,
         WINDOW_NAME,
-        WS_POPUP | WS_VISIBLE,
+        WS_VISIBLE | WS_POPUP,
         0,
         0,
         static_cast<int>(devMode.dmPelsWidth),
