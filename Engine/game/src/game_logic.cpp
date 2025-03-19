@@ -9,13 +9,13 @@ struct GameData {
 };
 static GameData data;
 
-bool Game::EngineDebug::initGameplay() {
+bool Madline::EngineDebug::initGameplay() {
 	data = {};
-	printf("Game initialised in debug mode\n");
+	printf("Madline initialised in debug mode\n");
 	return true;
 }
 
-bool Game::EngineDebug::process(float delta, Window& gameWindow) {
+bool Madline::EngineDebug::process(float delta, Window& gameWindow) {
 	data.frameCounter += 1;
 	data.timeCounter += delta;
 	if (data.timeCounter >= 1.0) {
@@ -27,6 +27,6 @@ bool Game::EngineDebug::process(float delta, Window& gameWindow) {
 	return true;
 }
 
-void Game::EngineDebug::onCloseGame() {
-	printf("Game closed in debug mode");
+void Madline::EngineDebug::onCloseGame() {
+	printf("Madline closed in debug mode");
 }

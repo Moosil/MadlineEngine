@@ -1,9 +1,9 @@
 #include "game_engine.h"
 
-int Game::startGame(Game::Engine& gameEngine) {
-	Game::Window gameWindow{};
-	
-	Game::GraphicsEngine graphicsEngine{};
+int Madline::startGame(Madline::Engine& gameEngine) {
+	Madline::Window gameWindow{};
+
+	Madline::GraphicsEngine graphicsEngine{};
 	
 	if (!gameEngine.initGameplay()) {
 		gameWindow.stopRunning();

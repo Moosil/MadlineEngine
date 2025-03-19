@@ -4,14 +4,14 @@
 
 #include "windows/input.h"
 
-void Game::resetInput(Game::Input* input) {
+void Madline::resetInput(Madline::Input* input) {
 	input->lmb = {};
 	input->rmb = {};
 	
 	std::fill(input->keyBoard.begin(), input->keyBoard.end(), Button());
 }
 
-void Game::processInputAfter(Game::Input* input) {
+void Madline::processInputAfter(Madline::Input* input) {
 	for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
 		input->keyBoard[i].pressed = false;
 		input->keyBoard[i].released = false;
@@ -29,7 +29,7 @@ void Game::processInputAfter(Game::Input* input) {
 	input->lmb.altPressed = false;
 }
 
-void Game::processEventButton(Game::Button &b, bool newState) {
+void Madline::processEventButton(Madline::Button &b, bool newState) {
 	if (newState) {
 		if (!b.held) {
 			b.pressed = true;

@@ -13,7 +13,7 @@
 #include <Windows.h>
 #endif//_WIN32
 
-namespace Game {
+namespace Madline {
 	struct Button
 	{
 		unsigned char pressed = 0;

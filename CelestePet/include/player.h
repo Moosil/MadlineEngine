@@ -12,7 +12,7 @@
 #include "windows/data_type.h"
 #endif//_WIN32
 
-class Madline {
+class Player {
 public:
 //	static ParticleType P__DASH_A;
 //	static ParticleType P__DASH_B;
@@ -83,12 +83,12 @@ public:
 	float autoJumpTimer;
 	glm::vec<2, int> dashDir;
 //	Booster currentBooster;
-	static Game::Colour normalHairColour;
-	static Game::Colour flyPowerHairColour;
-	static Game::Colour usedHairColour;
-	static Game::Colour flashHairColour;
-	static Game::Colour twoDashesHairColour;
-	Game::Colour overrideHairColour;
+	static Madline::Colour normalHairColour;
+	static Madline::Colour flyPowerHairColour;
+	static Madline::Colour usedHairColour;
+	static Madline::Colour flashHairColour;
+	static Madline::Colour twoDashesHairColour;
+	Madline::Colour overrideHairColour;
 	enum IntroTypes { Transition, Respawn, WalkInRight, WalkInLeft, Jump, WakeUp, Fall, TempleMirrorVoid, None };
 	IntroTypes introType;
 private:

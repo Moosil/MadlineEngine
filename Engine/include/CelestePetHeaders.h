@@ -30,7 +30,6 @@
 #include "vulkan/vk_engine.h"
 #endif
 
-#include "../../GameProject/include/madline.h"
 #include "game_logic.h"
 
 #include "CelestePetConsts.h"

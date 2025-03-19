@@ -2,12 +2,42 @@
 // Created by School on 2025/3/14.
 //
 
+#include <chrono>
+#include <ranges>
+#include <thread>
+#include <iostream>
+#include <format>
+
+#ifdef _WIN32
+#include "windows/game_window.h"
+#endif//_WIN32
+
+#include "CelestePetConsts.h"
+
+#ifndef SHADER_PATH
+#define SHADER_PATH "hi"
+#endif
+
+#include <vulkan/vulkan.h>
+#include <VkBootstrap.h>
+#define VMA_IMPLEMENTATION
+#include <vk_mem_alloc.h>
+
+#include "vulkan/vk_images.h"
+#include "vulkan/vk_initialisers.h"
+#include "vulkan/vk_pipelines.h"
+
 #include "vulkan/vk_engine.h"
 
-Game::GraphicsEngine* loadedEngine = nullptr;
-constexpr bool bUseValidationLayers = true;
 
-void Game::GraphicsEngine::init(Game::Window& pWindow) {
+Madline::GraphicsEngine* loadedEngine = nullptr;
+constexpr bool USE_VALIDATION_LAYERS = true;
+
+Madline::GraphicsEngine::~GraphicsEngine() {
+	cleanup();
+}
+
+void Madline::GraphicsEngine::init(Madline::Window& pWindow) {
 	std::printf("Started Vulkan initialisation\n");
 	
 	// only one engine initialization is allowed with the application.
@@ -28,24 +58,36 @@ void Game::GraphicsEngine::init(Game::Window& pWindow) {
 	
 	initSyncStructures();
 	
+	initDescriptors();
+	
+	initPipelines();
+	
 	isInitialized = true;
 	std::printf("Finished Vulkan initialisation\n");
 }
 
-void Game::GraphicsEngine::cleanup() {
+void Madline::GraphicsEngine::cleanup() {
 	if (isInitialized) {
+		
 		//make sure the gpu has stopped doing its things
 		vkDeviceWaitIdle(device);
 		
+		//free per-frame structures and deletion queue
 		for (auto & frame : frames) {
-			//already written from before
-			vkDestroyCommandPool(device, frame.commandPool, nullptr);
 			
+			vkDestroyCommandPool(device, frame.commandPool, nullptr);
+
 			//destroy sync objects
 			vkDestroyFence(device, frame.renderFence, nullptr);
 			vkDestroySemaphore(device, frame.renderSemaphore, nullptr);
-			vkDestroySemaphore(device ,frame.swapchainSemaphore, nullptr);
+			vkDestroySemaphore(device, frame.swapchainSemaphore, nullptr);
+
+			frame.deletionQueue.flush();
 		}
+
+		//flush the global deletion queue
+		mainDeletionQueue.flush();
+		
 		destroySwapchain();
 		
 		vkDestroySurfaceKHR(instance, surface, nullptr);
@@ -63,7 +105,24 @@ void Game::GraphicsEngine::cleanup() {
 	loadedEngine = nullptr;
 }
 
-void Game::GraphicsEngine::draw() {
+void Madline::GraphicsEngine::drawBackground(VkCommandBuffer cmd) const {
+	// bind the gradient drawing compute pipeline
+	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, gradientPipeline);
+	
+	// bind the descriptor set containing the draw image for the compute pipeline
+	vkCmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, gradientPipelineLayout, 0, 1, &drawImageDescriptors, 0, nullptr);
+
+	// Execute the compute pipeline dispatch. We are using 16x16 workgroup size, so we need to divide by it
+	vkCmdDispatch(cmd, std::ceil(drawExtent.width / 16.0), std::ceil(drawExtent.height / 16.0), 1);}
+
+void Madline::GraphicsEngine::draw() {
+	#pragma region Flush deletion queue
+		//Wait until the gpu has finished rendering the last frame. Timeout of 1 second
+		VK_CHECK(vkWaitForFences(device, 1, &getCurrentFrame().renderFence, true, 1000000000));
+		
+		getCurrentFrame().deletionQueue.flush();
+	#pragma endregion
+	
 	#pragma region Draw 1
 		// Wait until the gpu has finished rendering the last frame. Timeout of 1
 		// second
@@ -90,30 +149,31 @@ void Game::GraphicsEngine::draw() {
 		
 		//Begin the command buffer recording. We will use this command buffer exactly once, so we want to let vulkan know that
 		VkCommandBufferBeginInfo cmdBeginInfo = VkInit::commandBufferBeginInfo(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
-		
-		//start the command buffer recording
-		VK_CHECK(vkBeginCommandBuffer(cmd, &cmdBeginInfo));
-	#pragma endregion
 
-	#pragma region Draw 4
-		//make the swapchain image into writeable mode before rendering
-	    VkUtil::transitionImage(cmd, swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_GENERAL);
-		
-		//Make a clear-color from frame number. This will flash with a 120 frame period.
-		VkClearColorValue clearValue;
-		float flash = std::abs(std::sin(static_cast<float>(frameNumber) / 120.f));
-		clearValue = { { 0.0f, 0.0f, flash, 0.0f } };
-		
-		VkImageSubresourceRange clearRange = VkInit::imageSubresourceRange(VK_IMAGE_ASPECT_COLOR_BIT);
-		
-		//clear image
-		vkCmdClearColorImage(cmd, swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_GENERAL, &clearValue, 1, &clearRange);
-		
-		//make the swapchain image into presentable mode
-	    VkUtil::transitionImage(cmd, swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
-		
-		//finalize the command buffer (we can no longer add commands, but it can now be executed)
-		VK_CHECK(vkEndCommandBuffer(cmd));
+	#pragma region Record command buffer
+	    drawExtent.width = drawImage.imageExtent.width;
+	    drawExtent.height = drawImage.imageExtent.height;
+	    
+	    VK_CHECK(vkBeginCommandBuffer(cmd, &cmdBeginInfo));
+
+	    // transition our main draw image into general layout, so we can write into it,
+	    // we will overwrite it all, so we don't care about what was the older layout
+	    VkUtil::transitionImage(cmd, drawImage.image, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_GENERAL);
+
+	    drawBackground(cmd);
+
+	    //transition the draw image and the swapchain image into their correct transfer layouts
+	    VkUtil::transitionImage(cmd, drawImage.image, VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL);
+	    VkUtil::transitionImage(cmd, swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+
+	    // execute a copy from the draw image into the swapchain
+	    VkUtil::copyImageToImage(cmd, drawImage.image, swapchainImages[swapchainImageIndex], drawExtent, swapchainExtent);
+
+	    // set swapchain image layout to Present, so we can show it on the screen
+	    VkUtil::transitionImage(cmd, swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
+
+	    //finalize the command buffer (we can no longer add commands, but it can now be executed)
+	    VK_CHECK(vkEndCommandBuffer(cmd));
 	#pragma endregion
 
 	#pragma region Draw 5
@@ -121,12 +181,12 @@ void Game::GraphicsEngine::draw() {
 		//We want to wait on the _presentSemaphore, as that semaphore is signaled when the swapchain is ready
 		//we will signal the _renderSemaphore, to signal that rendering has finished
 		
-		VkCommandBufferSubmitInfo cmdinfo = VkInit::commandBufferSubmitInfo(cmd);
+		VkCommandBufferSubmitInfo cmdInfo = VkInit::commandBufferSubmitInfo(cmd);
 		
 		VkSemaphoreSubmitInfo waitInfo = VkInit::semaphoreSubmitInfo(VK_PIPELINE_STAGE_2_COLOR_ATTACHMENT_OUTPUT_BIT_KHR, getCurrentFrame().swapchainSemaphore);
 		VkSemaphoreSubmitInfo signalInfo = VkInit::semaphoreSubmitInfo(VK_PIPELINE_STAGE_2_ALL_GRAPHICS_BIT, getCurrentFrame().renderSemaphore);
 		
-		VkSubmitInfo2 submit = VkInit::submitInfo(&cmdinfo, &signalInfo, &waitInfo);
+		VkSubmitInfo2 submit = VkInit::submitInfo(&cmdInfo, &signalInfo, &waitInfo);
 		
 		//Submit command buffer to the queue and execute it.
 		// _renderFence will now block until the graphic commands finish execution
@@ -156,11 +216,12 @@ void Game::GraphicsEngine::draw() {
 	#pragma endregion
 }
 
-void Game::GraphicsEngine::initVulkan(const Game::Window& window) {
+
+void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 	vkb::InstanceBuilder instanceBuilder;
 	auto instanceRet = instanceBuilder
 	                            .set_app_name("Celeste Pet")
-	                            .request_validation_layers(bUseValidationLayers)
+	                            .request_validation_layers(USE_VALIDATION_LAYERS)
 	                            .require_api_version(1,3,0)
 	                            .build(); // build is always called last
 
@@ -212,12 +273,35 @@ void Game::GraphicsEngine::initVulkan(const Game::Window& window) {
 	graphicsQueue = vkbDevice.get_queue(vkb::QueueType::graphics).value();
 	graphicsQueueFamily = vkbDevice.get_queue_index(vkb::QueueType::graphics).value();
 	
+	#pragma region VMA init
+		// initialize the memory allocator
+		VmaAllocatorCreateInfo allocatorInfo = {};
+		allocatorInfo.physicalDevice = chosenGpu;
+		allocatorInfo.device = device;
+		allocatorInfo.instance = instance;
+		allocatorInfo.flags = VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT;
+		vmaCreateAllocator(&allocatorInfo, &allocator);
+		
+		mainDeletionQueue.pushFunction([&]() {
+			vmaDestroyAllocator(allocator);
+		});
+	#pragma endregion
+	
 	VkSurfaceCapabilitiesKHR surfaceCapabilities = {};
 	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &surfaceCapabilities);
 	std::printf("supported composite alpha: %u\n", surfaceCapabilities.supportedCompositeAlpha);
 }
 
-void Game::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height) {
+void Madline::GraphicsEngine::destroySwapchain() {
+	vkDestroySwapchainKHR(device, swapchain, nullptr);
+	
+	// destroy swapchain resources
+	for (auto& swapchainImageView : swapchainImageViews) {
+		vkDestroyImageView(device, swapchainImageView, nullptr);
+	}
+}
+
+void Madline::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height) {
 	vkb::SwapchainBuilder swapchainBuilder{chosenGpu, device, surface };
 	
 	swapchainImageFormat = VK_FORMAT_B8G8R8A8_UNORM;
@@ -240,20 +324,49 @@ void Game::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height) {
 	swapchainImageViews = vkbSwapchain.get_image_views().value();
 }
 
-void Game::GraphicsEngine::destroySwapchain() {
-	vkDestroySwapchainKHR(device, swapchain, nullptr);
-	
-	// destroy swapchain resources
-	for (auto& swapchainImageView : swapchainImageViews) {
-		vkDestroyImageView(device, swapchainImageView, nullptr);
-	}
-}
-
-void Game::GraphicsEngine::initSwapchain() {
+void Madline::GraphicsEngine::initSwapchain() {
 	createSwapchain(windowExtent.width, windowExtent.height);
+	
+	//draw image size will match the window
+	VkExtent3D drawImageExtent = {
+		windowExtent.width,
+		windowExtent.height,
+		1
+	};
+	
+	//hardcoding the draw format to 32-bit float
+	drawImage.imageFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
+	drawImage.imageExtent = drawImageExtent;
+
+	VkImageUsageFlags drawImageUsages{};
+	drawImageUsages |= VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+	drawImageUsages |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+	drawImageUsages |= VK_IMAGE_USAGE_STORAGE_BIT;
+	drawImageUsages |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+
+	VkImageCreateInfo rImgInfo = VkInit::imageCreateInfo(drawImage.imageFormat, drawImageUsages, drawImageExtent);
+
+	//for the draw image, we want to allocate it from gpu local memory
+	VmaAllocationCreateInfo rImgAllocInfo = {};
+	rImgAllocInfo.usage = VMA_MEMORY_USAGE_GPU_ONLY;
+	rImgAllocInfo.requiredFlags = VkMemoryPropertyFlags(VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+	//allocate and create the image
+	vmaCreateImage(allocator, &rImgInfo, &rImgAllocInfo, &drawImage.image, &drawImage.allocation, nullptr);
+
+	//build an image-view for the draw image to use for rendering
+	VkImageViewCreateInfo rViewInfo = VkInit::imageviewCreateInfo(drawImage.imageFormat, drawImage.image, VK_IMAGE_ASPECT_COLOR_BIT);
+
+	VK_CHECK(vkCreateImageView(device, &rViewInfo, nullptr, &drawImage.imageView));
+
+	//add to deletion queues
+	mainDeletionQueue.pushFunction([=, this]() {
+		vkDestroyImageView(device, drawImage.imageView, nullptr);
+		vmaDestroyImage(allocator, drawImage.image, drawImage.allocation);
+	});
 }
 
-void Game::GraphicsEngine::initCommands() {
+void Madline::GraphicsEngine::initCommands() {
 	//Create a command pool for commands submitted to the graphics queue.
 	//We also want the pool to allow for resetting of individual command buffers
 	VkCommandPoolCreateInfo commandPoolInfo = VkInit::commandPoolCreateInfo(
@@ -269,7 +382,7 @@ void Game::GraphicsEngine::initCommands() {
 		VK_CHECK(vkAllocateCommandBuffers(device, &cmdAllocInfo, &frame.mainCommandBuffer));
 	}
 }
-void Game::GraphicsEngine::initSyncStructures() {
+void Madline::GraphicsEngine::initSyncStructures() {
 	//create synchronisation structures
 	//one fence to control when the gpu has finished rendering the frame,
 	//and 2 semaphores to synchronise rendering with swapchain
@@ -283,4 +396,92 @@ void Game::GraphicsEngine::initSyncStructures() {
 		VK_CHECK(vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &frame.swapchainSemaphore));
 		VK_CHECK(vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &frame.renderSemaphore));
 	}
+}
+
+void Madline::GraphicsEngine::initDescriptors() {
+	//create a descriptor pool that will hold 10 sets with 1 image each
+	std::vector<DescriptorAllocator::PoolSizeRatio> sizes =
+    {
+		{ VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1 }
+    };
+	
+	globalDescriptorAllocator.initPool(device, 10, sizes);
+
+	//make the descriptor set layout for our compute draw
+	{
+		DescriptorLayoutBuilder builder;
+		builder.addBinding(0, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE);
+		drawImageDescriptorLayout = builder.build(device, VK_SHADER_STAGE_COMPUTE_BIT);
+	}
+	
+	//allocate a descriptor set for our draw image
+	drawImageDescriptors = globalDescriptorAllocator.allocate(device,drawImageDescriptorLayout);
+	
+	VkDescriptorImageInfo imgInfo{};
+	imgInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+	imgInfo.imageView = drawImage.imageView;
+	
+	VkWriteDescriptorSet drawImageWrite = {};
+	drawImageWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+	drawImageWrite.pNext = nullptr;
+	
+	drawImageWrite.dstBinding = 0;
+	drawImageWrite.dstSet = drawImageDescriptors;
+	drawImageWrite.descriptorCount = 1;
+	drawImageWrite.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+	drawImageWrite.pImageInfo = &imgInfo;
+
+	vkUpdateDescriptorSets(device, 1, &drawImageWrite, 0, nullptr);
+
+	//make sure both the descriptor allocator and the new layout get cleaned up properly
+	mainDeletionQueue.pushFunction([&]() {
+		globalDescriptorAllocator.destroyPool(device);
+
+		vkDestroyDescriptorSetLayout(device, drawImageDescriptorLayout, nullptr);
+	});
+}
+
+void Madline::GraphicsEngine::initPipelines() {
+	initBackgroundPipelines();
+}
+
+// add push constants if necessary
+void Madline::GraphicsEngine::initBackgroundPipelines() {
+	VkPipelineLayoutCreateInfo computeLayout{};
+	computeLayout.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+	computeLayout.pNext = nullptr;
+	computeLayout.pSetLayouts = &drawImageDescriptorLayout;
+	computeLayout.setLayoutCount = 1;
+	
+	VK_CHECK(vkCreatePipelineLayout(device, &computeLayout, nullptr, &gradientPipelineLayout));
+	
+	VkShaderModule computeDrawShader{};
+	
+	std::string shaderPath = std::format("{}/spv/gradient.comp.spv", SHADER_PATH);
+	
+	if (!VkUtil::loadShaderModule(shaderPath.c_str(), device, &computeDrawShader)) {
+		std::printf("Error when building the compute shader\n");
+	}
+	
+	VkPipelineShaderStageCreateInfo stageInfo{};
+	stageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+	stageInfo.pNext = nullptr;
+	stageInfo.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+	stageInfo.module = computeDrawShader;
+	stageInfo.pName = "main";
+
+	VkComputePipelineCreateInfo computePipelineCreateInfo{};
+	computePipelineCreateInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
+	computePipelineCreateInfo.pNext = nullptr;
+	computePipelineCreateInfo.layout = gradientPipelineLayout;
+	computePipelineCreateInfo.stage = stageInfo;
+	
+	VK_CHECK(vkCreateComputePipelines(device,VK_NULL_HANDLE,1,&computePipelineCreateInfo, nullptr, &gradientPipeline));
+
+	vkDestroyShaderModule(device, computeDrawShader, nullptr);
+	
+	mainDeletionQueue.pushFunction([&]() {
+		vkDestroyPipelineLayout(device, gradientPipelineLayout, nullptr);
+		vkDestroyPipeline(device, gradientPipeline, nullptr);
+	});
 }

@@ -2,9 +2,21 @@
 // Created by School on 2025/3/12.
 //
 
+#include <format>
+
+#include "CelestePetConsts.h"
+
 #include "windows/game_window.h"
 
-Game::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
+#ifdef RENDER_VULKAN
+#include <VkBootstrap.h>
+#include <vulkan/vulkan.h>
+#include <vulkan/vulkan_win32.h>
+#include "vulkan/vk_types.h"
+#endif
+
+
+Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
 	std::printf("Started Creating Window\n");
 	WNDCLASS wc = {sizeof(WNDCLASS)};
 	const std::string className = CLASS_NAME;
@@ -53,15 +65,19 @@ Game::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
 	
 	lastFrameTime = std::chrono::high_resolution_clock::now();
 	
+	RECT rect = {};
+	GetWindowRect(mHwnd, &rect);
+	screenRect = static_cast<Rect2<int>>(rect);
+	
 	std::printf("Finished Creating Window\n");
 }
 
-Game::Window::~Window() {
+Madline::Window::~Window() {
     DestroyWindow(mHwnd);
 	mHwnd = nullptr;
 }
 
-LRESULT CALLBACK Game::Window::staticWindowProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
+LRESULT CALLBACK Madline::Window::staticWindowProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
 	Window* self;
 	
 	if (msg == WM_NCCREATE)	{
@@ -86,7 +102,7 @@ LRESULT CALLBACK Game::Window::staticWindowProc(HWND pHwnd, unsigned int msg, WP
 	return DefWindowProc(pHwnd, msg, wp, lp);
 }
 
-LRESULT Game::Window::windowProc(unsigned int msg, WPARAM wp, LPARAM lp) {
+LRESULT Madline::Window::windowProc(unsigned int msg, WPARAM wp, LPARAM lp) {
 	LRESULT rez = 0;
 	
 	bool pressed = false;
@@ -169,7 +185,7 @@ LRESULT Game::Window::windowProc(unsigned int msg, WPARAM wp, LPARAM lp) {
 	return rez;
 }
 
-float Game::Window::getDeltaTime() {
+float Madline::Window::getDeltaTime() {
 	auto now = std::chrono::high_resolution_clock::now();
 	
 	long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(now - lastFrameTime).count();
@@ -178,7 +194,7 @@ float Game::Window::getDeltaTime() {
 	return rez;
 }
 
-void Game::Window::gameLoop() {
+void Madline::Window::gameLoop() {
 	MSG msg = {};
 	while (PeekMessage(&msg, mHwnd, 0, 0, PM_REMOVE) > 0) {
 		TranslateMessage(&msg);
@@ -188,7 +204,7 @@ void Game::Window::gameLoop() {
 	POINT point;
 	GetCursorPos(&point);
 	ScreenToClient(mHwnd, &point);
-	input.cursorPos = Game::vec2iFromPoint(point);
+	input.cursorPos = Madline::vec2iFromPoint(point);
 
 	RECT rect = {};
 	GetWindowRect(mHwnd, &rect);
@@ -196,82 +212,82 @@ void Game::Window::gameLoop() {
 }
 
 
-int Game::Window::getMinFps() const {
+int Madline::Window::getMinFps() const {
 	return minFps;
 }
 
-Game::Rect2<int> Game::Window::getScreenRect() const {
+Madline::Rect2<int> Madline::Window::getScreenRect() const {
 	return screenRect;
 }
 
-bool Game::Window::isRunning() const {
+bool Madline::Window::isRunning() const {
 	return running;
 }
-void Game::Window::stopRunning() {
+void Madline::Window::stopRunning() {
 	running = false;
 }
 
-Game::Input *Game::Window::getInput() {
+Madline::Input *Madline::Window::getInput() {
 	return &input;
 }
 
-void Game::Window::setFocused(bool val) {
+void Madline::Window::setFocused(bool val) {
 	input.focused = val;
 }
 
-bool Game::Window::isFocused() const {
+bool Madline::Window::isFocused() const {
 	return input.focused;
 }
 
-bool Game::Window::isButtonPressed(int buttonIndex) const {
+bool Madline::Window::isButtonPressed(int buttonIndex) const {
 	return input.keyBoard[buttonIndex].pressed;
 }
 
-bool Game::Window::isButtonTriggered(int buttonIndex) const {
+bool Madline::Window::isButtonTriggered(int buttonIndex) const {
 	return input.keyBoard[buttonIndex].triggered;
 }
 
-bool Game::Window::isButtonHeld(int buttonIndex) const {
+bool Madline::Window::isButtonHeld(int buttonIndex) const {
 	return input.keyBoard[buttonIndex].held;
 }
 
-bool Game::Window::isButtonReleased(int buttonIndex) const {
+bool Madline::Window::isButtonReleased(int buttonIndex) const {
 	return input.keyBoard[buttonIndex].released;
 }
 
-bool  Game::Window::isLmbPressed() const {
+bool Madline::Window::isLmbPressed() const {
 	return input.lmb.pressed;
 }
 
-bool  Game::Window::isLmbTriggered() const {
+bool Madline::Window::isLmbTriggered() const {
 	return input.lmb.pressed;
 }
 
-bool  Game::Window::isLmbHeld() const {
+bool Madline::Window::isLmbHeld() const {
 	return input.lmb.pressed;
 }
 
-bool  Game::Window::isLmbReleased() const {
+bool Madline::Window::isLmbReleased() const {
 	return input.lmb.pressed;
 }
 
-bool  Game::Window::isRmbPressed() const {
+bool Madline::Window::isRmbPressed() const {
 	return input.rmb.pressed;
 }
 
-bool  Game::Window::isRmbTriggered() const {
+bool Madline::Window::isRmbTriggered() const {
 	return input.rmb.pressed;
 }
 
-bool  Game::Window::isRmbHeld() const {
+bool Madline::Window::isRmbHeld() const {
 	return input.rmb.pressed;
 }
 
-bool  Game::Window::isRmbReleased() const {
+bool Madline::Window::isRmbReleased() const {
 	return input.rmb.pressed;
 }
 
-std::vector<int> Game::Window::getButtonsPressed() const {
+std::vector<int> Madline::Window::getButtonsPressed() const {
 	std::vector<int> pressed;
 	for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
 		if (input.keyBoard[i].pressed) {
@@ -281,7 +297,7 @@ std::vector<int> Game::Window::getButtonsPressed() const {
 	return pressed;
 }
 
-std::vector<int> Game::Window::getButtonsTriggered() const {
+std::vector<int> Madline::Window::getButtonsTriggered() const {
 	std::vector<int> triggered;
 	for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
 		if (input.keyBoard[i].triggered) {
@@ -291,7 +307,7 @@ std::vector<int> Game::Window::getButtonsTriggered() const {
 	return triggered;
 }
 
-std::vector<int> Game::Window::getButtonsHeld() const {
+std::vector<int> Madline::Window::getButtonsHeld() const {
 	std::vector<int> held;
 	for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
 		if (input.keyBoard[i].held) {
@@ -301,7 +317,7 @@ std::vector<int> Game::Window::getButtonsHeld() const {
 	return held;
 }
 
-std::vector<int> Game::Window::getButtonsReleased() const {
+std::vector<int> Madline::Window::getButtonsReleased() const {
 	std::vector<int> released;
 	for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
 		if (input.keyBoard[i].released) {
@@ -312,7 +328,7 @@ std::vector<int> Game::Window::getButtonsReleased() const {
 }
 
 #ifdef RENDER_VULKAN
-void Game::Window::getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) const {
+void Madline::Window::getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) const {
 	
 	
 	VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
@@ -322,7 +338,7 @@ void Game::Window::getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) 
 	
 	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, surface));
 }
-void Game::Window::test() {
+void Madline::Window::test() {
 	SetLayeredWindowAttributes(mHwnd, RGB(0, 0, 0), 0, LWA_COLORKEY);
 }
 #endif//RENDER_VULKAN

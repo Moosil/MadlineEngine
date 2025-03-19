@@ -22,6 +22,15 @@
 #include <mat4x4.hpp>
 #include <vec4.hpp>
 
+// We will add our main reusable types here
+struct AllocatedImage {
+	VkImage image;
+	VkImageView imageView;
+	VmaAllocation allocation;
+	VkExtent3D imageExtent;
+	VkFormat imageFormat;
+};
+
 #define VK_CHECK(x)                                                     \
     do {                                                                \
         VkResult err = x;                                               \

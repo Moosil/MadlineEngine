@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="8" />
+    <option name="CUSTOM_SCOPE_NAME" value="All Changed Files" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="MadlineEngine" targetName="imgui" />
+      <config projectName="MadlineEngine" targetName="CelestePet" />
+      <config projectName="MadlineEngine" targetName="vkbootstrap" />
+      <config projectName="MadlineEngine" targetName="Engine" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5bc02955-c80c-4870-986a-72c9f588faaf" name="Changes" comment="mainloop: vkguide.dev&#10;moved celeste to gameproject&#10;moved engine code to engine&#10;updated all cmakelists files">
+      <change afterPath="$PROJECT_DIR$/CelestePet/shaders/compile_shaders.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CelestePet/shaders/gradient.comp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Engine/platform/include/vulkan/vk_descriptors.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_descriptors.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/game/include/game_logic.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/game/include/game_logic.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/game/src/game_logic.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/game/src/game_logic.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/include/CelestePetConsts.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/include/CelestePetConsts.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/include/CelestePetHeaders.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/include/CelestePetHeaders.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/include/game_engine.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/include/game_engine.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/vulkan/vk_engine.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/vulkan/vk_engine.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/vulkan/vk_images.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/vulkan/vk_images.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/vulkan/vk_pipelines.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/vulkan/vk_pipelines.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/vulkan/vk_types.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/vulkan/vk_types.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/windows/data_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/windows/data_type.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/windows/game_window.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/windows/game_window.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/windows/input.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/windows/input.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_images.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_images.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_pipelines.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_pipelines.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/windows/data_type.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/windows/data_type.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/windows/game_window.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/windows/game_window.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/windows/input.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/windows/input.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/src/game_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/src/game_engine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameProject/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CelestePet/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameProject/include/madline.h" beforeDir="false" afterPath="$PROJECT_DIR$/CelestePet/include/player.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameProject/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/CelestePet/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameProject/shaders/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameProject/shaders/triangle.frag" beforeDir="false" afterPath="$PROJECT_DIR$/CelestePet/shaders/triangle.frag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameProject/shaders/triangle.vert" beforeDir="false" afterPath="$PROJECT_DIR$/CelestePet/shaders/triangle.vert" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameProject/src/madline.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/CelestePet/src/player.cpp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CMakeLists" />
+        <option value="cs-template" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="glfw" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2024" />
+    <option name="minorVersion" value="1.1" />
+    <option name="productBranch" value="Classic" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2tvdZMUuov5L33mlkQTI0od4ncn" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Batch.Compile Shaders.executor": "Run",
+    "Batch.compile_shaders.executor": "Run",
+    "C/C++ File.main.cpp.executor": "Run",
+    "CMake Application.CelestePet.executor": "Run",
+    "CMake Application.Engine.executor": "Run",
+    "CMake Application.GameProject.executor": "Run",
+    "CMake Application.Platforms.executor": "Run",
+    "CMake Application.Unnamed.executor": "Run",
+    "CMake Debug.CelestePet.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "Shell Script.Compile Shaders.executor": "Run",
+    "cf.advertisement.text.overridden": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "winapi",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/School/CLionProjects/MadlineEngine/CelestePet/shaders",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "structure.view.defaults.are.configured": "true",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "PLAIN_TEXT",
+      "GitIgnore"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\School\CLionProjects\CelestePet\GameProject\shaders" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\School\CLionProjects\CelestePet\Engine\platform\src\vulkan" />
+      <recent name="C:\Users\School\CLionProjects\CelestePet\GameProject\src" />
+      <recent name="C:\Users\School\CLionProjects\CelestePet\GameProject\include" />
+      <recent name="C:\Users\School\CLionProjects\CelestePet\GameProject\shaders" />
+      <recent name="C:\Users\School\CLionProjects\CelestePet\Engine" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="？" />
+      <command value="-std=c++20" />
+      <command value="Code | Reformat code" />
+    </option>
+  </component>
+  <component name="RunManager" selected="CMake Application.CelestePet">
+    <configuration name="Compile Shaders" type="BatchConfigurationType" factoryName="Batch">
+      <module name="CelestePet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="WORKING_DIRECTORY" value="./CelestePet/shaders" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="./CelestePet/shaders/compile_shaders.bat" />
+      <option name="PARAMETERS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CelestePet" type="CMakeListConfigurationType" factoryName="CMakeListConfigurationFactory" temporary="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="CelestePet" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="CelestePet" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="MadlineEngine" RUN_TARGET_NAME="CelestePet">
+      <method v="2">
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="Compile Shaders" run_configuration_type="BatchConfigurationType" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Engine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="Engine" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="imgui" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="imgui" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="vkbootstrap" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="vkbootstrap" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Batch.Compile Shaders" />
+      <item itemvalue="CMake Application.CelestePet" />
+      <item itemvalue="CMake Application.Engine" />
+      <item itemvalue="CMake Application.imgui" />
+      <item itemvalue="CMake Application.vkbootstrap" />
+      <item itemvalue="CMake Debug.CelestePet" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="CMake Debug.CelestePet" />
+        <item itemvalue="CMake Debug.CelestePet" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5bc02955-c80c-4870-986a-72c9f588faaf" name="Changes" comment="" />
+      <created>1741236537000</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1741236537000</updated>
+      <workItem from="1741236538944" duration="19886000" />
+      <workItem from="1741314053887" duration="1137000" />
+      <workItem from="1741325557234" duration="4266000" />
+      <workItem from="1741343258966" duration="98000" />
+      <workItem from="1741498318419" duration="2086000" />
+      <workItem from="1741582823541" duration="3755000" />
+      <workItem from="1741590322665" duration="10843000" />
+      <workItem from="1741648150241" duration="40000" />
+      <workItem from="1741649909273" duration="511000" />
+      <workItem from="1741653106911" duration="5028000" />
+      <workItem from="1741659882550" duration="1056000" />
+      <workItem from="1741669787292" duration="11144000" />
+      <workItem from="1741683690689" duration="7490000" />
+      <workItem from="1741741820656" duration="117000" />
+      <workItem from="1741743756159" duration="1206000" />
+      <workItem from="1741745325904" duration="1027000" />
+      <workItem from="1741746751730" duration="1978000" />
+      <workItem from="1741756733565" duration="6047000" />
+      <workItem from="1741769073900" duration="5039000" />
+      <workItem from="1741811964477" duration="1162000" />
+      <workItem from="1741829806610" duration="2179000" />
+      <workItem from="1741833758153" duration="1687000" />
+      <workItem from="1741835850304" duration="2467000" />
+      <workItem from="1741842301183" duration="3053000" />
+      <workItem from="1741905837694" duration="3830000" />
+      <workItem from="1741912714622" duration="534000" />
+      <workItem from="1741917669015" duration="1295000" />
+      <workItem from="1741929423393" duration="7147000" />
+      <workItem from="1741951183843" duration="3000000" />
+      <workItem from="1742022456359" duration="4054000" />
+      <workItem from="1742026620424" duration="1736000" />
+      <workItem from="1742030266196" duration="1566000" />
+      <workItem from="1742035503424" duration="1925000" />
+      <workItem from="1742080924723" duration="5701000" />
+      <workItem from="1742090876384" duration="16778000" />
+      <workItem from="1742119710303" duration="7582000" />
+      <workItem from="1742168253986" duration="110000" />
+      <workItem from="1742203142010" duration="2033000" />
+      <workItem from="1742205209990" duration="258000" />
+      <workItem from="1742205492845" duration="203000" />
+      <workItem from="1742205707115" duration="2074000" />
+      <workItem from="1742207812642" duration="1959000" />
+      <workItem from="1742257216992" duration="1562000" />
+      <workItem from="1742259086421" duration="2117000" />
+      <workItem from="1742267982216" duration="350000" />
+      <workItem from="1742274610547" duration="7087000" />
+      <workItem from="1742290460719" duration="171000" />
+      <workItem from="1742292516467" duration="4977000" />
+      <workItem from="1742339612608" duration="6446000" />
+      <workItem from="1742349922203" duration="2366000" />
+    </task>
+    <task id="LOCAL-00001" summary="init">
+      <option name="closed" value="true" />
+      <created>1741908257931</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741908257931</updated>
+    </task>
+    <task id="LOCAL-00002" summary="init">
+      <option name="closed" value="true" />
+      <created>1741908370121</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1741908370121</updated>
+    </task>
+    <task id="LOCAL-00003" summary="init">
+      <option name="closed" value="true" />
+      <created>1741909694801</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1741909694801</updated>
+    </task>
+    <task id="LOCAL-00004" summary="before glfw window">
+      <option name="closed" value="true" />
+      <created>1741918671830</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1741918671830</updated>
+    </task>
+    <task id="LOCAL-00005" summary="after glfw window - not working">
+      <option name="closed" value="true" />
+      <created>1741937650782</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1741937650782</updated>
+    </task>
+    <task id="LOCAL-00006" summary="yay">
+      <option name="closed" value="true" />
+      <created>1742025116196</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1742025116196</updated>
+    </task>
+    <task id="LOCAL-00007" summary="vulkan and some template stuff">
+      <option name="closed" value="true" />
+      <created>1742113891454</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1742113891454</updated>
+    </task>
+    <task id="LOCAL-00008" summary="nothing">
+      <option name="closed" value="true" />
+      <created>1742117418317</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1742117418317</updated>
+    </task>
+    <task id="LOCAL-00009" summary="nothing">
+      <option name="closed" value="true" />
+      <created>1742117471989</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1742117471989</updated>
+    </task>
+    <task id="LOCAL-00010" summary="rendering loop: vkguide.dev">
+      <option name="closed" value="true" />
+      <created>1742118675074</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1742118675074</updated>
+    </task>
+    <task id="LOCAL-00011" summary="mainloop: vkguide.dev&#10;moved celeste to gameproject&#10;moved engine code to engine&#10;updated all cmakelists files">
+      <option name="closed" value="true" />
+      <created>1742277741729</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1742277741729</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.bat" />
+  </component>
+  <component name="VCPKGProject">
+    <isAutomaticCheckingOnLaunch value="false" />
+    <isAutomaticFoundErrors value="true" />
+    <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="init" />
+    <MESSAGE value="before glfw window" />
+    <MESSAGE value="after glfw window - not working" />
+    <MESSAGE value="yay" />
+    <MESSAGE value="vulkan and some template stuff" />
+    <MESSAGE value="nothing" />
+    <MESSAGE value="rendering loop: vkguide.dev" />
+    <MESSAGE value="mainloop: vkguide.dev&#10;moved celeste to gameproject&#10;moved engine code to engine&#10;updated all cmakelists files" />
+    <option name="LAST_COMMIT_MESSAGE" value="mainloop: vkguide.dev&#10;moved celeste to gameproject&#10;moved engine code to engine&#10;updated all cmakelists files" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp</url>
+          <line>459</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

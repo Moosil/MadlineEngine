@@ -11,7 +11,7 @@
 #include "windows/game_window.h"
 #endif//_WIN32
 
-namespace Game {
+namespace Madline {
 	class Engine {
 	public:
 		virtual ~Engine() {};

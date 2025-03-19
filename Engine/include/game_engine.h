@@ -7,8 +7,8 @@
 
 #include "CelestePetHeaders.h"
 
-namespace Game {
-	int startGame(Game::Engine &gameEngine);
+namespace Madline {
+	int startGame(Madline::Engine &gameEngine);
 
 	std::string getLastErrorString();
 

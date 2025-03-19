@@ -9,9 +9,10 @@ file(RELATIVE_PATH GAME_PROJECT_NAME ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_LIST_DI
 
 project(GAME_PROJECT_NAME)
 
-add_executable(${GAME_PROJECT_NAME} main.cpp;)
+add_executable(${GAME_PROJECT_NAME} "main.cpp;src/player.cpp;")
 
 target_link_libraries(${GAME_PROJECT_NAME} Engine)
-target_include_directories(${GAME_PROJECT_NAME} PUBLIC include)
+target_include_directories(${GAME_PROJECT_NAME} PUBLIC "include")
 
-add_subdirectory(shaders)
+target_compile_definitions(Engine PRIVATE GAME_NAME="${GAME_PROJECT_NAME}")
+target_compile_definitions(Engine PRIVATE SHADER_PATH="${CMAKE_CURRENT_LIST_DIR}/shaders")

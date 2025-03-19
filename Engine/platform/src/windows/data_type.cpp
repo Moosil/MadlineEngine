@@ -2,33 +2,35 @@
 // Created by School on 2025/3/11.
 //
 
+#include <format>
+
 #include "windows/data_type.h"
 
-glm::vec<2, int> Game::vec2iFromPoint(POINT point) {
+glm::vec<2, int> Madline::vec2iFromPoint(POINT point) {
 	return {point.x, point.y};
 }
 
 #pragma region Colour
-Game::Colour::Colour(): r(0), g(0), b(0), a(0) {}
+Madline::Colour::Colour(): r(0), g(0), b(0), a(0) {}
 
 template<typename T, typename U,
 	std::enable_if_t<std::is_convertible_v<T, unsigned char>, bool>,
 	std::enable_if_t<std::is_convertible_v<U, unsigned char>, bool>
 >
-Game::Colour::Colour(const T &v, const U &a):
+Madline::Colour::Colour(const T &v, const U &a):
 	r(static_cast<unsigned char>(v)),
 	g(static_cast<unsigned char>(v)),
 	b(static_cast<unsigned char>(v)),
 	a(static_cast<unsigned char>(a)){}
 
 template<typename T, std::enable_if_t<std::is_convertible_v<T, unsigned char>, bool>>
-Game::Colour::Colour(const T &r, const T &g, const T &b, const T &a):
+Madline::Colour::Colour(const T &r, const T &g, const T &b, const T &a):
 	r(static_cast<unsigned char>(r)),
 	g(static_cast<unsigned char>(g)),
 	b(static_cast<unsigned char>(b)),
 	a(static_cast<unsigned char>(a)){}
 
-Game::Colour::Colour(std::string hex) {
+Madline::Colour::Colour(std::string hex) {
 	if(hex.at(0) == '#') {
 		hex.erase(0, 1);
 	}
@@ -45,16 +47,16 @@ Game::Colour::Colour(std::string hex) {
 	}
 }
 
-std::string Game::Colour::getHex(bool with_alpha) {
+std::string Madline::Colour::getHex(bool withAlpha) {
 	std::string hex = std::format("{:x}", r) + std::format("{:x}", g) + std::format("{:x}", b);
-	if (with_alpha) {
+	if (withAlpha) {
 		hex += std::format("{:x}", a);
 	}
 	return hex;
 }
 #pragma region Constants
-const Game::Colour Game::Colour::NONE{0,0,0,0};
-const Game::Colour Game::Colour::WHITE{255,255,255,255};
-const Game::Colour Game::Colour::BLACK{0,0,0,255};
+const Madline::Colour Madline::Colour::NONE{0,0,0,0};
+const Madline::Colour Madline::Colour::WHITE{255,255,255,255};
+const Madline::Colour Madline::Colour::BLACK{0,0,0,255};
 #pragma endregion
 #pragma endregion

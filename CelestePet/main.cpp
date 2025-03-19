@@ -5,7 +5,7 @@
 #include "game_engine.h"
 
 int main() {
-	Game::EngineDebug gameEngine{};
-	
-	Game::startGame(gameEngine);
+	Madline::EngineDebug gameEngine{};
+
+	Madline::startGame(gameEngine);
 }

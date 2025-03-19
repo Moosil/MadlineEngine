@@ -5,16 +5,14 @@
 #ifndef CELESTEPET_DATA_TYPE_H
 #define CELESTEPET_DATA_TYPE_H
 
-#include <string>
-#include <exception>
-#include <format>
+
 #include <glm.hpp>
 
 #ifdef _WIN32
 #include <Windows.h>
 #endif//_WIN32
 
-namespace Game {
+namespace Madline {
 	glm::vec<2, int> vec2iFromPoint(POINT point);
 
 #pragma region Rect
@@ -77,7 +75,7 @@ namespace Game {
 
 		explicit Colour(std::string hex);
 
-		std::string getHex(bool with_alpha = false);
+		std::string getHex(bool withAlpha = false);
 
 		static const Colour NONE;
 		static const Colour WHITE;

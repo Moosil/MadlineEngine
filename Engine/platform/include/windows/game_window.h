@@ -10,18 +10,17 @@
 #include "CelestePetConsts.h"
 
 #ifdef _WIN32
-#include "input.h"
-#include "data_type.h"
+#include <Windows.h>
+
+#include "windows/data_type.h"
+#include "windows/input.h"
 #endif//_WIN32
 
 #ifdef RENDER_VULKAN
-#include <VkBootstrap.h>
 #include <vulkan/vulkan.h>
-#include <vulkan/vulkan_win32.h>
-#include "vulkan/vk_types.h"
 #endif
 
-namespace Game {
+namespace Madline {
 	class Window {
 	public:
 		explicit Window(int minFps = 5);
@@ -66,7 +65,7 @@ namespace Game {
 		void getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) const;
 #endif
 	private:
-		Rect2<int> screenRect;
+		Madline::Rect2<int> screenRect;
 		bool running = true;
 		int minFps;
 		HWND mHwnd;

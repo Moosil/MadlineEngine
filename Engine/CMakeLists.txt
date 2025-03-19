@@ -13,6 +13,7 @@ set(VK_SRC "${PLAT_SRC}/vulkan")
 set(WIN_SRC "${PLAT_SRC}/windows")
 
 set(VULKAN_SOURCES "\
+${VK_SRC}/vk_descriptors.cpp;\
 ${VK_SRC}/vk_engine.cpp;\
 ${VK_SRC}/vk_images.cpp;\
 ${VK_SRC}/vk_initialisers.cpp;\
@@ -37,6 +38,7 @@ src/game_engine.cpp;\
 add_library(Engine STATIC)
 target_sources(Engine PRIVATE ${VULKAN_SOURCES} ${WINDOWS_SOURCES} ${GAME_SOURCES} ${MAIN_SOURCES})
 target_link_libraries(Engine PUBLIC vma glm Vulkan::Vulkan stb_image vkbootstrap imgui)
+target_link_libraries(Engine INTERFACE glm)
 target_include_directories(Engine PUBLIC "platform/include")
 target_include_directories(Engine PUBLIC "game/include")
 target_include_directories(Engine PUBLIC "include")
