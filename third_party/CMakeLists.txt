@@ -13,8 +13,8 @@ add_library(vma INTERFACE)
 add_library(stb_image INTERFACE)
 
 target_sources(vkbootstrap PRIVATE
-        vkbootstrap/VkBootstrap.h
-        vkbootstrap/VkBootstrap.cpp
+    vkbootstrap/VkBootstrap.h
+    vkbootstrap/VkBootstrap.cpp
 )
 
 target_include_directories(vkbootstrap PUBLIC vkbootstrap)
@@ -42,6 +42,6 @@ target_sources(imgui PRIVATE
         imgui/imgui_impl_win32.cpp
 )
 
-target_link_libraries(imgui PUBLIC Vulkan::Vulkan)
+target_link_libraries(imgui PUBLIC Vulkan::Vulkan dwmapi)
 
 target_include_directories(stb_image INTERFACE stb_image)

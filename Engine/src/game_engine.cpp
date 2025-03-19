@@ -13,6 +13,8 @@ int Madline::startGame(Madline::Engine& gameEngine) {
 	graphicsEngine.init(gameWindow);
 
 	while (gameWindow.isRunning()) {
+		
+		
 		gameWindow.gameLoop();
 		float dt = gameWindow.getDeltaTime();
 		float adt = (dt > 1.f / (float) gameWindow.getMinFps()) ? 1.f / (float) gameWindow.getMinFps() : dt;// augmented delta time

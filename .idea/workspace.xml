@@ -23,13 +23,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment=".">
+    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="imgui">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/include/vulkan/vk_engine.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/vulkan/vk_engine.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/include/windows/game_window.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/windows/game_window.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/src/windows/game_window.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/windows/game_window.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Engine/src/game_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/src/game_engine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/CMakeLists.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +54,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Batch.Compile Shaders.executor": "Run",
+    "CMake Application.CelestePet.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
@@ -64,6 +65,7 @@
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/School/CLionProjects/MadlineEngine/CelestePet/shaders",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -72,6 +74,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\School\CLionProjects\MadlineEngine\CelestePet\shaders" />
+    </key>
+  </component>
   <component name="RunManager" selected="CMake Application.CelestePet">
     <configuration default="true" type="ccruntests" factoryName="Run Study Tests">
       <module name="MadlineEngine" />
@@ -96,8 +103,23 @@
       <option name="studyTest" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Compile Shaders" type="BatchConfigurationType" factoryName="Batch">
+      <module name="CelestePet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="WORKING_DIRECTORY" value="./CelestePet/shaders" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="./CelestePet/shaders/compile_shaders.bat" />
+      <option name="PARAMETERS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CelestePet" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="CelestePet" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="MadlineEngine" RUN_TARGET_NAME="CelestePet">
       <method v="2">
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="Compile Shaders" run_configuration_type="BatchConfigurationType" />
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
@@ -282,6 +304,7 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Batch.Compile Shaders" />
       <item itemvalue="CMake Application.CelestePet" />
       <item itemvalue="CMake Application.Engine" />
       <item itemvalue="CMake Application.imgui" />
@@ -299,7 +322,7 @@
       <workItem from="1742358496134" duration="75000" />
       <workItem from="1742358572631" duration="149000" />
       <workItem from="1742360118058" duration="575000" />
-      <workItem from="1742379018331" duration="1691000" />
+      <workItem from="1742379018331" duration="2581000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <option name="closed" value="true" />
@@ -325,7 +348,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742359997639</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="imgui">
+      <option name="closed" value="true" />
+      <created>1742380753813</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1742380753813</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -361,7 +392,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
+    <MESSAGE value="imgui" />
+    <option name="LAST_COMMIT_MESSAGE" value="imgui" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
