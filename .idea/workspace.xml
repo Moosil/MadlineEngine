@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AnalysisUIOptions">
-    <option name="SCOPE_TYPE" value="8" />
-    <option name="CUSTOM_SCOPE_NAME" value="All Changed Files" />
-  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
@@ -27,36 +23,18 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5bc02955-c80c-4870-986a-72c9f588faaf" name="Changes" comment="how tf transparent window???" />
+    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="CMakeLists" />
-        <option value="cs-template" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="glfw" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="NamedScopeManager">
-    <scope name="GameEngine" pattern="file[CelestePet]:Engine//*" />
-    <scope name="CelestePet" pattern="file[CelestePet]:CelestePet//*" />
-    <scope name="Entire Project" pattern="file[CelestePet]:*/&amp;&amp;!file[CelestePet]:third_party//*" />
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -65,98 +43,39 @@
     <option name="productBranch" value="Classic" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 0
+  &quot;associatedIndex&quot;: 2
 }</component>
-  <component name="ProjectId" id="2tvdZMUuov5L33mlkQTI0od4ncn" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2uWJeTBaoh6sqPddQiwiS6KvxLE" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Batch.Compile Shaders.executor&quot;: &quot;Run&quot;,
-    &quot;Batch.compile_shaders.executor&quot;: &quot;Run&quot;,
-    &quot;C/C++ File.main.cpp.executor&quot;: &quot;Run&quot;,
-    &quot;CMake Application.CelestePet.executor&quot;: &quot;Run&quot;,
-    &quot;CMake Application.Engine.executor&quot;: &quot;Run&quot;,
-    &quot;CMake Application.GameProject.executor&quot;: &quot;Run&quot;,
-    &quot;CMake Application.Platforms.executor&quot;: &quot;Run&quot;,
-    &quot;CMake Application.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;CMake Debug.CelestePet.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;Shell Script.Compile Shaders.executor&quot;: &quot;Run&quot;,
-    &quot;cf.advertisement.text.overridden&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;winapi&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/School/CLionProjects/MadlineEngine/CelestePet/shaders&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;PLAIN_TEXT&quot;,
-      &quot;GitIgnore&quot;
-    ]
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.updates",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\School\CLionProjects\CelestePet\GameProject\shaders" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\School\CLionProjects\CelestePet\Engine\platform\src\vulkan" />
-      <recent name="C:\Users\School\CLionProjects\CelestePet\GameProject\src" />
-      <recent name="C:\Users\School\CLionProjects\CelestePet\GameProject\include" />
-      <recent name="C:\Users\School\CLionProjects\CelestePet\GameProject\shaders" />
-      <recent name="C:\Users\School\CLionProjects\CelestePet\Engine" />
-    </key>
-  </component>
-  <component name="RunAnythingCache">
-    <option name="myCommands">
-      <command value="？" />
-      <command value="-std=c++20" />
-      <command value="Code | Reformat code" />
-    </option>
-  </component>
+}]]></component>
   <component name="RunManager" selected="CMake Application.CelestePet">
-    <configuration name="Compile Shaders" type="BatchConfigurationType" factoryName="Batch">
-      <module name="CelestePet" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="WORKING_DIRECTORY" value="./CelestePet/shaders" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SCRIPT_NAME" value="./CelestePet/shaders/compile_shaders.bat" />
-      <option name="PARAMETERS" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CelestePet" type="CMakeListConfigurationType" factoryName="CMakeListConfigurationFactory" temporary="true">
-      <method v="2" />
-    </configuration>
     <configuration name="CelestePet" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="CelestePet" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="MadlineEngine" RUN_TARGET_NAME="CelestePet">
       <method v="2">
-        <option name="RunConfigurationTask" enabled="true" run_configuration_name="Compile Shaders" run_configuration_type="BatchConfigurationType" />
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="Engine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="Engine" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -171,222 +90,221 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="MadlineEngine" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <module name="MadlineEngine" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="ccruntests" factoryName="Run Study Tests">
+      <module name="MadlineEngine" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <option name="studyTest" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docs" factoryName="Docutils task">
+      <module name="MadlineEngine" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="docutils_input_file" value="" />
+      <option name="docutils_output_file" value="" />
+      <option name="docutils_params" value="" />
+      <option name="docutils_task" value="" />
+      <option name="docutils_open_in_browser" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docs" factoryName="Sphinx task">
+      <module name="MadlineEngine" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="docutils_input_file" value="" />
+      <option name="docutils_output_file" value="" />
+      <option name="docutils_params" value="" />
+      <option name="docutils_task" value="" />
+      <option name="docutils_open_in_browser" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Autodetect">
+      <module name="MadlineEngine" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <module name="MadlineEngine" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <module name="MadlineEngine" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Twisted Trial">
+      <module name="MadlineEngine" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <module name="MadlineEngine" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <module name="MadlineEngine" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="Batch.Compile Shaders" />
       <item itemvalue="CMake Application.CelestePet" />
       <item itemvalue="CMake Application.Engine" />
       <item itemvalue="CMake Application.imgui" />
       <item itemvalue="CMake Application.vkbootstrap" />
-      <item itemvalue="CMake Debug.CelestePet" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="CMake Debug.CelestePet" />
-        <item itemvalue="CMake Debug.CelestePet" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5bc02955-c80c-4870-986a-72c9f588faaf" name="Changes" comment="" />
-      <created>1741236537000</created>
+      <changelist id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="" />
+      <created>1742358493079</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1741236537000</updated>
-      <workItem from="1741236538944" duration="19886000" />
-      <workItem from="1741314053887" duration="1137000" />
-      <workItem from="1741325557234" duration="4266000" />
-      <workItem from="1741343258966" duration="98000" />
-      <workItem from="1741498318419" duration="2086000" />
-      <workItem from="1741582823541" duration="3755000" />
-      <workItem from="1741590322665" duration="10843000" />
-      <workItem from="1741648150241" duration="40000" />
-      <workItem from="1741649909273" duration="511000" />
-      <workItem from="1741653106911" duration="5028000" />
-      <workItem from="1741659882550" duration="1056000" />
-      <workItem from="1741669787292" duration="11144000" />
-      <workItem from="1741683690689" duration="7490000" />
-      <workItem from="1741741820656" duration="117000" />
-      <workItem from="1741743756159" duration="1206000" />
-      <workItem from="1741745325904" duration="1027000" />
-      <workItem from="1741746751730" duration="1978000" />
-      <workItem from="1741756733565" duration="6047000" />
-      <workItem from="1741769073900" duration="5039000" />
-      <workItem from="1741811964477" duration="1162000" />
-      <workItem from="1741829806610" duration="2179000" />
-      <workItem from="1741833758153" duration="1687000" />
-      <workItem from="1741835850304" duration="2467000" />
-      <workItem from="1741842301183" duration="3053000" />
-      <workItem from="1741905837694" duration="3830000" />
-      <workItem from="1741912714622" duration="534000" />
-      <workItem from="1741917669015" duration="1295000" />
-      <workItem from="1741929423393" duration="7147000" />
-      <workItem from="1741951183843" duration="3000000" />
-      <workItem from="1742022456359" duration="4054000" />
-      <workItem from="1742026620424" duration="1736000" />
-      <workItem from="1742030266196" duration="1566000" />
-      <workItem from="1742035503424" duration="1925000" />
-      <workItem from="1742080924723" duration="5701000" />
-      <workItem from="1742090876384" duration="16778000" />
-      <workItem from="1742119710303" duration="7582000" />
-      <workItem from="1742168253986" duration="110000" />
-      <workItem from="1742203142010" duration="2033000" />
-      <workItem from="1742205209990" duration="258000" />
-      <workItem from="1742205492845" duration="203000" />
-      <workItem from="1742205707115" duration="2074000" />
-      <workItem from="1742207812642" duration="1959000" />
-      <workItem from="1742257216992" duration="1562000" />
-      <workItem from="1742259086421" duration="2117000" />
-      <workItem from="1742267982216" duration="350000" />
-      <workItem from="1742274610547" duration="7087000" />
-      <workItem from="1742290460719" duration="171000" />
-      <workItem from="1742292516467" duration="4977000" />
-      <workItem from="1742339612608" duration="6446000" />
-      <workItem from="1742349922203" duration="7801000" />
+      <updated>1742358493079</updated>
+      <workItem from="1742358496134" duration="75000" />
+      <workItem from="1742358572631" duration="149000" />
     </task>
-    <task id="LOCAL-00001" summary="init">
-      <option name="closed" value="true" />
-      <created>1741908257931</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1741908257931</updated>
-    </task>
-    <task id="LOCAL-00002" summary="init">
-      <option name="closed" value="true" />
-      <created>1741908370121</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1741908370121</updated>
-    </task>
-    <task id="LOCAL-00003" summary="init">
-      <option name="closed" value="true" />
-      <created>1741909694801</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1741909694801</updated>
-    </task>
-    <task id="LOCAL-00004" summary="before glfw window">
-      <option name="closed" value="true" />
-      <created>1741918671830</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1741918671830</updated>
-    </task>
-    <task id="LOCAL-00005" summary="after glfw window - not working">
-      <option name="closed" value="true" />
-      <created>1741937650782</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1741937650782</updated>
-    </task>
-    <task id="LOCAL-00006" summary="yay">
-      <option name="closed" value="true" />
-      <created>1742025116196</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1742025116196</updated>
-    </task>
-    <task id="LOCAL-00007" summary="vulkan and some template stuff">
-      <option name="closed" value="true" />
-      <created>1742113891454</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1742113891454</updated>
-    </task>
-    <task id="LOCAL-00008" summary="nothing">
-      <option name="closed" value="true" />
-      <created>1742117418317</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1742117418317</updated>
-    </task>
-    <task id="LOCAL-00009" summary="nothing">
-      <option name="closed" value="true" />
-      <created>1742117471989</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1742117471989</updated>
-    </task>
-    <task id="LOCAL-00010" summary="rendering loop: vkguide.dev">
-      <option name="closed" value="true" />
-      <created>1742118675074</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1742118675074</updated>
-    </task>
-    <task id="LOCAL-00011" summary="mainloop: vkguide.dev&#10;moved celeste to gameproject&#10;moved engine code to engine&#10;updated all cmakelists files">
-      <option name="closed" value="true" />
-      <created>1742277741729</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1742277741729</updated>
-    </task>
-    <task id="LOCAL-00012" summary="ton of stuff lmao">
-      <option name="closed" value="true" />
-      <created>1742352380859</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1742352380859</updated>
-    </task>
-    <task id="LOCAL-00013" summary="how tf transparent window???">
-      <option name="closed" value="true" />
-      <created>1742357656080</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1742357656080</updated>
-    </task>
-    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="UnknownFeatures">
-    <option featureType="com.intellij.fileTypeFactory" implementationName="*.bat" />
-  </component>
   <component name="VCPKGProject">
     <isAutomaticCheckingOnLaunch value="false" />
     <isAutomaticFoundErrors value="true" />
     <isAutomaticReloadCMake value="true" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="init" />
-    <MESSAGE value="before glfw window" />
-    <MESSAGE value="after glfw window - not working" />
-    <MESSAGE value="yay" />
-    <MESSAGE value="vulkan and some template stuff" />
-    <MESSAGE value="nothing" />
-    <MESSAGE value="rendering loop: vkguide.dev" />
-    <MESSAGE value="mainloop: vkguide.dev&#10;moved celeste to gameproject&#10;moved engine code to engine&#10;updated all cmakelists files" />
-    <MESSAGE value="ton of stuff lmao" />
-    <MESSAGE value="how tf transparent window???" />
-    <option name="LAST_COMMIT_MESSAGE" value="how tf transparent window???" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
