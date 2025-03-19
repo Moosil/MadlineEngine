@@ -2,8 +2,8 @@
 // Created by School on 2025/3/14.
 //
 
-#ifndef CELESTEPET_VK_ENGINE_H
-#define CELESTEPET_VK_ENGINE_H
+#ifndef MADLINEENGINE_VK_ENGINE_H
+#define MADLINEENGINE_VK_ENGINE_H
 
 #include <ranges>
 
@@ -79,6 +79,11 @@ namespace Madline {
 		VkPipeline gradientPipeline{};
 		VkPipelineLayout gradientPipelineLayout{};
 		
+		// immediate submit structures
+		VkFence immFence{};
+		VkCommandBuffer immCommandBuffer{};
+		VkCommandPool immCommandPool{};
+		
 		DeletionQueue mainDeletionQueue;
 		
 		VmaAllocator allocator{};
@@ -93,11 +98,16 @@ namespace Madline {
 		void initDescriptors();
 		void initPipelines();
 		void initBackgroundPipelines();
+		void initImgui();
 		
 		void createSwapchain(uint32_t width, uint32_t height);
 		void destroySwapchain();
 		
+		void draw();
+		void drawImgui(VkCommandBuffer cmd, VkImageView targetImageView);
 		void drawBackground(VkCommandBuffer cmd) const;
+		
+		void immediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function);
 	public:
 		//initializes everything in the engine
 		void init(Madline::Window&pWindow);
@@ -106,7 +116,7 @@ namespace Madline {
 		void cleanup();
 
 		//draw loop
-		void draw();
+		void drawLoop();
 		
 		GraphicsEngine() = default;
 		
@@ -118,4 +128,4 @@ namespace GEngineTools {
 	void exitOnError(std::string msg);
 }
 
-#endif//CELESTEPET_VK_ENGINE_H
+#endif//MADLINEENGINE_VK_ENGINE_H

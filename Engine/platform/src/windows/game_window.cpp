@@ -4,6 +4,9 @@
 
 #include <format>
 
+#include <imgui.h>
+#include <imgui_impl_win32.h>
+
 #include "CelestePetConsts.h"
 
 #include "windows/game_window.h"
@@ -38,7 +41,7 @@ Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
 
 #ifdef DEBUG_CELESTE
 	mHwnd = CreateWindowEx(
-        WS_EX_LAYERED | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT,
+        WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT | WS_EX_LAYERED,
         wc.lpszClassName,
         WINDOW_NAME,
         WS_VISIBLE | WS_POPUP,
@@ -183,6 +186,7 @@ LRESULT Madline::Window::windowProc(unsigned int msg, WPARAM wp, LPARAM lp) {
 			break;
 		}
 	}
+	
 	return rez;
 }
 
@@ -210,8 +214,13 @@ void Madline::Window::gameLoop() {
 	RECT rect = {};
 	GetWindowRect(mHwnd, &rect);
 	screenRect = static_cast<Rect2<int>>(rect);
+
+	ImGui::Render();
 }
 
+HWND Madline::Window::getHwnd() const {
+	return mHwnd;
+}
 
 int Madline::Window::getMinFps() const {
 	return minFps;

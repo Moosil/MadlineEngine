@@ -8,20 +8,23 @@
 #include <iostream>
 #include <format>
 
-#ifdef _WIN32
-#include "windows/game_window.h"
-#endif//_WIN32
-
 #include "CelestePetConsts.h"
 
 #ifndef SHADER_PATH
-#define SHADER_PATH "hi"
+#define SHADER_PATH "Shader path is undefined"
 #endif
 
 #include <vulkan/vulkan.h>
 #include <VkBootstrap.h>
 #define VMA_IMPLEMENTATION
 #include <vk_mem_alloc.h>
+#include <imgui.h>
+#include <imgui_impl_vulkan.h>
+
+#ifdef _WIN32
+#include "windows/game_window.h"
+#include <imgui_impl_win32.h>
+#endif//_WIN32
 
 #include "vulkan/vk_images.h"
 #include "vulkan/vk_initialisers.h"
@@ -61,6 +64,8 @@ void Madline::GraphicsEngine::init(Madline::Window& pWindow) {
 	initDescriptors();
 	
 	initPipelines();
+	
+	initImgui();
 	
 	isInitialized = true;
 	std::printf("Finished Vulkan initialisation\n");
@@ -105,6 +110,22 @@ void Madline::GraphicsEngine::cleanup() {
 	loadedEngine = nullptr;
 }
 
+void Madline::GraphicsEngine::drawLoop() {
+	// imgui new frame
+	ImGui_ImplVulkan_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+	
+	//some imgui UI to test
+	ImGui::ShowDemoWindow();
+	
+	//make imgui calculate internal draw structures
+	ImGui::Render();
+	
+	//our draw function
+	draw();
+}
+
 void Madline::GraphicsEngine::drawBackground(VkCommandBuffer cmd) const {
 	// bind the gradient drawing compute pipeline
 	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, gradientPipeline);
@@ -113,7 +134,20 @@ void Madline::GraphicsEngine::drawBackground(VkCommandBuffer cmd) const {
 	vkCmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, gradientPipelineLayout, 0, 1, &drawImageDescriptors, 0, nullptr);
 
 	// Execute the compute pipeline dispatch. We are using 16x16 workgroup size, so we need to divide by it
-	vkCmdDispatch(cmd, std::ceil(drawExtent.width / 16.0), std::ceil(drawExtent.height / 16.0), 1);}
+	vkCmdDispatch(cmd, std::ceil(drawExtent.width / 16.0), std::ceil(drawExtent.height / 16.0), 1);
+}
+
+void Madline::GraphicsEngine::drawImgui(VkCommandBuffer cmd, VkImageView targetImageView) {
+	VkRenderingAttachmentInfo colorAttachment = VkInit::attachmentInfo(targetImageView, nullptr, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+	VkRenderingInfo renderInfo = VkInit::renderingInfo(swapchainExtent, &colorAttachment, nullptr);
+	
+	vkCmdBeginRendering(cmd, &renderInfo);
+
+	ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), cmd);
+
+	vkCmdEndRendering(cmd);
+}
+
 
 void Madline::GraphicsEngine::draw() {
 	#pragma region Flush deletion queue
@@ -176,6 +210,23 @@ void Madline::GraphicsEngine::draw() {
 	    VK_CHECK(vkEndCommandBuffer(cmd));
 	#pragma endregion
 
+	#pragma region Draw Imgui
+	    // execute a copy from the draw image into the swapchain
+	    VkUtil::copyImageToImage(cmd, drawImage.image, swapchainImages[swapchainImageIndex], drawExtent, swapchainExtent);
+	    
+	    // set swapchain image layout to Attachment Optimal, so we can draw it
+	    VkUtil::transitionImage(cmd, swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+
+	    //draw imgui into the swapchain image
+	    drawImgui(cmd,  swapchainImageViews[swapchainImageIndex]);
+
+	    // set swapchain image layout to Present, so we can draw it
+	    VkUtil::transitionImage(cmd, swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
+
+	    //finalize the command buffer (we can no longer add commands, but it can now be executed)
+	    VK_CHECK(vkEndCommandBuffer(cmd));
+		#pragma endregion
+
 	#pragma region Draw 5
 		//Prepare the submission to the queue.
 		//We want to wait on the _presentSemaphore, as that semaphore is signaled when the swapchain is ready
@@ -214,6 +265,31 @@ void Madline::GraphicsEngine::draw() {
 		//increase the number of frames drawn
 		frameNumber++;
 	#pragma endregion
+}
+
+void Madline::GraphicsEngine::immediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function)
+{
+	VK_CHECK(vkResetFences(device, 1, &immFence));
+	VK_CHECK(vkResetCommandBuffer(immCommandBuffer, 0));
+	
+	VkCommandBuffer cmd = immCommandBuffer;
+
+	VkCommandBufferBeginInfo cmdBeginInfo = VkInit::commandBufferBeginInfo(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+
+	VK_CHECK(vkBeginCommandBuffer(cmd, &cmdBeginInfo));
+
+	function(cmd);
+
+	VK_CHECK(vkEndCommandBuffer(cmd));
+
+	VkCommandBufferSubmitInfo cmdinfo = VkInit::commandBufferSubmitInfo(cmd);
+	VkSubmitInfo2 submit = VkInit::submitInfo(&cmdinfo, nullptr, nullptr);
+
+	// Submit command buffer to the queue and execute it.
+	//  _renderFence will now block until the graphic commands finish execution
+	VK_CHECK(vkQueueSubmit2(graphicsQueue, 1, &submit, immFence));
+
+	VK_CHECK(vkWaitForFences(device, 1, &immFence, true, 9999999999));
 }
 
 
@@ -381,6 +457,17 @@ void Madline::GraphicsEngine::initCommands() {
 		
 		VK_CHECK(vkAllocateCommandBuffers(device, &cmdAllocInfo, &frame.mainCommandBuffer));
 	}
+	
+	VK_CHECK(vkCreateCommandPool(device, &commandPoolInfo, nullptr, &immCommandPool));
+	
+	// allocate the command buffer for immediate submits
+	VkCommandBufferAllocateInfo cmdAllocInfo = VkInit::commandBufferAllocateInfo(immCommandPool, 1);
+
+	VK_CHECK(vkAllocateCommandBuffers(device, &cmdAllocInfo, &immCommandBuffer));
+
+	mainDeletionQueue.pushFunction([=, this]() {
+		vkDestroyCommandPool(device, immCommandPool, nullptr);
+	});
 }
 void Madline::GraphicsEngine::initSyncStructures() {
 	//create synchronisation structures
@@ -396,6 +483,9 @@ void Madline::GraphicsEngine::initSyncStructures() {
 		VK_CHECK(vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &frame.swapchainSemaphore));
 		VK_CHECK(vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &frame.renderSemaphore));
 	}
+	
+	VK_CHECK(vkCreateFence(device, &fenceCreateInfo, nullptr, &immFence));
+	mainDeletionQueue.pushFunction([=, this]() { vkDestroyFence(device, immFence, nullptr); });
 }
 
 void Madline::GraphicsEngine::initDescriptors() {
@@ -484,5 +574,69 @@ void Madline::GraphicsEngine::initBackgroundPipelines() {
 	mainDeletionQueue.pushFunction([&]() {
 		vkDestroyPipelineLayout(device, gradientPipelineLayout, nullptr);
 		vkDestroyPipeline(device, gradientPipeline, nullptr);
+	});
+}
+
+void Madline::GraphicsEngine::initImgui() {
+	// 1: create descriptor pool for IMGUI
+	//  the size of the pool is very oversize, but it's copied from imgui demo
+	//  itself.
+	VkDescriptorPoolSize poolSizes[] = { { VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
+		{ VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
+		{ VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000 },
+		{ VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000 },
+		{ VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000 },
+		{ VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000 },
+		{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000 },
+		{ VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000 },
+		{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000 },
+		{ VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000 },
+		{ VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000 } };
+	
+	VkDescriptorPoolCreateInfo poolInfo = {};
+	poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+	poolInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+	poolInfo.maxSets = 1000;
+	poolInfo.poolSizeCount = (uint32_t)std::size(poolSizes);
+	poolInfo.pPoolSizes = poolSizes;
+
+	VkDescriptorPool imguiPool;
+	VK_CHECK(vkCreateDescriptorPool(device, &poolInfo, nullptr, &imguiPool));
+
+	// 2: initialize imgui library
+
+	// this initializes the core structures of imgui
+	ImGui::CreateContext();
+
+	// this initializes imgui for Win32
+	ImGui_ImplWin32_Init(mWindow->getHwnd());
+
+	// this initializes imgui for Vulkan
+	ImGui_ImplVulkan_InitInfo initInfo = {};
+	initInfo.Instance = instance;
+	initInfo.PhysicalDevice = chosenGpu;
+	initInfo.Device = device;
+	initInfo.Queue = graphicsQueue;
+	initInfo.DescriptorPool = imguiPool;
+	initInfo.MinImageCount = 3;
+	initInfo.ImageCount = 3;
+	initInfo.UseDynamicRendering = true;
+
+	//dynamic rendering parameters for imgui to use
+	initInfo.PipelineRenderingCreateInfo = {.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO};
+	initInfo.PipelineRenderingCreateInfo.colorAttachmentCount = 1;
+	initInfo.PipelineRenderingCreateInfo.pColorAttachmentFormats = &swapchainImageFormat;
+
+
+	initInfo.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+
+	ImGui_ImplVulkan_Init(&initInfo);
+
+	ImGui_ImplVulkan_CreateFontsTexture();
+
+	// add the deletor for the imgui created structures
+	mainDeletionQueue.pushFunction([=, this]() {
+		ImGui_ImplVulkan_Shutdown();
+		vkDestroyDescriptorPool(device, imguiPool, nullptr);
 	});
 }

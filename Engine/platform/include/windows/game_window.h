@@ -2,8 +2,8 @@
 // Created by School on 2025/3/12.
 //
 
-#ifndef CELESTEPET_GAME_WINDOW_H
-#define CELESTEPET_GAME_WINDOW_H
+#ifndef MADLINEENGINE_GAME_WINDOW_H
+#define MADLINEENGINE_GAME_WINDOW_H
 
 #include <chrono>
 
@@ -29,6 +29,7 @@ namespace Madline {
 		void gameLoop();
 		float getDeltaTime();
 		
+		[[nodiscard]] HWND getHwnd() const;
 		[[nodiscard]] int getMinFps() const;
 		[[nodiscard]] Rect2<int> getScreenRect() const;
 		[[nodiscard]] bool isRunning() const;
@@ -77,4 +78,4 @@ namespace Madline {
 	};
 }
 
-#endif//CELESTEPET_GAME_WINDOW_H
+#endif//MADLINEENGINE_GAME_WINDOW_H
