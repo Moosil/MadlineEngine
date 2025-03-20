@@ -15,7 +15,9 @@
   <component name="CMakeRunConfigurationManager">
     <generated>
       <config projectName="MadlineEngine" targetName="imgui" />
+      <config projectName="MadlineEngine" targetName="CelestePet" />
       <config projectName="MadlineEngine" targetName="vkbootstrap" />
+      <config projectName="MadlineEngine" targetName="Engine" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -24,30 +26,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="gitignore 2, electric boogaloo">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="fixed glfw">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/include/glfw/game_window.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/glfw/game_window.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/include/glfw/input.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/glfw/input.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/src/glfw/game_window.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/glfw/game_window.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imconfig.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_demo.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_draw.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_impl_glfw.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_impl_glfw.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_impl_vulkan.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_impl_vulkan.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_internal.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_stdlib.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_stdlib.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_tables.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_widgets.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imstb_rectpack.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imstb_textedit.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/imgui/imstb_truetype.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/src/game_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/src/game_engine.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,11 +124,6 @@
       <option name="PARAMETERS" value="" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Project" type="CMakeListConfigurationType" factoryName="CMakeListConfigurationFactory" temporary="true">
       <method v="2" />
     </configuration>
@@ -155,6 +133,11 @@
       </method>
     </configuration>
     <configuration name="Engine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="Engine" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -361,7 +344,8 @@
       <workItem from="1742360118058" duration="575000" />
       <workItem from="1742379018331" duration="2581000" />
       <workItem from="1742458852157" duration="6294000" />
-      <workItem from="1742508999851" duration="2316000" />
+      <workItem from="1742508999851" duration="2610000" />
+      <workItem from="1742513505102" duration="737000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <option name="closed" value="true" />
@@ -435,7 +419,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742470656364</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="fixed glfw">
+      <option name="closed" value="true" />
+      <created>1742511555707</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1742511555707</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -477,7 +469,8 @@
     <MESSAGE value="glfw broken link" />
     <MESSAGE value="gitignore" />
     <MESSAGE value="gitignore 2, electric boogaloo" />
-    <option name="LAST_COMMIT_MESSAGE" value="gitignore 2, electric boogaloo" />
+    <MESSAGE value="fixed glfw" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed glfw" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

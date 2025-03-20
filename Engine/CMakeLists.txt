@@ -12,14 +12,14 @@ set(PLAT_SRC "platform/src")
 set(VK_SRC "${PLAT_SRC}/vulkan")
 set(GLFW_SRC "${PLAT_SRC}/glfw")
 
-#set(VULKAN_SOURCES "\
-#${VK_SRC}/vk_descriptors.cpp;\
-#${VK_SRC}/vk_engine.cpp;\
-#${VK_SRC}/vk_images.cpp;\
-#${VK_SRC}/vk_initialisers.cpp;\
-#${VK_SRC}/vk_loader.cpp;\
-#${VK_SRC}/vk_pipelines.cpp;\
-#")
+set(VULKAN_SOURCES "\
+${VK_SRC}/vk_descriptors.cpp;\
+${VK_SRC}/vk_engine.cpp;\
+${VK_SRC}/vk_images.cpp;\
+${VK_SRC}/vk_initialisers.cpp;\
+${VK_SRC}/vk_loader.cpp;\
+${VK_SRC}/vk_pipelines.cpp;\
+")
 
 set(WINDOWS_SOURCES "\
 ${GLFW_SRC}/data_type.cpp;\
@@ -36,7 +36,7 @@ src/game_engine.cpp;\
 ")
 
 add_library(Engine STATIC)
-target_sources(Engine PRIVATE  ${WINDOWS_SOURCES} ${GAME_SOURCES} ${MAIN_SOURCES})
+target_sources(Engine PRIVATE ${VULKAN_SOURCES} ${WINDOWS_SOURCES} ${GAME_SOURCES} ${MAIN_SOURCES})
 target_link_libraries(Engine PUBLIC vma glm Vulkan::Vulkan stb_image vkbootstrap imgui glfw)
 target_link_libraries(Engine INTERFACE glm)
 target_include_directories(Engine PUBLIC "platform/include")

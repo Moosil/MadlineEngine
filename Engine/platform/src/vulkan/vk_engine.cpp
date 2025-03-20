@@ -23,6 +23,7 @@
 
 #include "glfw/game_window.h"
 
+
 #include "vulkan/vk_images.h"
 #include "vulkan/vk_initialisers.h"
 #include "vulkan/vk_pipelines.h"
@@ -298,15 +299,18 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 
 	// simple error checking and helpful error messages
 	if (!instanceRet) {
-		throw std::runtime_error(std::format("Failed to create Vulkan instance. Error: {}", instanceRet.error().message()));
+		throw std::runtime_error(std::format("Failed to create Vulkan instance. Error code: {}", instanceRet.error().message()));
 	}
 	
 	const vkb::Instance vkbInst = instanceRet.value();
 
 	instance = vkbInst.instance;
 	debugMessenger = vkbInst.debug_messenger;
-	
-	window.getVulkanSurface(instance, &surface);
+
+	VkResult err = glfwCreateWindowSurface(instance, window.getWindow(), nullptr, &surface);
+	if (err != VK_SUCCESS) {
+		throw std::runtime_error(std::format("Failed to create window surface. Error code: {}", int(err)));
+	};
 	
 	//vulkan 1.3 features
 	VkPhysicalDeviceVulkan13Features features{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES };
@@ -651,9 +655,9 @@ std::vector<const char*> Madline::GraphicsEngine::getRequiredExtensions() {
 	
 	for (auto extensionName : glfwRequirementNames) {
 		if (std::find_if(extensions.begin(), extensions.end(), [&extensionName](const VkExtensionProperties &ext) {
-			    return ext.extensionName == extensionName;
+		    return ext.extensionName == extensionName;
 	    }) == extensions.end()) {
-			throw std::runtime_error(std::format("{}, a required Vulkan extension for glfw is not supported :(", extensionName));
+			//throw std::runtime_error(std::format("{}, a required Vulkan extension for glfw is not supported :(", extensionName));
 		}
 	}
 	

@@ -37,7 +37,7 @@ namespace Madline {
 
 		Rect2(T x, T y, T width, T height) : pos(Vec2<T>(x, y)), size(Vec2<T>(width, height)){};
 		
-		Rect2(T width, T height) : pos(Vec2<T>(0, 0)), size(Vec2<T>(0, 0)) {};
+		Rect2(T width, T height) : pos(Vec2<T>(0, 0)), size(Vec2<T>(width, height)) {};
 
 		bool operator==(const Rect2 &other) const {
 			return pos == other.pos && size == other.size;
