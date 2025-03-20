@@ -7,6 +7,14 @@
 /dataSources/
 /dataSources.local.xml
 
+cmake-build-debug/
+
+.clang-format
+
+bin/
+
+spv/
+
 # Prerequisites
 *.d
 
