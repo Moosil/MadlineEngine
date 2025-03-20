@@ -45,3 +45,8 @@ target_sources(imgui PRIVATE
 target_link_libraries(imgui PUBLIC Vulkan::Vulkan dwmapi)
 
 target_include_directories(stb_image INTERFACE stb_image)
+
+add_library(glfw STATIC IMPORTED)
+set_target_properties(glfw PROPERTIES
+        IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/lib-vc2019/glfw3.lib"
+        INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/include")

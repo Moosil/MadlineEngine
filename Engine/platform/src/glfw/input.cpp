@@ -2,7 +2,7 @@
 // Created by School on 2025/3/10.
 //
 
-#include "windows/input.h"
+#include "glfw/input.h"
 
 void Madline::resetInput(Madline::Input* input) {
 	input->lmb = {};

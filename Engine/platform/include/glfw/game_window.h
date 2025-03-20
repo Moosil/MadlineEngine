@@ -9,12 +9,10 @@
 
 #include "CelestePetConsts.h"
 
-#ifdef _WIN32
-#include <Windows.h>
+#include <glfw3.h>
 
-#include "windows/data_type.h"
-#include "windows/input.h"
-#endif//_WIN32
+#include "glfw/data_type.h"
+#include "glfw/input.h"
 
 #ifdef RENDER_VULKAN
 #include <vulkan/vulkan.h>

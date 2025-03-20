@@ -10,12 +10,7 @@
     <option name="reloaded" value="true" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated>
-      <config projectName="MadlineEngine" targetName="imgui" />
-      <config projectName="MadlineEngine" targetName="CelestePet" />
-      <config projectName="MadlineEngine" targetName="vkbootstrap" />
-      <config projectName="MadlineEngine" targetName="Engine" />
-    </generated>
+    <generated />
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -23,16 +18,76 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="imgui">
+    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="windows api yucky -&gt; glfw">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/include/windows/data_type.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/include/windows/game_window.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/include/windows/input.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/src/windows/data_type.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/glfw/data_type.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/src/windows/game_window.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/glfw/game_window.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/src/windows/input.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/glfw/input.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/glfw/game_window.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/glfw/game_window.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/glfw/input.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/glfw/input.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/include/GLFW/glfw3.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/include/GLFW/glfw3native.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_init.m" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_joystick.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_joystick.m" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_monitor.m" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_platform.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_time.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_time.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_window.m" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/context.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/egl_context.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/glfw.rc.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/glx_context.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/init.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/input.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/internal.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/linux_joystick.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/linux_joystick.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/mappings.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/mappings.h.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/monitor.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/nsgl_context.m" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_init.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_joystick.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_joystick.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_monitor.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_platform.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_window.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/osmesa_context.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/platform.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/platform.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_module.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_poll.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_poll.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_thread.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_thread.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_time.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_time.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/vulkan.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wgl_context.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_init.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_joystick.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_joystick.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_module.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_monitor.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_platform.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_thread.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_thread.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_time.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_time.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_window.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/window.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wl_init.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wl_monitor.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wl_platform.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wl_window.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/x11_init.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/x11_monitor.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/x11_platform.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/x11_window.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/xkb_unicode.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/xkb_unicode.h" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,34 +112,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Batch.Compile Shaders.executor&quot;: &quot;Run&quot;,
-    &quot;CMake Application.CelestePet.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.advertisement.text.overridden&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/School/CLionProjects/MadlineEngine/CelestePet/shaders&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.updates&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Batch.Compile Shaders.executor": "Run",
+    "CMake Application.CelestePet.executor": "Run",
+    "CMake Debug.Project.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.advertisement.text.overridden": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/School/CLionProjects/MadlineEngine/CelestePet/shaders",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C/C++",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\School\CLionProjects\MadlineEngine\CelestePet\shaders" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.CelestePet">
+  <component name="RunManager" selected="CMake Debug.Project">
     <configuration default="true" type="ccruntests" factoryName="Run Study Tests">
       <module name="MadlineEngine" />
       <option name="ENV_FILES" value="" />
@@ -117,28 +173,10 @@
       <option name="PARAMETERS" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="CelestePet" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="CelestePet" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="MadlineEngine" RUN_TARGET_NAME="CelestePet">
-      <method v="2">
-        <option name="RunConfigurationTask" enabled="true" run_configuration_name="Compile Shaders" run_configuration_type="BatchConfigurationType" />
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Engine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="Engine" CONFIG_NAME="Debug">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
+    <configuration name="Project" type="CMakeListConfigurationType" factoryName="CMakeListConfigurationFactory" temporary="true">
+      <method v="2" />
     </configuration>
     <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="imgui" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="imgui" CONFIG_NAME="Debug">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="vkbootstrap" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="vkbootstrap" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -310,11 +348,13 @@
     </configuration>
     <list>
       <item itemvalue="Batch.Compile Shaders" />
-      <item itemvalue="CMake Application.CelestePet" />
-      <item itemvalue="CMake Application.Engine" />
-      <item itemvalue="CMake Application.imgui" />
-      <item itemvalue="CMake Application.vkbootstrap" />
+      <item itemvalue="CMake Debug.Project" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="CMake Debug.Project" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -361,7 +401,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742380753813</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="windows api yucky -&gt; glfw">
+      <option name="closed" value="true" />
+      <created>1742449198535</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1742449198535</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -398,7 +446,19 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="." />
     <MESSAGE value="imgui" />
-    <option name="LAST_COMMIT_MESSAGE" value="imgui" />
+    <MESSAGE value="windows api yucky -&gt; glfw" />
+    <option name="LAST_COMMIT_MESSAGE" value="windows api yucky -&gt; glfw" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="CMakeLineBreakpoint">
+          <url>file://$PROJECT_DIR$/third_party/glfw/src/CMakeLists.txt</url>
+          <line>359</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
