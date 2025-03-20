@@ -8,7 +8,9 @@
 /dataSources.local.xml
 
 bin/
+spv/
 cmake-build-debug/
+
 
 # Prerequisites
 *.d
