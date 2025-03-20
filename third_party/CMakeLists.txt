@@ -29,8 +29,7 @@ target_include_directories(glm INTERFACE glm)
 add_library(glfw STATIC IMPORTED GLOBAL)
 set_target_properties(glfw PROPERTIES
         IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/glfw/lib-mingw-w64/libglfw3.a"
-        INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/glfw/include/GLFW")
-
+        INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/glfw/include")
 
 add_library(imgui STATIC)
 
@@ -45,9 +44,9 @@ target_sources(imgui PRIVATE
         imgui/imgui_widgets.cpp
         imgui/imgui_tables.cpp
         imgui/imgui_impl_vulkan.cpp
-        imgui/imgui_impl_win32.cpp
+        imgui/imgui_impl_glfw.cpp
 )
 
-target_link_libraries(imgui PUBLIC Vulkan::Vulkan)
+target_link_libraries(imgui PUBLIC Vulkan::Vulkan glfw)
 
 target_include_directories(stb_image INTERFACE stb_image)

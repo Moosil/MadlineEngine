@@ -5,7 +5,7 @@
 #include <format>
 
 #include <imgui.h>
-#include <imgui_impl_win32.h>
+#include <imgui_impl_glfw.h>
 
 #include "CelestePetConsts.h"
 

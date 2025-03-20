@@ -9,7 +9,7 @@
 
 #include <glm.hpp>
 
-#include <glfw3.h>
+#include <GLFW/glfw3.h>
 
 namespace Madline {
 	struct Button
