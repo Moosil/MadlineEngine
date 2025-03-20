@@ -9,16 +9,6 @@
 
 namespace Madline {
 	int startGame(Madline::Engine &gameEngine);
-
-	std::string getLastErrorString();
-
-	void errorPrint(const std::string &message);
-
-	size_t getFileSize(const std::string &name);
-
-	bool readEntireFile(const std::string &name, std::vector<char> &data);
-
-	bool writeEntireFile(const std::string &name, void *buffer, size_t s);
 }
 
 #endif//CELESTEPET_GAME_ENGINE_H

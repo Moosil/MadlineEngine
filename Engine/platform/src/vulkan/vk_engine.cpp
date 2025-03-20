@@ -21,10 +21,7 @@
 #include <imgui.h>
 #include <imgui_impl_vulkan.h>
 
-#ifdef _WIN32
 #include "glfw/game_window.h"
-#include <imgui_impl_win32.h>
-#endif//_WIN32
 
 #include "vulkan/vk_images.h"
 #include "vulkan/vk_initialisers.h"
@@ -113,7 +110,7 @@ void Madline::GraphicsEngine::cleanup() {
 void Madline::GraphicsEngine::drawLoop() {
 	// imgui new frame
 	ImGui_ImplVulkan_NewFrame();
-	ImGui_ImplWin32_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 	
 	//some imgui UI to test
@@ -238,7 +235,7 @@ void Madline::GraphicsEngine::draw() {
 	
 	#pragma region Draw 6
 		//Prepare present
-		// this will put the image we just rendered to into the visible window.
+		// this will put the image we just rendered to into the visible mWindow.
 		// We want to wait on the _renderSemaphore for that,
 		// as its necessary that drawing commands have finished before the image is displayed to the user
 		VkPresentInfoKHR presentInfo = {};
@@ -286,17 +283,22 @@ void Madline::GraphicsEngine::immediateSubmit(std::function<void(VkCommandBuffer
 
 
 void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
+	std::vector<const char*> extensions = getRequiredExtensions();
+	
 	vkb::InstanceBuilder instanceBuilder;
 	auto instanceRet = instanceBuilder
-	                            .set_app_name("Celeste Pet")
-	                            .request_validation_layers(USE_VALIDATION_LAYERS)
-	                            .require_api_version(1,3,0)
-	                            .build(); // build is always called last
+		.set_app_name(GAME_NAME)
+		.set_app_version(1, 0, 0)
+		.set_engine_name("MadlineEngine")
+		.set_engine_version(1, 0, 0)
+		.require_api_version(1,3,0)
+		.request_validation_layers(USE_VALIDATION_LAYERS)
+		.enable_extensions(extensions)
+		.build(); // build is always called last
 
 	// simple error checking and helpful error messages
 	if (!instanceRet) {
-		std::cerr << "Failed to create Vulkan instance. Error: " << instanceRet.error().message() << "\n";
-		throw std::exception();
+		throw std::runtime_error(std::format("Failed to create Vulkan instance. Error: {}", instanceRet.error().message()));
 	}
 	
 	const vkb::Instance vkbInst = instanceRet.value();
@@ -395,7 +397,7 @@ void Madline::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height) {
 void Madline::GraphicsEngine::initSwapchain() {
 	createSwapchain(windowExtent.width, windowExtent.height);
 	
-	//draw image size will match the window
+	//draw image size will match the mWindow
 	VkExtent3D drawImageExtent = {
 		windowExtent.width,
 		windowExtent.height,
@@ -601,7 +603,7 @@ void Madline::GraphicsEngine::initImgui() {
 	ImGui::CreateContext();
 
 	// this initializes imgui for Win32
-	ImGui_ImplWin32_Init(mWindow->getHwnd());
+	ImGui_ImplGlfw_InitForVulkan(mWindow->getWindow(), true);
 
 	// this initializes imgui for Vulkan
 	ImGui_ImplVulkan_InitInfo initInfo = {};
@@ -631,4 +633,29 @@ void Madline::GraphicsEngine::initImgui() {
 		ImGui_ImplVulkan_Shutdown();
 		vkDestroyDescriptorPool(device, imguiPool, nullptr);
 	});
+}
+std::vector<const char*> Madline::GraphicsEngine::getRequiredExtensions() {
+	uint32_t extensionCount = 0;
+	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+	std::vector<VkExtensionProperties> extensions(extensionCount);
+	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+	
+	uint32_t glfwExtensionCount = 0;
+	const char** glfwExtensions;
+	glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+	
+	std::vector<const char*> glfwRequirementNames;
+	for (size_t i = 0; i < glfwExtensionCount; i++) {
+		glfwRequirementNames.push_back(glfwExtensions[i]);
+	}
+	
+	for (auto extensionName : glfwRequirementNames) {
+		if (std::find_if(extensions.begin(), extensions.end(), [&extensionName](const VkExtensionProperties &ext) {
+			    return ext.extensionName == extensionName;
+	    }) == extensions.end()) {
+			throw std::runtime_error(std::format("{}, a required Vulkan extension for glfw is not supported :(", extensionName));
+		}
+	}
+	
+	return glfwRequirementNames;
 }

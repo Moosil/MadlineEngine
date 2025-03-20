@@ -16,15 +16,10 @@
 
 #include <glm.hpp>
 
-#ifdef _WIN32
-#define NOMINMAX
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
 
-#include "windows/data_type.h"
-#include "windows/input.h"
-#include "windows/game_window.h"
-#endif// _WIN32
+#include "glfw/data_type.h"
+#include "glfw/input.h"
+#include "glfw/game_window.h"
 
 #ifdef RENDER_VULKAN
 #include "vulkan/vk_engine.h"

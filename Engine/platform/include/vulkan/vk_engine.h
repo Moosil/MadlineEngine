@@ -10,10 +10,8 @@
 #include "vulkan/vk_types.h"
 #include "vk_descriptors.h"
 
-#ifdef _WIN32
-#include "windows/game_window.h"
-#include "windows/data_type.h"
-#endif//_WIN32
+#include "glfw/game_window.h"
+#include "glfw/data_type.h"
 
 constexpr unsigned int FRAME_OVERLAP = 2;
 
@@ -64,7 +62,7 @@ namespace Madline {
 		VkQueue graphicsQueue{};
 		uint32_t graphicsQueueFamily{};
 		
-		VkSurfaceKHR surface{};// Vulkan window surface
+		VkSurfaceKHR surface{};// Vulkan mWindow surface
 		VkSwapchainKHR swapchain{};
 		VkFormat swapchainImageFormat{};
 		VkExtent2D swapchainExtent{};
@@ -99,6 +97,8 @@ namespace Madline {
 		void initPipelines();
 		void initBackgroundPipelines();
 		void initImgui();
+		
+		static std::vector<const char*> getRequiredExtensions();
 		
 		void createSwapchain(uint32_t width, uint32_t height);
 		void destroySwapchain();

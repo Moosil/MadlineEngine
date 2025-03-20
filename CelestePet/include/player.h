@@ -8,9 +8,7 @@
 #include "glm.hpp"
 #include <string>
 
-#ifdef _WIN32
-#include "windows/data_type.h"
-#endif//_WIN32
+#include "glfw/data_type.h"
 
 class Player {
 public:

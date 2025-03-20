@@ -14,16 +14,27 @@
 #ifdef RENDER_VULKAN
 #include <VkBootstrap.h>
 #include <vulkan/vulkan.h>
-#include <vulkan/vulkan_win32.h>
+
 #include "vulkan/vk_types.h"
 #endif
 
 
-Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
+Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) { // NOLINT(*-pro-type-member-init)
 	std::printf("Started Creating Window\n");
+	
+	initWindow();
+	
+	lastFrameTime = std::chrono::high_resolution_clock::now();
+	
+	std::printf("Finished Creating Window\n");
+}
+
+void Madline::Window::initWindow() {
 	glfwInit();
 	
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+	glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
 	
 	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 	
@@ -34,127 +45,14 @@ Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
 	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
 	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 	
-	window = glfwCreateWindow(mode->width, mode->height, GAME_NAME, monitor, nullptr);
-	
-	lastFrameTime = std::chrono::high_resolution_clock::now();
-	
 	screenRect = Rect2<int>(mode->width, mode->height);
-	
-	std::printf("Finished Creating Window\n");
+
+	mWindow = glfwCreateWindow(mode->width, mode->height, GAME_NAME, monitor, nullptr);
 }
 
 Madline::Window::~Window() {
-    DestroyWindow(mHwnd);
-	mHwnd = nullptr;
-}
-
-LRESULT CALLBACK Madline::Window::staticWindowProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
-	Window* self;
-	
-	if (msg == WM_NCCREATE)	{
-		auto *cs = (CREATESTRUCT*) lp;
-		self = static_cast<Window*>(cs->lpCreateParams);
-		self->mHwnd = pHwnd;
-		SetLastError(0);
-		if (SetWindowLongPtr(pHwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(self)) == 0)
-		{
-			if (GetLastError() != 0)
-				return false;
-		}
-	}
-	else
-	{
-		self = reinterpret_cast<Window*>(GetWindowLongPtr(pHwnd, GWLP_USERDATA));
-	}
-
-	if (self)
-		return self->windowProc(msg, wp, lp);
-
-	return DefWindowProc(pHwnd, msg, wp, lp);
-}
-
-LRESULT Madline::Window::windowProc(unsigned int msg, WPARAM wp, LPARAM lp) {
-	LRESULT rez = 0;
-	
-	bool pressed = false;
-
-	switch (msg) {
-
-		case WM_CLOSE: {
-			running = false;
-			break;
-		}
-
-		case WM_LBUTTONDOWN: {
-			processEventButton(input.lmb, true);
-			break;
-		}
-
-		case WM_LBUTTONUP: {
-			processEventButton(input.lmb, false);
-			break;
-		}
-
-		case WM_RBUTTONDOWN: {
-			processEventButton(input.rmb, true);
-			break;
-		}
-
-		case WM_RBUTTONUP: {
-			processEventButton(input.rmb, false);
-			break;
-		}
-
-		case WM_SYSKEYDOWN: case WM_KEYDOWN:
-			pressed = true;
-		case WM_SYSKEYUP: case WM_KEYUP: {
-			bool altPressed = lp & (1 << 29);
-
-			for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
-				if (wp == Button::buttonValues[i]) {
-					processEventButton(input.keyBoard[i], pressed);
-					input.keyBoard[i].altPressed = altPressed;
-				}
-			}
-
-			// so alt + f4 works
-			rez = DefWindowProc(mHwnd, msg, wp, lp);
-		} break;
-
-		case WM_SETFOCUS: {
-			setFocused(true);
-			break;
-		}
-
-		case WM_KILLFOCUS: {
-			setFocused(false);
-			break;
-		}
-		
-		case WM_WINDOWPOSCHANGING: {
-			auto *pos = (WINDOWPOS *) lp;
-
-			if (pos->x == -32000) {
-				// Set the flags to prevent this and "survive" to the desktop toggle
-				pos->flags |= SWP_NOMOVE | SWP_NOSIZE;
-			}
-
-			pos->hwndInsertAfter = HWND_BOTTOM;
-			break;
-		}
-
-		case WM_NCHITTEST: {
-			rez = HTNOWHERE;
-			break;
-		}
-		
-        default: {
-			rez = DefWindowProc(mHwnd, msg, wp, lp);
-			break;
-		}
-	}
-	
-	return rez;
+	glfwDestroyWindow(mWindow);
+	glfwTerminate();
 }
 
 float Madline::Window::getDeltaTime() {
@@ -167,24 +65,24 @@ float Madline::Window::getDeltaTime() {
 }
 
 void Madline::Window::gameLoop() {
-	MSG msg = {};
-	while (PeekMessage(&msg, mHwnd, 0, 0, PM_REMOVE) > 0) {
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+	glfwPollEvents();
+	if (glfwWindowShouldClose(mWindow)) {
+		running = false;
 	}
+//	MSG msg = {};
+//	while (PeekMessage(&msg, mHwnd, 0, 0, PM_REMOVE) > 0) {
+//		TranslateMessage(&msg);
+//		DispatchMessage(&msg);
+//	}
 	
-	POINT point;
-	GetCursorPos(&point);
-	ScreenToClient(mHwnd, &point);
-	input.cursorPos = Madline::vec2iFromPoint(point);
-
-	RECT rect = {};
-	GetWindowRect(mHwnd, &rect);
-	screenRect = static_cast<Rect2<int>>(rect);
+//	POINT point;
+//	GetCursorPos(&point);
+//	ScreenToClient(mHwnd, &point);
+//	input.cursorPos = Madline::vec2iFromPoint(point);
 }
 
-HWND Madline::Window::getHwnd() const {
-	return mHwnd;
+GLFWwindow* Madline::Window::getWindow() const {
+	return mWindow;
 }
 
 int Madline::Window::getMinFps() const {
@@ -302,18 +200,18 @@ std::vector<int> Madline::Window::getButtonsReleased() const {
 	return released;
 }
 
-#ifdef RENDER_VULKAN
-void Madline::Window::getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) const {
-	
-	
-	VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
-	surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-	surfaceCreateInfo.hwnd = mHwnd;
-	surfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
-	
-	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, surface));
-}
-void Madline::Window::test() {
-	SetLayeredWindowAttributes(mHwnd, RGB(0, 0, 0), 0, LWA_COLORKEY);
-}
-#endif//RENDER_VULKAN
+//#ifdef RENDER_VULKAN
+//void Madline::Window::getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) const {
+//
+//
+//	VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
+//	surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+//	surfaceCreateInfo.hwnd = mHwnd;
+//	surfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
+//
+//	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, surface));
+//}
+//void Madline::Window::test() {
+//	SetLayeredWindowAttributes(mHwnd, RGB(0, 0, 0), 0, LWA_COLORKEY);
+//}
+//#endif//RENDER_VULKAN

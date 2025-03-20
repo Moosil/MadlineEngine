@@ -26,10 +26,11 @@ target_include_directories(vma INTERFACE vma)
 
 target_include_directories(glm INTERFACE glm)
 
-add_library(glfw STATIC IMPORTED)
+add_library(glfw STATIC IMPORTED GLOBAL)
 set_target_properties(glfw PROPERTIES
-        IMPORTED_LOCATION glfw/lib-vc2022/glfw3.lib
-        INTERFACE_INCLUDE_DIRECTORIES glfw/include)
+        IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/glfw/lib-mingw-w64/libglfw3.a"
+        INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/glfw/include/GLFW")
+
 
 add_library(imgui STATIC)
 

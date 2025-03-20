@@ -7,9 +7,7 @@
 
 #include <format>
 
-#ifdef _WIN32
-#include "windows/game_window.h"
-#endif//_WIN32
+#include "glfw/game_window.h"
 
 namespace Madline {
 	class Engine {

@@ -9,7 +9,8 @@
 
 #include "CelestePetConsts.h"
 
-#include <glfw>
+#include <glfw3.h>
+#include <imgui_impl_glfw.h>
 
 #include "glfw/data_type.h"
 #include "glfw/input.h"
@@ -23,6 +24,9 @@ namespace Madline {
 	public:
 		explicit Window(int minFps = 5);
 		~Window();
+		
+		Window(const Window&) = delete;
+		Window &operator=(const Window&) = delete;
 		
 		void gameLoop();
 		float getDeltaTime();
@@ -57,8 +61,6 @@ namespace Madline {
 		[[nodiscard]] std::vector<int> getButtonsTriggered() const;
 		[[nodiscard]] std::vector<int> getButtonsHeld() const;
 		[[nodiscard]] std::vector<int> getButtonsReleased() const;
-		
-		void test();
 
 #ifdef RENDER_VULKAN
 		void getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) const;
@@ -67,12 +69,11 @@ namespace Madline {
 		Madline::Rect2<int> screenRect;
 		bool running = true;
 		int minFps;
-		GLFWwindow* window;
+		GLFWwindow* mWindow;
 		Input input;
 		std::chrono::high_resolution_clock::time_point lastFrameTime;
-
-		static LRESULT CALLBACK staticWindowProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp);
-		LRESULT windowProc(unsigned int msg, WPARAM wp, LPARAM lp);
+		
+		void initWindow();
 	};
 }
 
