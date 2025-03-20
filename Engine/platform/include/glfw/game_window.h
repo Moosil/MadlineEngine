@@ -9,7 +9,7 @@
 
 #include "CelestePetConsts.h"
 
-#include <glfw3.h>
+#include <glfw>
 
 #include "glfw/data_type.h"
 #include "glfw/input.h"
@@ -27,7 +27,7 @@ namespace Madline {
 		void gameLoop();
 		float getDeltaTime();
 		
-		[[nodiscard]] HWND getHwnd() const;
+		[[nodiscard]] GLFWwindow* getWindow() const;
 		[[nodiscard]] int getMinFps() const;
 		[[nodiscard]] Rect2<int> getScreenRect() const;
 		[[nodiscard]] bool isRunning() const;
@@ -67,7 +67,7 @@ namespace Madline {
 		Madline::Rect2<int> screenRect;
 		bool running = true;
 		int minFps;
-		HWND mHwnd;
+		GLFWwindow* window;
 		Input input;
 		std::chrono::high_resolution_clock::time_point lastFrameTime;
 

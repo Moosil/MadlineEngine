@@ -22,7 +22,7 @@
 #include <imgui_impl_vulkan.h>
 
 #ifdef _WIN32
-#include "windows/game_window.h"
+#include "glfw/game_window.h"
 #include <imgui_impl_win32.h>
 #endif//_WIN32
 

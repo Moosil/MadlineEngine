@@ -8,43 +8,41 @@
 
 #include <glm.hpp>
 
-#ifdef _WIN32
-#include <Windows.h>
-#endif//_WIN32
-
 namespace Madline {
-	glm::vec<2, int> vec2iFromPoint(POINT point);
-
 #pragma region Rect
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCInconsistentNamingInspection"
+	template<typename T = float, glm::qualifier Q = glm::defaultp>
+	using Vec2 = glm::tvec2<T, Q>;
+	using Vec2f = glm::tvec2<float, glm::defaultp>;
+	using Vec2i = glm::tvec2<int, glm::defaultp>;
+#pragma clang diagnostic pop
+	
 	template<typename T>
 	class Rect2 {
 	public:
-		glm::vec<2, T> pos, size;
+		Vec2<T> pos, size;
 
 		Rect2() : pos(), size(){};
 
 		Rect2(const Rect2 &other) = default;
 		
-#ifdef _WIN32
-		template<std::enable_if_t<std::is_integral_v<T>, bool> = true>
-		explicit Rect2<T>(const RECT& rect):
-            pos(glm::vec<2, T>(rect.left, rect.top)),
-            size(glm::vec<2, T>(rect.right - rect.left, rect.bottom - rect.top)) {}
-#endif
-		
 		template<typename U, std::enable_if_t<std::is_convertible_v<U, T>, bool> = true>
 		explicit Rect2(const Rect2<U> &other):
-            pos(glm::vec<2, T>(static_cast<T>(other.pos.x), static_cast<T>(other.pos.y))),
-			size(glm::vec<2, T>(static_cast<T>(other.size.x), static_cast<T>(other.size.y))) {}
+            pos(Vec2<T>(static_cast<T>(other.pos.x), static_cast<T>(other.pos.y))),
+			size(Vec2<T>(static_cast<T>(other.size.x), static_cast<T>(other.size.y))) {}
 
-		Rect2(glm::vec<2, T> pos, glm::vec<2, T> size) : pos(pos), size(size){};
+		Rect2(Vec2<T> pos, Vec2<T> size) : pos(pos), size(size){};
 
-		Rect2(T x, T y, T width, T height) : pos(Vector2<T>(x, y)), size(Vector2<T>(width, height)){};
+		Rect2(T x, T y, T width, T height) : pos(Vec2<T>(x, y)), size(Vec2<T>(width, height)){};
+		
+		Rect2(T width, T height) : pos(Vec2<T>(0, 0)), size(Vec2<T>(0, 0)) {};
 
 		bool operator==(const Rect2 &other) const {
 			return pos == other.pos && size == other.size;
 		}
-
+		
 		bool operator!=(const Rect2 &other) const {
 			return pos != other.pos || size != other.size;
 		}

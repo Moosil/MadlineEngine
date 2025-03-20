@@ -1,8 +1,8 @@
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.28.1)
 
 set(CMAKE_CXX_STANDARD 23)
 
-project(CelestePet)
+project(MadlineEngine)
 
 find_package(Vulkan REQUIRED)
 
@@ -26,6 +26,11 @@ target_include_directories(vma INTERFACE vma)
 
 target_include_directories(glm INTERFACE glm)
 
+add_library(glfw STATIC IMPORTED)
+set_target_properties(glfw PROPERTIES
+        IMPORTED_LOCATION glfw/lib-vc2022/glfw3.lib
+        INTERFACE_INCLUDE_DIRECTORIES glfw/include)
+
 add_library(imgui STATIC)
 
 target_include_directories(imgui PUBLIC imgui)
@@ -42,11 +47,6 @@ target_sources(imgui PRIVATE
         imgui/imgui_impl_win32.cpp
 )
 
-target_link_libraries(imgui PUBLIC Vulkan::Vulkan dwmapi)
+target_link_libraries(imgui PUBLIC Vulkan::Vulkan)
 
 target_include_directories(stb_image INTERFACE stb_image)
-
-add_library(glfw STATIC IMPORTED)
-set_target_properties(glfw PROPERTIES
-        IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/lib-vc2019/glfw3.lib"
-        INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/include")

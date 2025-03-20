@@ -9,7 +9,7 @@
 
 #include "CelestePetConsts.h"
 
-#include "windows/game_window.h"
+#include "glfw/game_window.h"
 
 #ifdef RENDER_VULKAN
 #include <VkBootstrap.h>
@@ -21,57 +21,24 @@
 
 Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
 	std::printf("Started Creating Window\n");
-	WNDCLASS wc = {sizeof(WNDCLASS)};
-	const std::string className = CLASS_NAME;
+	glfwInit();
 	
-	if (!GetClassInfo(GetModuleHandle(nullptr), className.c_str(), &wc)) {
-		wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-		wc.hInstance = GetModuleHandle(nullptr);
-		wc.lpszClassName = className.c_str();
-		wc.style = CS_HREDRAW | CS_VREDRAW;
-		wc.lpfnWndProc = &staticWindowProc;
-
-		assert(RegisterClass(&wc));
-	}
-
-	DEVMODEA devMode = {};
-	devMode.dmSize = sizeof(DEVMODEA);
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	
-	EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &devMode);
-
-#ifdef DEBUG_CELESTE
-	mHwnd = CreateWindowEx(
-        WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT | WS_EX_LAYERED,
-        wc.lpszClassName,
-        WINDOW_NAME,
-        WS_VISIBLE | WS_POPUP,
-        0,
-        0,
-        static_cast<int>(devMode.dmPelsWidth),
-        static_cast<int>(devMode.dmPelsHeight),
-        nullptr, nullptr, GetModuleHandle(nullptr), this
-	);
-#else
-	mHwnd = CreateWindowEx(
-    WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT | WS_EX_LAYERED,
-    wc.lpszClassName,
-    WINDOW_NAME,
-    WS_POPUP | WS_VISIBLE,
-    0,
-    0,
-    static_cast<int>(devMode.dmPelsWidth),
-    static_cast<int>(devMode.dmPelsHeight),
-    nullptr, nullptr, GetModuleHandle(nullptr), this
-    );
-#endif
+	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 	
-	assert(mHwnd);
+	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+	
+	glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+	
+	window = glfwCreateWindow(mode->width, mode->height, GAME_NAME, monitor, nullptr);
 	
 	lastFrameTime = std::chrono::high_resolution_clock::now();
 	
-	RECT rect = {};
-	GetWindowRect(mHwnd, &rect);
-	screenRect = static_cast<Rect2<int>>(rect);
+	screenRect = Rect2<int>(mode->width, mode->height);
 	
 	std::printf("Finished Creating Window\n");
 }

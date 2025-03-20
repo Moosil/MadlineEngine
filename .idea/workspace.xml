@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
@@ -10,7 +13,12 @@
     <option name="reloaded" value="true" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated />
+    <generated>
+      <config projectName="MadlineEngine" targetName="imgui" />
+      <config projectName="MadlineEngine" targetName="CelestePet" />
+      <config projectName="MadlineEngine" targetName="vkbootstrap" />
+      <config projectName="MadlineEngine" targetName="Engine" />
+    </generated>
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -18,85 +26,281 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="windows api yucky -&gt; glfw">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="init glfw">
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/cache-v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/cmakeFiles-v1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/codemodel-v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/toolchains-v1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CMakeCCompiler.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CMakeCXXCompiler.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CMakeRCCompiler.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CMakeSystem.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CompilerIdC/CMakeCCompilerId.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.28.1/CompilerIdCXX/CMakeCXXCompilerId.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/cmake.check_cache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/.cmake/api/v1/query/cache-v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/.cmake/api/v1/query/cmakeFiles-v1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/.cmake/api/v1/query/codemodel-v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/.cmake/api/v1/query/toolchains-v1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-809c8cb746a033054eac.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/.cmake/api/v1/reply/directory-.-Debug-d0094a50bb2071803777.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/.cmake/api/v1/reply/target-vkbootstrap-Debug-96ce2870226903c0b441.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/.cmake/api/v1/reply/toolchains-v1-f1b2b3b9642b509dfa7c.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/3.28.1/CMakeCCompiler.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/3.28.1/CMakeCXXCompiler.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/3.28.1/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/3.28.1/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/3.28.1/CMakeRCCompiler.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/3.28.1/CMakeSystem.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/3.28.1/CompilerIdC/CMakeCCompilerId.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/3.28.1/CompilerIdCXX/CMakeCXXCompilerId.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/cmake.check_cache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/CMakeFiles/rules.ninja" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/build.ninja" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/cmake-build-debug/cmake_install.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/LICENSE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/bc_s.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/bc_sd.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/build_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/build_guide.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/closed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/compat_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/compat_guide.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/compile_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/compile_guide.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/context_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/context_guide.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/deprecated.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/dir_13577e2d8b9423099662de029791bd7d.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/dir_7f92719a7fe62e5b064f87d7a3c220b1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/dir_a788ef6c2b1e5b367804e0b6ccfd6f11.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/dir_b11153cd0f4fd04a7564cc166f482635.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/doc.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/docd.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/doxygen.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/doxygen.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/dynsections.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/extra.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/files.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/folderclosed.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/folderclosedd.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/folderopen.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/folderopend.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/glfw3_8h.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/glfw3_8h_source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/glfw3native_8h.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/glfw3native_8h_source.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__buttons.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__context.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__errors.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__gamepad__axes.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__gamepad__buttons.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__hat__state.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__init.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__input.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__joysticks.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__keys.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__mods.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__monitor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__native.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__shapes.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__vulkan.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/group__window.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/input_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/input_guide.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/internal_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/internals_guide.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/intro_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/intro_guide.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/jquery.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/main_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/menu.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/menudata.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/minus.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/minusd.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/monitor_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/monitor_guide.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/moving_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/moving_guide.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/nav_f.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/nav_fd.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/nav_g.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/nav_h.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/nav_hd.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/news.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/news_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/open.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/pages.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/plus.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/plusd.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/quick_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/quick_guide.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_0.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_10.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_11.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_12.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_13.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_14.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_15.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_16.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_17.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_18.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_19.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_1a.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_1b.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_1c.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_1d.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_1e.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_1f.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_3.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_4.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_5.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_6.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_7.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_8.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_9.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_a.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_b.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_c.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_d.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_e.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/all_f.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/classes_0.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/close.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/defines_0.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/files_0.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/files_1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/files_2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/files_3.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/files_4.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/files_5.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/files_6.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/files_7.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/files_8.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/functions_0.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_0.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_10.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_3.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_4.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_5.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_6.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_7.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_8.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_9.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_a.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_b.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_c.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_d.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_e.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/groups_f.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/mag.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/mag_d.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/mag_sel.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/mag_seld.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_0.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_10.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_11.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_3.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_4.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_5.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_6.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_7.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_8.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_9.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_a.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_b.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_c.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_d.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_e.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/pages_f.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/search.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/search.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/searchdata.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/typedefs_0.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/variables_0.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/variables_1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/variables_2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/variables_3.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/variables_4.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/variables_5.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/variables_6.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/variables_7.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/variables_8.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/search/variables_9.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/spaces.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/splitbar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/splitbard.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/struct_g_l_f_wallocator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/struct_g_l_f_wgamepadstate.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/struct_g_l_f_wgammaramp.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/struct_g_l_f_wimage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/struct_g_l_f_wvidmode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/sync_off.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/sync_on.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/tab_a.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/tab_ad.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/tab_b.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/tab_bd.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/tab_h.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/tab_hd.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/tab_s.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/tab_sd.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/tabs.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/topics.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/vulkan_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/vulkan_guide.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/window_8md.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/docs/html/window_guide.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third_party/glfw/src/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/glfw/data_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/glfw/data_type.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Engine/platform/include/glfw/game_window.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/glfw/game_window.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Engine/platform/include/glfw/input.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/glfw/input.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/glfw/data_type.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/glfw/data_type.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/glfw/game_window.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/glfw/game_window.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/third_party/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/include/GLFW/glfw3.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/include/GLFW/glfw3native.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_init.m" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_joystick.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_joystick.m" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_monitor.m" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_platform.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_time.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_time.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_window.m" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/context.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/egl_context.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/glfw.rc.in" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/glx_context.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/init.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/input.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/internal.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/linux_joystick.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/linux_joystick.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/mappings.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/mappings.h.in" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/monitor.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/nsgl_context.m" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_init.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_joystick.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_joystick.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_monitor.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_platform.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_window.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/osmesa_context.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/platform.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/platform.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_module.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_poll.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_poll.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_thread.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_thread.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_time.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_time.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/vulkan.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wgl_context.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_init.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_joystick.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_joystick.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_module.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_monitor.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_platform.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_thread.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_thread.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_time.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_time.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_window.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/window.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wl_init.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wl_monitor.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wl_platform.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wl_window.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/x11_init.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/x11_monitor.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/x11_platform.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/x11_window.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/xkb_unicode.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/xkb_unicode.h" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ChangesViewManager" show_ignored="true">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="OCResolveContextSettings">
+    <option name="configuration" value="0-Debug-Engine" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -140,7 +344,7 @@
       <recent name="C:\Users\School\CLionProjects\MadlineEngine\CelestePet\shaders" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Debug.Project">
+  <component name="RunManager" selected="CMake Application.CelestePet">
     <configuration default="true" type="ccruntests" factoryName="Run Study Tests">
       <module name="MadlineEngine" />
       <option name="ENV_FILES" value="" />
@@ -176,7 +380,27 @@
     <configuration name="Project" type="CMakeListConfigurationType" factoryName="CMakeListConfigurationFactory" temporary="true">
       <method v="2" />
     </configuration>
+    <configuration name="CelestePet" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="CelestePet" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="MadlineEngine" RUN_TARGET_NAME="CelestePet">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Engine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="Engine" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="imgui" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="imgui" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="vkbootstrap" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="vkbootstrap" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -348,6 +572,10 @@
     </configuration>
     <list>
       <item itemvalue="Batch.Compile Shaders" />
+      <item itemvalue="CMake Application.CelestePet" />
+      <item itemvalue="CMake Application.Engine" />
+      <item itemvalue="CMake Application.imgui" />
+      <item itemvalue="CMake Application.vkbootstrap" />
       <item itemvalue="CMake Debug.Project" />
     </list>
     <recent_temporary>
@@ -409,7 +637,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742449198535</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="init glfw">
+      <option name="closed" value="true" />
+      <created>1742451725443</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1742451725443</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -447,7 +683,8 @@
     <MESSAGE value="." />
     <MESSAGE value="imgui" />
     <MESSAGE value="windows api yucky -&gt; glfw" />
-    <option name="LAST_COMMIT_MESSAGE" value="windows api yucky -&gt; glfw" />
+    <MESSAGE value="init glfw" />
+    <option name="LAST_COMMIT_MESSAGE" value="init glfw" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

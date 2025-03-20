@@ -4,11 +4,7 @@
 
 #include <format>
 
-#include "windows/data_type.h"
-
-glm::vec<2, int> Madline::vec2iFromPoint(POINT point) {
-	return {point.x, point.y};
-}
+#include "glfw/data_type.h"
 
 #pragma region Colour
 Madline::Colour::Colour(): r(0), g(0), b(0), a(0) {}
