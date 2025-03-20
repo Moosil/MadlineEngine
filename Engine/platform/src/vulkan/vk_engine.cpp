@@ -202,21 +202,13 @@ void Madline::GraphicsEngine::draw() {
 
 	    // execute a copy from the draw image into the swapchain
 	    VkUtil::copyImageToImage(cmd, drawImage.image, swapchainImages[swapchainImageIndex], drawExtent, swapchainExtent);
-
-	    // set swapchain image layout to Present, so we can show it on the screen
-	    VkUtil::transitionImage(cmd, swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
-
-	    //finalize the command buffer (we can no longer add commands, but it can now be executed)
-	    VK_CHECK(vkEndCommandBuffer(cmd));
-	#pragma endregion
-
-	#pragma region Draw Imgui
-	    // execute a copy from the draw image into the swapchain
-	    VkUtil::copyImageToImage(cmd, drawImage.image, swapchainImages[swapchainImageIndex], drawExtent, swapchainExtent);
 	    
 	    // set swapchain image layout to Attachment Optimal, so we can draw it
 	    VkUtil::transitionImage(cmd, swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+	#pragma endregion
 
+	#pragma region Draw Imgui
+	    
 	    //draw imgui into the swapchain image
 	    drawImgui(cmd,  swapchainImageViews[swapchainImageIndex]);
 

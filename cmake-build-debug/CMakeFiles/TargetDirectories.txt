@@ -1,0 +1,12 @@
+C:/Users/School/CLionProjects/MadlineEngine/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/School/CLionProjects/MadlineEngine/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/School/CLionProjects/MadlineEngine/cmake-build-debug/third_party/CMakeFiles/vkbootstrap.dir
+C:/Users/School/CLionProjects/MadlineEngine/cmake-build-debug/third_party/CMakeFiles/imgui.dir
+C:/Users/School/CLionProjects/MadlineEngine/cmake-build-debug/third_party/CMakeFiles/edit_cache.dir
+C:/Users/School/CLionProjects/MadlineEngine/cmake-build-debug/third_party/CMakeFiles/rebuild_cache.dir
+C:/Users/School/CLionProjects/MadlineEngine/cmake-build-debug/Engine/CMakeFiles/Engine.dir
+C:/Users/School/CLionProjects/MadlineEngine/cmake-build-debug/Engine/CMakeFiles/edit_cache.dir
+C:/Users/School/CLionProjects/MadlineEngine/cmake-build-debug/Engine/CMakeFiles/rebuild_cache.dir
+C:/Users/School/CLionProjects/MadlineEngine/cmake-build-debug/CelestePet/CMakeFiles/CelestePet.dir
+C:/Users/School/CLionProjects/MadlineEngine/cmake-build-debug/CelestePet/CMakeFiles/edit_cache.dir
+C:/Users/School/CLionProjects/MadlineEngine/cmake-build-debug/CelestePet/CMakeFiles/rebuild_cache.dir

@@ -214,8 +214,6 @@ void Madline::Window::gameLoop() {
 	RECT rect = {};
 	GetWindowRect(mHwnd, &rect);
 	screenRect = static_cast<Rect2<int>>(rect);
-
-	ImGui::Render();
 }
 
 HWND Madline::Window::getHwnd() const {
