@@ -2,8 +2,8 @@
 // Created by School on 2025/3/11.
 //
 
-#ifndef CELESTEPET_DATA_TYPE_H
-#define CELESTEPET_DATA_TYPE_H
+#ifndef MADLINEENGINE_DATA_TYPE_H
+#define MADLINEENGINE_DATA_TYPE_H
 
 
 #include <glm.hpp>
@@ -73,12 +73,14 @@ namespace Madline {
 
 		explicit Colour(std::string hex);
 
+		explicit operator glm::vec4() const;
+		
 		std::string getHex(bool withAlpha = false);
-
+		
 		static const Colour NONE;
 		static const Colour WHITE;
 		static const Colour BLACK;
 	};
 }
 
-#endif//CELESTEPET_DATA_TYPE_H
+#endif//MADLINEENGINE_DATA_TYPE_H

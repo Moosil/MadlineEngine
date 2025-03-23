@@ -43,6 +43,15 @@ Madline::Colour::Colour(std::string hex) {
 	}
 }
 
+Madline::Colour::operator glm::vec4() const  {
+	return glm::vec4{
+        static_cast<float>(r) / 256,
+        static_cast<float>(g) / 256,
+        static_cast<float>(b) / 256,
+        static_cast<float>(a) / 256
+	};
+}
+
 std::string Madline::Colour::getHex(bool withAlpha) {
 	std::string hex = std::format("{:x}", r) + std::format("{:x}", g) + std::format("{:x}", b);
 	if (withAlpha) {

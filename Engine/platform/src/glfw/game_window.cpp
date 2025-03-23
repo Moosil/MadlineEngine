@@ -18,6 +18,12 @@
 #include "vulkan/vk_types.h"
 #endif
 
+#ifdef _WIN64
+#define GLFW_EXPOSE_NATIVE_WIN32
+#endif
+
+#include <GLFW/glfw3native.h>
+
 
 Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) { // NOLINT(*-pro-type-member-init)
 	std::printf("Started Creating Window\n");
@@ -32,9 +38,10 @@ Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) { 
 void Madline::Window::initWindow() {
 	glfwInit();
 	
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 	glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
+	glfwWindowHint(GLFW_FOCUS_ON_SHOW, GLFW_FALSE);
 	
 	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 	
@@ -48,6 +55,10 @@ void Madline::Window::initWindow() {
 	screenRect = Rect2<int>(mode->width, mode->height);
 
 	mWindow = glfwCreateWindow(mode->width, mode->height, GAME_NAME, monitor, nullptr);
+	
+	windowHwnd = glfwGetWin32Window(mWindow);
+	
+	originalWindowProc = GetClassLongPtr(windowHwnd, GCLP_WNDPROC);
 }
 
 Madline::Window::~Window() {
@@ -80,6 +91,40 @@ void Madline::Window::gameLoop() {
 //	ScreenToClient(mHwnd, &point);
 //	input.cursorPos = Madline::vec2iFromPoint(point);
 }
+
+#ifdef _WIN32
+	LRESULT APIENTRY windowProc(unsigned int msg, WPARAM wp, LPARAM lp) {
+		LRESULT rez = 0;
+		
+		bool pressed = false;
+	
+		switch (msg) {
+			case WM_WINDOWPOSCHANGING: {
+				auto *pos = (WINDOWPOS*) lp;
+	
+				if (pos->x == -32000) {
+					// Set the flags to prevent this and "survive" to the desktop toggle
+					pos->flags |= SWP_NOMOVE | SWP_NOSIZE;
+				}
+	
+				pos->hwndInsertAfter = HWND_BOTTOM;
+				break;
+			}
+	
+			case WM_NCHITTEST: {
+				rez = HTNOWHERE;
+				break;
+			}
+			
+			default: {
+				rez = CallWindowProc(originalWindowProc, windowHwnd, msg, wp, lp);
+				break;
+			}
+		}
+		
+		return rez;
+	}
+#endif
 
 GLFWwindow* Madline::Window::getWindow() const {
 	return mWindow;
@@ -199,19 +244,3 @@ std::vector<int> Madline::Window::getButtonsReleased() const {
 	}
 	return released;
 }
-
-//#ifdef RENDER_VULKAN
-//void Madline::Window::getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) const {
-//
-//
-//	VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
-//	surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-//	surfaceCreateInfo.hwnd = mHwnd;
-//	surfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
-//
-//	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, surface));
-//}
-//void Madline::Window::test() {
-//	SetLayeredWindowAttributes(mHwnd, RGB(0, 0, 0), 0, LWA_COLORKEY);
-//}
-//#endif//RENDER_VULKAN

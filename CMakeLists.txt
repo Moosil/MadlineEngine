@@ -8,4 +8,6 @@ add_subdirectory(third_party)
 
 add_subdirectory(Engine)
 
+target_compile_definitions(Engine PRIVATE "BUILD_TYPE=${CMAKE_BUILD_TYPE}")
+
 add_subdirectory(CelestePet)

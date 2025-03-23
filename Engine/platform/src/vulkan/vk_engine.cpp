@@ -32,7 +32,15 @@
 
 
 Madline::GraphicsEngine* loadedEngine = nullptr;
+#if BUILD_TYPE == Debug
 constexpr bool USE_VALIDATION_LAYERS = true;
+#else
+constexpr bool USE_VALIDATION_LAYERS = false;
+#endif
+
+Madline::GraphicsEngine::GraphicsEngine(Madline::Window& pWindow) {
+	init(pWindow);
+}
 
 Madline::GraphicsEngine::~GraphicsEngine() {
 	cleanup();
@@ -114,10 +122,21 @@ void Madline::GraphicsEngine::drawLoop() {
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 	
-	//some imgui UI to test
-	ImGui::ShowDemoWindow();
+	if (ImGui::Begin("background")) {
+		
+		ComputeEffect& selected = backgroundEffects[currentBackgroundEffect];
+		
+		ImGui::Text("Selected effect: ", selected.name.c_str());
+		
+		ImGui::SliderInt("Effect Index", &currentBackgroundEffect,0, static_cast<int>(backgroundEffects.size() - 1));
+		
+		ImGui::InputFloat4("data1",(float*)& selected.data.data1);
+		ImGui::InputFloat4("data2",(float*)& selected.data.data2);
+		ImGui::InputFloat4("data3",(float*)& selected.data.data3);
+		ImGui::InputFloat4("data4",(float*)& selected.data.data4);
+	}
+	ImGui::End();
 	
-	//make imgui calculate internal draw structures
 	ImGui::Render();
 	
 	//our draw function
@@ -125,14 +144,23 @@ void Madline::GraphicsEngine::drawLoop() {
 }
 
 void Madline::GraphicsEngine::drawBackground(VkCommandBuffer cmd) const {
-	// bind the gradient drawing compute pipeline
-	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, gradientPipeline);
+	ComputeEffect effect = backgroundEffects[currentBackgroundEffect];
 	
-	// bind the descriptor set containing the draw image for the compute pipeline
-	vkCmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, gradientPipelineLayout, 0, 1, &drawImageDescriptors, 0, nullptr);
+	// bind the background compute pipeline
+	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, effect.pipeline);
 
+	// bind the descriptor set containing the draw image for the compute pipeline
+	vkCmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, gradientPipelineLayout, 0, 1,
+		&drawImageDescriptors, 0, nullptr
+    );
+
+	vkCmdPushConstants(cmd, gradientPipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof(ComputePushConstants), &effect.data);
 	// Execute the compute pipeline dispatch. We are using 16x16 workgroup size, so we need to divide by it
-	vkCmdDispatch(cmd, std::ceil(drawExtent.width / 16.0), std::ceil(drawExtent.height / 16.0), 1);
+	vkCmdDispatch(cmd, std::ceil(static_cast<float>(drawExtent.width) / 16.0),
+		std::ceil(static_cast<float>(drawExtent.height) / 16.0), 1
+	);
+
+
 }
 
 void Madline::GraphicsEngine::drawImgui(VkCommandBuffer cmd, VkImageView targetImageView) {
@@ -284,8 +312,11 @@ void Madline::GraphicsEngine::immediateSubmit(std::function<void(VkCommandBuffer
 
 
 void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
+	
+	// Get required Vulkan extensions
 	std::vector<const char*> extensions = getRequiredExtensions();
 	
+	// Create VkBootstrap InstanceBuilder
 	vkb::InstanceBuilder instanceBuilder;
 	auto instanceRet = instanceBuilder
 		.set_app_name(GAME_NAME)
@@ -297,19 +328,21 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 		.enable_extensions(extensions)
 		.build(); // build is always called last
 
-	// simple error checking and helpful error messages
+	// Check if instance is null
 	if (!instanceRet) {
-		throw std::runtime_error(std::format("Failed to create Vulkan instance. Error code: {}", instanceRet.error().message()));
+		throw std::runtime_error(std::format("Failed to create Vulkan instance. Error: {}", instanceRet.error().message()));
 	}
 	
-	const vkb::Instance vkbInst = instanceRet.value();
+	// Get the built instance
+	const vkb::Instance vkbInstance = instanceRet.value();
 
-	instance = vkbInst.instance;
-	debugMessenger = vkbInst.debug_messenger;
-
-	VkResult err = glfwCreateWindowSurface(instance, window.getWindow(), nullptr, &surface);
+	instance = vkbInstance.instance;
+	debugMessenger = vkbInstance.debug_messenger;
+	
+	// Create GLFW window surface for Vulkan. If surface is non created successfully, throw a runtime error
+	const VkResult err = glfwCreateWindowSurface(instance, window.getWindow(), nullptr, &surface);
 	if (err != VK_SUCCESS) {
-		throw std::runtime_error(std::format("Failed to create window surface. Error code: {}", int(err)));
+		throw std::runtime_error(std::format("Failed to create window surface. Error: {}", string_VkResult(err)));
 	};
 	
 	//vulkan 1.3 features
@@ -324,7 +357,7 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 	
 	//Use vkbootstrap to select a gpu.
 	//We want a gpu that can write to the SDL surface and supports vulkan 1.3 with the correct features
-	vkb::PhysicalDeviceSelector selector{vkbInst};
+	vkb::PhysicalDeviceSelector selector{ vkbInstance };
 	vkb::PhysicalDevice physicalDevice = selector
 		.set_minimum_version(1, 3)
 		.set_required_features_13(features)
@@ -333,7 +366,6 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 		.select()
 		.value();
 	
-
 	//create the final vulkan device
 	vkb::DeviceBuilder deviceBuilder{ physicalDevice };
 
@@ -541,21 +573,20 @@ void Madline::GraphicsEngine::initBackgroundPipelines() {
 	computeLayout.pSetLayouts = &drawImageDescriptorLayout;
 	computeLayout.setLayoutCount = 1;
 	
+	VkPushConstantRange pushConstant{};
+	pushConstant.offset = 0;
+	pushConstant.size = sizeof(ComputePushConstants) ;
+	pushConstant.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+
+	computeLayout.pPushConstantRanges = &pushConstant;
+	computeLayout.pushConstantRangeCount = 1;
+
 	VK_CHECK(vkCreatePipelineLayout(device, &computeLayout, nullptr, &gradientPipelineLayout));
-	
-	VkShaderModule computeDrawShader{};
-	
-	std::string shaderPath = std::format("{}/spv/gradient.comp.spv", SHADER_PATH);
-	
-	if (!VkUtil::loadShaderModule(shaderPath.c_str(), device, &computeDrawShader)) {
-		std::printf("Error when building the compute shader\n");
-	}
 	
 	VkPipelineShaderStageCreateInfo stageInfo{};
 	stageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	stageInfo.pNext = nullptr;
 	stageInfo.stage = VK_SHADER_STAGE_COMPUTE_BIT;
-	stageInfo.module = computeDrawShader;
 	stageInfo.pName = "main";
 
 	VkComputePipelineCreateInfo computePipelineCreateInfo{};
@@ -564,15 +595,19 @@ void Madline::GraphicsEngine::initBackgroundPipelines() {
 	computePipelineCreateInfo.layout = gradientPipelineLayout;
 	computePipelineCreateInfo.stage = stageInfo;
 	
+	const std::string gradientShaderName = "gradient_colour";
+	ComputePushConstants pcGradient{};
+	pcGradient.data1 = static_cast<glm::vec4>(Colour(255, 0, 0, 255));
+	pcGradient.data2 = static_cast<glm::vec4>(Colour(0, 0, 255, 255));
 	
-	VK_CHECK(vkCreateComputePipelines(device,VK_NULL_HANDLE,1,&computePipelineCreateInfo, nullptr, &gradientPipeline));
-
-	vkDestroyShaderModule(device, computeDrawShader, nullptr);
+	createComputeShader(gradientShaderName, pcGradient, &stageInfo, &computePipelineCreateInfo);
+	computePipelineCreateInfo.stage = stageInfo;
 	
-	mainDeletionQueue.pushFunction([&]() {
-		vkDestroyPipelineLayout(device, gradientPipelineLayout, nullptr);
-		vkDestroyPipeline(device, gradientPipeline, nullptr);
-	});
+	const std::string skyShaderName = "sky";
+	ComputePushConstants pcSky{};
+	pcSky.data1 = glm::vec4(0.1, 0.2, 0.4 ,0.97);
+	
+	createComputeShader(skyShaderName, pcSky, &stageInfo, &computePipelineCreateInfo);
 }
 
 void Madline::GraphicsEngine::initImgui() {
@@ -662,4 +697,33 @@ std::vector<const char*> Madline::GraphicsEngine::getRequiredExtensions() {
 	}
 	
 	return glfwRequirementNames;
+}
+
+void Madline::GraphicsEngine::createComputeShader(
+    const std::string& shaderName, const ComputePushConstants& pushConstants,
+    VkPipelineShaderStageCreateInfo* stageInfo, VkComputePipelineCreateInfo* computePipelineCreateInfo
+) {
+	VkShaderModule computeDrawShader{};
+	std::string shaderPath = std::format("{}/spv/{}.comp.spv", SHADER_PATH, shaderName);
+	
+	if (!VkUtil::loadShaderModule(shaderPath.c_str(), device, &computeDrawShader)) {
+		std::printf("Error when building the compute shader\n");
+	}
+	
+	stageInfo->module = computeDrawShader;
+	computePipelineCreateInfo->stage = *stageInfo;
+	
+	ComputeEffect shader;
+	shader.layout = gradientPipelineLayout;
+	shader.name = shaderName;
+	shader.data = pushConstants;
+	
+	VK_CHECK(vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, computePipelineCreateInfo, nullptr, &shader.pipeline));
+	
+	backgroundEffects.push_back(shader);
+	
+	vkDestroyShaderModule(device, computeDrawShader, nullptr);
+	mainDeletionQueue.pushFunction([=, this]() {
+		vkDestroyPipelineLayout(device, gradientPipelineLayout, nullptr);
+	});
 }

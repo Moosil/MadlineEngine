@@ -19,6 +19,10 @@
 #include <vulkan/vulkan.h>
 #endif
 
+#ifdef _WIN64
+#include <Windows.h>
+#endif
+
 namespace Madline {
 	class Window {
 	public:
@@ -61,10 +65,6 @@ namespace Madline {
 		[[nodiscard]] std::vector<int> getButtonsTriggered() const;
 		[[nodiscard]] std::vector<int> getButtonsHeld() const;
 		[[nodiscard]] std::vector<int> getButtonsReleased() const;
-
-#ifdef RENDER_VULKAN
-		void getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) const;
-#endif
 	private:
 		Madline::Rect2<int> screenRect;
 		bool running = true;
@@ -72,8 +72,15 @@ namespace Madline {
 		GLFWwindow* mWindow;
 		Input input;
 		std::chrono::high_resolution_clock::time_point lastFrameTime;
+
+		#ifdef _WIN32
+		HWND windowHwnd;
+		ULONG_PTR originalWindowProc;
+		#endif
 		
 		void initWindow();
+		
+		static APIENTRY windowProc(unsigned int msg, WPARAM wp, LPARAM lp);
 	};
 }
 

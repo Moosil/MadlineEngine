@@ -42,6 +42,27 @@ namespace Madline {
 		DeletionQueue deletionQueue;
 	};
 	
+	struct ComputePushConstants {
+		glm::vec4 data1;
+		glm::vec4 data2;
+		glm::vec4 data3;
+		glm::vec4 data4;
+	};
+	
+	struct ComputeEffect {
+		std::string name;
+		
+		VkPipeline pipeline;
+		VkPipelineLayout layout;
+
+		ComputePushConstants data;
+	};
+	
+	struct PipelineShader {
+	
+	};
+
+	
 	class GraphicsEngine {
 	private:
 		bool isInitialized { false };
@@ -89,6 +110,9 @@ namespace Madline {
 		
 		AllocatedImage drawImage{};
 		
+		std::vector<ComputeEffect> backgroundEffects;
+		int currentBackgroundEffect{ 0 };
+		
 		void initVulkan(const Madline::Window& window);
 		void initSwapchain();
 		void initCommands();
@@ -108,9 +132,14 @@ namespace Madline {
 		void drawBackground(VkCommandBuffer cmd) const;
 		
 		void immediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function);
+		
+		void createComputeShader(
+	        const std::string& shaderName, const ComputePushConstants& pushConstants,
+	        VkPipelineShaderStageCreateInfo* stageInfo, VkComputePipelineCreateInfo* computePipelineCreateInfo
+        );
 	public:
 		//initializes everything in the engine
-		void init(Madline::Window&pWindow);
+		void init(Madline::Window& pWindow);
 		
 		//shuts down the engine
 		void cleanup();
@@ -118,7 +147,7 @@ namespace Madline {
 		//draw loop
 		void drawLoop();
 		
-		GraphicsEngine() = default;
+		explicit GraphicsEngine(Madline::Window& pWindow);
 		
 		~GraphicsEngine();
 	};

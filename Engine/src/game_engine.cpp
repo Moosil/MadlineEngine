@@ -2,15 +2,13 @@
 
 int Madline::startGame(Madline::Engine& gameEngine) {
 	Madline::Window gameWindow{};
-
-	Madline::GraphicsEngine graphicsEngine{};
 	
 	if (!gameEngine.initGameplay()) {
 		gameWindow.stopRunning();
 		return -1;
 	}
 	
-	graphicsEngine.init(gameWindow);
+	Madline::GraphicsEngine graphicsEngine{ gameWindow };
 
 	while (gameWindow.isRunning()) {
 		
