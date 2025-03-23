@@ -12,6 +12,8 @@ add_library(vma INTERFACE)
 
 add_library(stb_image INTERFACE)
 
+add_subdirectory(glfw EXCLUDE_FROM_ALL)
+
 target_sources(vkbootstrap PRIVATE
     vkbootstrap/VkBootstrap.h
     vkbootstrap/VkBootstrap.cpp
@@ -26,25 +28,20 @@ target_include_directories(vma INTERFACE vma)
 
 target_include_directories(glm INTERFACE glm)
 
-add_library(glfw STATIC IMPORTED GLOBAL)
-set_target_properties(glfw PROPERTIES
-        IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/glfw/lib-mingw-w64/libglfw3.a"
-        INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/glfw/include")
-
 add_library(imgui STATIC)
 
 target_include_directories(imgui PUBLIC imgui)
 
 target_sources(imgui PRIVATE
-        imgui/imgui.h
-        imgui/imgui.cpp
-
-        imgui/imgui_demo.cpp
-        imgui/imgui_draw.cpp
-        imgui/imgui_widgets.cpp
-        imgui/imgui_tables.cpp
-        imgui/imgui_impl_vulkan.cpp
-        imgui/imgui_impl_glfw.cpp
+    imgui/imgui.h
+    imgui/imgui.cpp
+    imgui/imgui_demo.cpp
+    imgui/imgui_draw.cpp
+    imgui/imgui_widgets.cpp
+    imgui/imgui_tables.cpp
+    imgui/imgui_impl_vulkan.cpp
+    imgui/imgui_impl_glfw.cpp
+    imgui/imgui_stdlib.cpp
 )
 
 target_link_libraries(imgui PUBLIC Vulkan::Vulkan glfw)

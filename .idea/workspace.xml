@@ -15,9 +15,10 @@
   <component name="CMakeRunConfigurationManager">
     <generated>
       <config projectName="MadlineEngine" targetName="imgui" />
-      <config projectName="MadlineEngine" targetName="CelestePet" />
+      <config projectName="MadlineEngine" targetName="uninstall" />
       <config projectName="MadlineEngine" targetName="vkbootstrap" />
-      <config projectName="MadlineEngine" targetName="Engine" />
+      <config projectName="MadlineEngine" targetName="update_mappings" />
+      <config projectName="MadlineEngine" targetName="glfw" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -26,11 +27,21 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="fixed glfw">
+    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="imgui error">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/src/game_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/src/game_engine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/include/GLFW/glfw3native.h" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/glfw/include/GLFW/glfw3native.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/lib-mingw-w64/glfw3.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/lib-mingw-w64/libglfw3.a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/lib-mingw-w64/libglfw3dll.a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/imgui/imgui.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui.h" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/imgui/imgui.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_demo.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/imgui/imgui_demo.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_draw.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/imgui/imgui_draw.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_internal.h" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/imgui/imgui_internal.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_tables.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/imgui/imgui_tables.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_widgets.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/imgui/imgui_widgets.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +153,22 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="glfw" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="imgui" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="imgui" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="uninstall" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="uninstall" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="update_mappings" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="update_mappings" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -323,6 +349,9 @@
       <item itemvalue="CMake Application.Engine" />
       <item itemvalue="CMake Application.imgui" />
       <item itemvalue="CMake Application.vkbootstrap" />
+      <item itemvalue="CMake Application.uninstall" />
+      <item itemvalue="CMake Application.glfw" />
+      <item itemvalue="CMake Application.update_mappings" />
       <item itemvalue="CMake Debug.Project" />
     </list>
     <recent_temporary>
@@ -345,7 +374,9 @@
       <workItem from="1742379018331" duration="2581000" />
       <workItem from="1742458852157" duration="6294000" />
       <workItem from="1742508999851" duration="2610000" />
-      <workItem from="1742513505102" duration="737000" />
+      <workItem from="1742513505102" duration="1015000" />
+      <workItem from="1742517593568" duration="452000" />
+      <workItem from="1742706488384" duration="1405000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <option name="closed" value="true" />
@@ -427,7 +458,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742511555707</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="imgui error">
+      <option name="closed" value="true" />
+      <created>1742514524633</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1742514524633</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -470,7 +509,8 @@
     <MESSAGE value="gitignore" />
     <MESSAGE value="gitignore 2, electric boogaloo" />
     <MESSAGE value="fixed glfw" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed glfw" />
+    <MESSAGE value="imgui error" />
+    <option name="LAST_COMMIT_MESSAGE" value="imgui error" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -479,6 +519,11 @@
           <url>file://$PROJECT_DIR$/third_party/glfw/src/CMakeLists.txt</url>
           <line>359</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp</url>
+          <line>51</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
