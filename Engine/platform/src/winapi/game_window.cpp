@@ -49,8 +49,9 @@ void Madline::Window::initWindow() {
 		wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wc.hInstance = GetModuleHandle(nullptr);
 		wc.lpszClassName = className.c_str();
-		wc.style = CS_DBLCLKS | CS_PARENTDC;
+		wc.style = CS_DBLCLKS;
 		wc.lpfnWndProc = &staticWindowProc;
+		wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
 		
 		assert(RegisterClass(&wc));
 	}
@@ -76,27 +77,15 @@ void Madline::Window::initWindow() {
 	
 //	SetLayeredWindowAttributes(mHwnd, RGB(0, 0, 0), 0, LWA_COLORKEY); // Transparent color key
 	
-	HWND progmanHwnd = FindWindow("progman", nullptr);
+	HWND wallpaper = getDesktopWallpaper();
 	
-	if (progmanHwnd != nullptr) {
-		HWND defView = FindWindowEx(progmanHwnd, nullptr, "SHELLDLL_DefView", nullptr);
-		
-		if (defView == nullptr) {
-			HWND desktopHwnd = GetDesktopWindow();
-			HWND workerW{};
-			do {
-				workerW = FindWindowEx(desktopHwnd, workerW, "WorkerW", nullptr);
-				defView = FindWindowEx(workerW, nullptr, "SHELLDLL_DefView", nullptr);
-			} while (!defView && workerW);
-		}
-		
-		if (defView != nullptr) {
-			HWND sysListView32 = FindWindowEx(defView, nullptr, "SysListView32", nullptr);
-			SetParent(mHwnd, sysListView32);
-		} else
-			throw std::runtime_error("Cannot find defview");
+	HWND defView = FindWindowEx(wallpaper, nullptr, "SHELLDLL_DefView", nullptr);
+	if (defView != nullptr) {
+		HWND sysListView32 = FindWindowEx(defView, nullptr, "SysListView32", nullptr);
+		SetParent(mHwnd, sysListView32);
+		SetWindowPos(mHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	} else
-		throw std::runtime_error("Cannot find program manager");
+		throw std::runtime_error("Cannot find defview");
 }
 
 Madline::Window::~Window() {
@@ -343,7 +332,7 @@ void Madline::Window::getVulkanSurface(VkInstance instance, VkSurfaceKHR* surfac
 	
 	VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
 	surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-	surfaceCreateInfo.hwnd = mHwnd;
+	surfaceCreateInfo.hwnd = getDesktopWallpaper();
 	surfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
 	
 	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, surface));
@@ -376,4 +365,35 @@ LRESULT CALLBACK Madline::Window::staticWindowProc(HWND pHwnd, unsigned int msg,
 		return self->windowProc(msg, wp, lp);
 
 	return DefWindowProc(pHwnd, msg, wp, lp);
+}
+
+HWND Madline::Window::getDesktopWallpaper() {
+	HWND progmanHwnd = FindWindow("progman", nullptr);
+	
+	if (progmanHwnd != nullptr) {
+		HWND defView = FindWindowEx(progmanHwnd, nullptr, "SHELLDLL_DefView", nullptr);
+		
+		if (defView == nullptr) {
+			HWND desktopHwnd = GetDesktopWindow();
+			HWND workerW{};
+			unsigned int counter = 0;
+			do {
+				workerW = FindWindowEx(desktopHwnd, workerW, "WorkerW", nullptr);
+				defView = FindWindowEx(workerW, nullptr, "SHELLDLL_DefView", nullptr);
+				counter++;
+			} while (!defView && workerW && counter < 10000);
+			if (counter >= 10000)
+				throw std::runtime_error("Cannot find program manager (WorkerW and SHELLDLL_DefView)");
+			else
+				return workerW;
+		} else
+			return progmanHwnd;
+		
+		// for putting window on top of desktop completely
+//		if (defView != nullptr) {
+//			HWND sysListView32 = FindWindowEx(defView, nullptr, "SysListView32", nullptr);
+//		} else
+//			throw std::runtime_error("Cannot find defview");
+	} else
+		throw std::runtime_error("Cannot find program manager (progman)");
 }

@@ -86,9 +86,9 @@ namespace Madline {
 		void initWindow();
 		
 		static LRESULT CALLBACK staticWindowProc(HWND hwnd, unsigned int msg, WPARAM wp, LPARAM lp);
-		
 		LRESULT CALLBACK windowProc(unsigned int msg, WPARAM wp, LPARAM lp);
-		
+
+		static HWND getDesktopWallpaper();
 	};
 }
 
