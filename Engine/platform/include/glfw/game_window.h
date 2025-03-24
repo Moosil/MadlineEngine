@@ -75,12 +75,11 @@ namespace Madline {
 
 		#ifdef _WIN32
 		HWND windowHwnd;
-		ULONG_PTR originalWindowProc;
 		#endif
 		
 		void initWindow();
 		
-		static APIENTRY windowProc(unsigned int msg, WPARAM wp, LPARAM lp);
+		static LRESULT CALLBACK windowProc(HWND hwnd, unsigned int msg, WPARAM wp, LPARAM lp);
 	};
 }
 

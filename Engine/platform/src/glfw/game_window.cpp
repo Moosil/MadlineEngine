@@ -20,9 +20,14 @@
 
 #ifdef _WIN64
 #define GLFW_EXPOSE_NATIVE_WIN32
+#include <dwmapi.h>
 #endif
 
 #include <GLFW/glfw3native.h>
+
+namespace Madline {
+	WNDPROC originalWindowProc;
+}
 
 
 Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) { // NOLINT(*-pro-type-member-init)
@@ -40,8 +45,9 @@ void Madline::Window::initWindow() {
 	
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-	glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
+//	glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
 	glfwWindowHint(GLFW_FOCUS_ON_SHOW, GLFW_FALSE);
+	glfwWindowHint(GLFW_MOUSE_PASSTHROUGH, GLFW_TRUE);
 	
 	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 	
@@ -58,7 +64,34 @@ void Madline::Window::initWindow() {
 	
 	windowHwnd = glfwGetWin32Window(mWindow);
 	
-	originalWindowProc = GetClassLongPtr(windowHwnd, GCLP_WNDPROC);
+	long long exStyles = GetWindowLongPtr(windowHwnd, GWL_EXSTYLE);
+	
+	exStyles &= ~WS_EX_ACCEPTFILES;
+//	exStyles &= ~WS_EX_APPWINDOW;
+	exStyles &= ~WS_EX_TOPMOST;
+//	exStyles &= ~WS_EX_WINDOWEDGE;
+	
+//	exStyles |= WS_EX_NOACTIVATE;
+//	exStyles |= WS_EX_TOOLWINDOW;
+	
+	SetWindowLongPtr(windowHwnd, GWL_EXSTYLE, exStyles);
+	
+	originalWindowProc = reinterpret_cast<WNDPROC>(GetClassLongPtr(windowHwnd, GCLP_WNDPROC));
+	
+	SetWindowLongPtr(windowHwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(windowProc));
+	
+	MARGINS margins = { -1 };
+	DwmExtendFrameIntoClientArea(windowHwnd, &margins); // Make the window background transparent
+	SetLayeredWindowAttributes(windowHwnd, RGB(0, 0, 0), 0, LWA_COLORKEY); // Transparent color key
+	
+	HWND progmanHwnd = FindWindow("Progman", nullptr);
+	
+	if (progmanHwnd != nullptr) {
+		SetParent(windowHwnd, progmanHwnd);
+		SetWindowPos(windowHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	} else {
+		throw std::runtime_error("Cannot find program manager");
+	}
 }
 
 Madline::Window::~Window() {
@@ -80,11 +113,6 @@ void Madline::Window::gameLoop() {
 	if (glfwWindowShouldClose(mWindow)) {
 		running = false;
 	}
-//	MSG msg = {};
-//	while (PeekMessage(&msg, mHwnd, 0, 0, PM_REMOVE) > 0) {
-//		TranslateMessage(&msg);
-//		DispatchMessage(&msg);
-//	}
 	
 //	POINT point;
 //	GetCursorPos(&point);
@@ -93,31 +121,36 @@ void Madline::Window::gameLoop() {
 }
 
 #ifdef _WIN32
-	LRESULT APIENTRY windowProc(unsigned int msg, WPARAM wp, LPARAM lp) {
+	LRESULT CALLBACK Madline::Window::windowProc(HWND hwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
 		LRESULT rez = 0;
-		
-		bool pressed = false;
 	
 		switch (msg) {
-			case WM_WINDOWPOSCHANGING: {
-				auto *pos = (WINDOWPOS*) lp;
+		    case WM_SIZE: {
+			    // Handle size changes if needed
+			    break;
+		    }
+//		    case WM_ERASEBKGND: {
+//			    return 1; // Prevent background erasing (for transparency)
+//			}
+//			case WM_WINDOWPOSCHANGING: {
+//				auto *pos = (WINDOWPOS*) lp;
+//
+//				if (pos->x == -32000) {
+//					// Set the flags to prevent this and "survive" to the desktop toggle
+//					pos->flags |= SWP_NOMOVE | SWP_NOSIZE;
+//				}
+//
+//				pos->hwndInsertAfter = HWND_BOTTOM;
+//				break;
+//			}
 	
-				if (pos->x == -32000) {
-					// Set the flags to prevent this and "survive" to the desktop toggle
-					pos->flags |= SWP_NOMOVE | SWP_NOSIZE;
-				}
-	
-				pos->hwndInsertAfter = HWND_BOTTOM;
-				break;
-			}
-	
-			case WM_NCHITTEST: {
-				rez = HTNOWHERE;
-				break;
-			}
+//			case WM_NCHITTEST: {
+//				rez = HTNOWHERE;
+//				break;
+//			}
 			
 			default: {
-				rez = CallWindowProc(originalWindowProc, windowHwnd, msg, wp, lp);
+				rez = CallWindowProc(originalWindowProc, hwnd, msg, wp, lp);
 				break;
 			}
 		}

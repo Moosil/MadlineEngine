@@ -37,7 +37,7 @@ src/game_engine.cpp;\
 
 add_library(Engine STATIC)
 target_sources(Engine PRIVATE ${VULKAN_SOURCES} ${WINDOWS_SOURCES} ${GAME_SOURCES} ${MAIN_SOURCES})
-target_link_libraries(Engine PUBLIC vma glm Vulkan::Vulkan stb_image vkbootstrap imgui glfw)
+target_link_libraries(Engine PUBLIC vma glm Vulkan::Vulkan stb_image vkbootstrap imgui glfw dwmapi)
 target_link_libraries(Engine INTERFACE glm)
 target_include_directories(Engine PUBLIC "platform/include")
 target_include_directories(Engine PUBLIC "game/include")

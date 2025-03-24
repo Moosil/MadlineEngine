@@ -8,7 +8,7 @@ int Madline::startGame(Madline::Engine& gameEngine) {
 		return -1;
 	}
 	
-	Madline::GraphicsEngine graphicsEngine{ gameWindow };
+//	Madline::GraphicsEngine graphicsEngine{ gameWindow };
 
 	while (gameWindow.isRunning()) {
 		
@@ -21,7 +21,7 @@ int Madline::startGame(Madline::Engine& gameEngine) {
 			gameWindow.stopRunning();
 		}
 		
-		graphicsEngine.drawLoop();
+//		graphicsEngine.drawLoop();
 
 		if (!gameWindow.isFocused()) {
 			resetInput(gameWindow.getInput());
@@ -31,7 +31,7 @@ int Madline::startGame(Madline::Engine& gameEngine) {
 	}
 
 	gameEngine.onCloseGame();
-	graphicsEngine.cleanup();
+//	graphicsEngine.cleanup();
 
 	return 0;
 }
