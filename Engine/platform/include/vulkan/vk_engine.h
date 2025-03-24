@@ -10,8 +10,8 @@
 #include "vulkan/vk_types.h"
 #include "vk_descriptors.h"
 
-#include "glfw/game_window.h"
-#include "glfw/data_type.h"
+#include "winapi/game_window.h"
+#include "winapi/data_type.h"
 
 constexpr unsigned int FRAME_OVERLAP = 2;
 
@@ -121,8 +121,6 @@ namespace Madline {
 		void initPipelines();
 		void initBackgroundPipelines();
 		void initImgui();
-		
-		static std::vector<const char*> getRequiredExtensions();
 		
 		void createSwapchain(uint32_t width, uint32_t height);
 		void destroySwapchain();

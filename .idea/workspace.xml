@@ -15,11 +15,8 @@
   <component name="CMakeRunConfigurationManager">
     <generated>
       <config projectName="MadlineEngine" targetName="imgui" />
-      <config projectName="MadlineEngine" targetName="uninstall" />
       <config projectName="MadlineEngine" targetName="CelestePet" />
       <config projectName="MadlineEngine" targetName="vkbootstrap" />
-      <config projectName="MadlineEngine" targetName="update_mappings" />
-      <config projectName="MadlineEngine" targetName="glfw" />
       <config projectName="MadlineEngine" targetName="Engine" />
     </generated>
   </component>
@@ -29,12 +26,126 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="broken. pls fix">
+    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="bye bye glfw???">
+      <change afterPath="$PROJECT_DIR$/Engine/platform/src/winapi/game_window.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/include/glfw/game_window.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/glfw/game_window.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/src/glfw/game_window.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/glfw/game_window.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CelestePet/include/player.h" beforeDir="false" afterPath="$PROJECT_DIR$/CelestePet/include/player.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/game/include/game_logic.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/game/include/game_logic.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/include/CelestePetHeaders.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/include/CelestePetHeaders.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/glfw/data_type.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/winapi/data_type.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/glfw/game_window.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/winapi/game_window.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/glfw/input.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/winapi/input.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/include/vulkan/vk_engine.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/vulkan/vk_engine.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/glfw/data_type.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/winapi/data_type.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/glfw/game_window.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/glfw/input.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/winapi/input.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/src/game_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/src/game_engine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/third_party/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/CMake/GenerateMappings.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/CMake/Info.plist.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/CMake/cmake_uninstall.cmake.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/CMake/glfw3.pc.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/CMake/glfw3Config.cmake.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/CMake/i686-w64-mingw32-clang.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/CMake/i686-w64-mingw32.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/CMake/modules/FindEpollShim.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/CMake/modules/FindOSMesa.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/CMake/x86_64-w64-mingw32-clang.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/CMake/x86_64-w64-mingw32.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/CONTRIBUTORS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/LICENSE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/getopt.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/getopt.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/glad/gl.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/glad/gles2.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/glad/vulkan.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/linmath.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/mingw/_mingw_dxhelper.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/mingw/dinput.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/mingw/xinput.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/nuklear.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/nuklear_glfw_gl2.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/stb_image_write.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/tinycthread.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/tinycthread.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/wayland/fractional-scale-v1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/wayland/idle-inhibit-unstable-v1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/wayland/pointer-constraints-unstable-v1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/wayland/relative-pointer-unstable-v1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/wayland/viewporter.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/wayland/wayland.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/wayland/xdg-activation-v1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/wayland/xdg-decoration-unstable-v1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/deps/wayland/xdg-shell.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/include/GLFW/glfw3.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/include/GLFW/glfw3native.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_init.m" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_joystick.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_joystick.m" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_monitor.m" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_platform.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_time.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_time.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/cocoa_window.m" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/context.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/egl_context.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/glfw.rc.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/glx_context.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/init.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/input.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/internal.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/linux_joystick.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/linux_joystick.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/mappings.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/mappings.h.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/monitor.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/nsgl_context.m" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_init.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_joystick.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_joystick.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_monitor.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_platform.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/null_window.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/osmesa_context.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/platform.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/platform.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_module.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_poll.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_poll.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_thread.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_thread.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_time.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/posix_time.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/vulkan.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wgl_context.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_init.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_joystick.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_joystick.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_module.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_monitor.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_platform.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_thread.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_thread.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_time.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_time.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/win32_window.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/window.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wl_init.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wl_monitor.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wl_platform.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/wl_window.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/x11_init.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/x11_monitor.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/x11_platform.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/x11_window.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/xkb_unicode.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/glfw/src/xkb_unicode.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_impl_glfw.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/third_party/imgui/imgui_impl_glfw.h" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,6 +248,11 @@
       <option name="PARAMETERS" value="" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Project" type="CMakeListConfigurationType" factoryName="CMakeListConfigurationFactory" temporary="true">
       <method v="2" />
     </configuration>
@@ -151,27 +267,7 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="glfw" CONFIG_NAME="Debug">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="imgui" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="imgui" CONFIG_NAME="Debug">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="uninstall" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="uninstall" CONFIG_NAME="Debug">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="update_mappings" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="update_mappings" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -352,9 +448,6 @@
       <item itemvalue="CMake Application.Engine" />
       <item itemvalue="CMake Application.imgui" />
       <item itemvalue="CMake Application.vkbootstrap" />
-      <item itemvalue="CMake Application.uninstall" />
-      <item itemvalue="CMake Application.glfw" />
-      <item itemvalue="CMake Application.update_mappings" />
       <item itemvalue="CMake Debug.Project" />
     </list>
     <recent_temporary>
@@ -387,7 +480,8 @@
       <workItem from="1742787001097" duration="2003000" />
       <workItem from="1742791684569" duration="1908000" />
       <workItem from="1742793765082" duration="1466000" />
-      <workItem from="1742796609602" duration="2947000" />
+      <workItem from="1742796609602" duration="3905000" />
+      <workItem from="1742805895877" duration="3469000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <option name="closed" value="true" />
@@ -501,7 +595,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742795222087</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="bye bye glfw???">
+      <option name="closed" value="true" />
+      <created>1742799655927</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1742799655927</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -547,7 +649,8 @@
     <MESSAGE value="imgui error" />
     <MESSAGE value="fixed glfw and imgui" />
     <MESSAGE value="broken. pls fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="broken. pls fix" />
+    <MESSAGE value="bye bye glfw???" />
+    <option name="LAST_COMMIT_MESSAGE" value="bye bye glfw???" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

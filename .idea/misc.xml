@@ -13,10 +13,10 @@
       <file path="$PROJECT_DIR$/Engine/platform/include/vulkan" />
       <file path="$PROJECT_DIR$/Engine/platform/include/windows" />
       <file path="$PROJECT_DIR$/Engine/platform/src" />
-      <file path="$PROJECT_DIR$/Engine/platform/src/glfw" />
-      <file path="$PROJECT_DIR$/Engine/platform/src/glfw/include" />
-      <file path="$PROJECT_DIR$/Engine/platform/src/glfw/src" />
       <file path="$PROJECT_DIR$/Engine/platform/src/vulkan" />
+      <file path="$PROJECT_DIR$/Engine/platform/src/winapi" />
+      <file path="$PROJECT_DIR$/Engine/platform/src/winapi/include" />
+      <file path="$PROJECT_DIR$/Engine/platform/src/winapi/src" />
       <file path="$PROJECT_DIR$/Engine/src" />
     </sourceRoots>
     <libraryRoots>

@@ -10,10 +10,6 @@
 
 #include "CelestePetConsts.h"
 
-#ifndef SHADER_PATH
-#define SHADER_PATH "Shader path is undefined"
-#endif
-
 #include <vulkan/vulkan.h>
 #include <VkBootstrap.h>
 #define VMA_IMPLEMENTATION
@@ -21,8 +17,7 @@
 #include <imgui.h>
 #include <imgui_impl_vulkan.h>
 
-#include "glfw/game_window.h"
-
+#include "winapi/game_window.h"
 
 #include "vulkan/vk_images.h"
 #include "vulkan/vk_initialisers.h"
@@ -60,8 +55,6 @@ void Madline::GraphicsEngine::init(Madline::Window& pWindow) {
 	const Rect2<int> screenRect = pWindow.getScreenRect();
 	windowExtent.height = screenRect.getHeight();
 	windowExtent.width = screenRect.getWidth();
-	
-	pWindow.getRect();
 	
 	initSwapchain();
 	
@@ -121,7 +114,7 @@ void Madline::GraphicsEngine::cleanup() {
 void Madline::GraphicsEngine::drawLoop() {
 	// imgui new frame
 	ImGui_ImplVulkan_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
+	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 	
 	if (ImGui::Begin("background")) {
@@ -315,9 +308,6 @@ void Madline::GraphicsEngine::immediateSubmit(std::function<void(VkCommandBuffer
 
 void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 	
-	// Get required Vulkan extensions
-	std::vector<const char*> extensions = getRequiredExtensions();
-	
 	// Create VkBootstrap InstanceBuilder
 	vkb::InstanceBuilder instanceBuilder;
 	auto instanceRet = instanceBuilder
@@ -327,7 +317,6 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 		.set_engine_version(1, 0, 0)
 		.require_api_version(1,3,0)
 		.request_validation_layers(USE_VALIDATION_LAYERS)
-		.enable_extensions(extensions)
 		.build(); // build is always called last
 
 	// Check if instance is null
@@ -341,11 +330,8 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 	instance = vkbInstance.instance;
 	debugMessenger = vkbInstance.debug_messenger;
 	
-	// Create GLFW window surface for Vulkan. If surface is non created successfully, throw a runtime error
-	const VkResult err = glfwCreateWindowSurface(instance, window.getWindow(), nullptr, &surface);
-	if (err != VK_SUCCESS) {
-		throw std::runtime_error(std::format("Failed to create window surface. Error: {}", string_VkResult(err)));
-	};
+	// Create Windows api surface for Vulkan. If surface is non created successfully, throw a runtime error
+	window.getVulkanSurface(instance, &surface);
 	
 	//vulkan 1.3 features
 	VkPhysicalDeviceVulkan13Features features{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES };
@@ -644,7 +630,7 @@ void Madline::GraphicsEngine::initImgui() {
 	ImGui::CreateContext();
 
 	// this initializes imgui for Win32
-	ImGui_ImplGlfw_InitForVulkan(mWindow->getWindow(), true);
+	ImGui_ImplWin32_Init(mWindow->getHwnd());
 
 	// this initializes imgui for Vulkan
 	ImGui_ImplVulkan_InitInfo initInfo = {};
@@ -674,31 +660,6 @@ void Madline::GraphicsEngine::initImgui() {
 		ImGui_ImplVulkan_Shutdown();
 		vkDestroyDescriptorPool(device, imguiPool, nullptr);
 	});
-}
-std::vector<const char*> Madline::GraphicsEngine::getRequiredExtensions() {
-	uint32_t extensionCount = 0;
-	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-	std::vector<VkExtensionProperties> extensions(extensionCount);
-	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
-	
-	uint32_t glfwExtensionCount = 0;
-	const char** glfwExtensions;
-	glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-	
-	std::vector<const char*> glfwRequirementNames;
-	for (size_t i = 0; i < glfwExtensionCount; i++) {
-		glfwRequirementNames.push_back(glfwExtensions[i]);
-	}
-	
-	for (auto extensionName : glfwRequirementNames) {
-		if (std::find_if(extensions.begin(), extensions.end(), [&extensionName](const VkExtensionProperties &ext) {
-		    return ext.extensionName == extensionName;
-	    }) == extensions.end()) {
-			//throw std::runtime_error(std::format("{}, a required Vulkan extension for glfw is not supported :(", extensionName));
-		}
-	}
-	
-	return glfwRequirementNames;
 }
 
 void Madline::GraphicsEngine::createComputeShader(

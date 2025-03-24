@@ -12,8 +12,6 @@ add_library(vma INTERFACE)
 
 add_library(stb_image INTERFACE)
 
-add_subdirectory(glfw EXCLUDE_FROM_ALL)
-
 target_sources(vkbootstrap PRIVATE
     vkbootstrap/VkBootstrap.h
     vkbootstrap/VkBootstrap.cpp
@@ -40,10 +38,10 @@ target_sources(imgui PRIVATE
     imgui/imgui_widgets.cpp
     imgui/imgui_tables.cpp
     imgui/imgui_impl_vulkan.cpp
-    imgui/imgui_impl_glfw.cpp
+    imgui/imgui_impl_win32.cpp
     imgui/imgui_stdlib.cpp
 )
 
-target_link_libraries(imgui PUBLIC Vulkan::Vulkan glfw)
+target_link_libraries(imgui PUBLIC Vulkan::Vulkan dwmapi)
 
 target_include_directories(stb_image INTERFACE stb_image)
