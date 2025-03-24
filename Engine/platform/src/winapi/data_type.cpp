@@ -47,10 +47,10 @@ Madline::Colour::Colour(std::string hex) {
 
 Madline::Colour::operator glm::vec4() const  {
 	return glm::vec4{
-        static_cast<float>(r) / 256,
-        static_cast<float>(g) / 256,
-        static_cast<float>(b) / 256,
-        static_cast<float>(a) / 256
+        static_cast<float>(r) / 255,
+        static_cast<float>(g) / 255,
+        static_cast<float>(b) / 255,
+        static_cast<float>(a) / 255
 	};
 }
 
