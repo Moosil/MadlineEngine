@@ -21,6 +21,7 @@
 
 #include <imgui.h>
 #include <imgui_impl_win32.h>
+#include <imgui_impl_win32.cpp>
 
 #include "winapi/game_window.h"
 
@@ -48,7 +49,7 @@ void Madline::Window::initWindow() {
 		wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wc.hInstance = GetModuleHandle(nullptr);
 		wc.lpszClassName = className.c_str();
-		wc.style = CS_HREDRAW | CS_VREDRAW;
+		wc.style = CS_DBLCLKS | CS_PARENTDC;
 		wc.lpfnWndProc = &staticWindowProc;
 		
 		assert(RegisterClass(&wc));
@@ -73,9 +74,7 @@ void Madline::Window::initWindow() {
         nullptr, nullptr, GetModuleHandle(nullptr), this
 	);
 	
-	MARGINS margins = { -1 };
-	DwmExtendFrameIntoClientArea(mHwnd, &margins); // Make the window background transparent
-	SetLayeredWindowAttributes(mHwnd, RGB(0, 0, 0), 0, LWA_COLORKEY); // Transparent color key
+//	SetLayeredWindowAttributes(mHwnd, RGB(0, 0, 0), 0, LWA_COLORKEY); // Transparent color key
 	
 	HWND progmanHwnd = FindWindow("progman", nullptr);
 	
@@ -352,6 +351,9 @@ void Madline::Window::getVulkanSurface(VkInstance instance, VkSurfaceKHR* surfac
 #endif//RENDER_VULKAN
 
 LRESULT CALLBACK Madline::Window::staticWindowProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
+	if (ImGui_ImplWin32_WndProcHandler(pHwnd, msg, wp, lp))
+		return true;
+	
 	Window* self;
 	
 	if (msg == WM_NCCREATE)	{

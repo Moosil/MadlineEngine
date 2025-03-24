@@ -27,10 +27,10 @@
 
 
 Madline::GraphicsEngine* loadedEngine = nullptr;
-#if BUILD_TYPE == Debug
-constexpr bool USE_VALIDATION_LAYERS = true;
+#if BUILD_TYPE == BUILD_DEBUG
+	constexpr bool USE_VALIDATION_LAYERS = true;
 #else
-constexpr bool USE_VALIDATION_LAYERS = false;
+	constexpr bool USE_VALIDATION_LAYERS = false;
 #endif
 
 Madline::GraphicsEngine::GraphicsEngine(Madline::Window& pWindow) {
@@ -625,9 +625,17 @@ void Madline::GraphicsEngine::initImgui() {
 	VK_CHECK(vkCreateDescriptorPool(device, &poolInfo, nullptr, &imguiPool));
 
 	// 2: initialize imgui library
+	
+	// Checks if imgui files are valid
+	#if BUILD_TYPE == BUILD_DEBUG
+	IMGUI_CHECKVERSION();
+	#endif
 
 	// this initializes the core structures of imgui
 	ImGui::CreateContext();
+	
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 
 	// this initializes imgui for Win32
 	ImGui_ImplWin32_Init(mWindow->getHwnd());

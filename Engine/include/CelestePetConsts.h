@@ -5,12 +5,14 @@
 #ifndef CELESTEPET_CELESTEPETCONSTS_H
 #define CELESTEPET_CELESTEPETCONSTS_H
 
-#define DEBUG_CELESTE
 #define RENDER_VULKAN
 
 #ifndef GAME_NAME
 #define GAME_NAME "Debug Madline"
 #endif//GAME_NAME
+
+#define BUILD_DEBUG 0
+#define BUILD_RELEASE 1
 
 #define CLASS_NAME "MadlineWindowClass"
 #define WINDOW_NAME GAME_NAME
