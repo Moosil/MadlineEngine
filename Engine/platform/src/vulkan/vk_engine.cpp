@@ -398,6 +398,8 @@ void Madline::GraphicsEngine::destroySwapchain() {
 void Madline::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height) {
 	vkb::SwapchainBuilder swapchainBuilder{chosenGpu, device, surface };
 	
+	vkDestroySwapchainKHR(device, swapchain, nullptr);
+	
 	swapchainImageFormat = VK_FORMAT_B8G8R8A8_UNORM;
 	
 	vkb::Swapchain vkbSwapchain = swapchainBuilder

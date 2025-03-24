@@ -77,15 +77,15 @@ void Madline::Window::initWindow() {
 	
 //	SetLayeredWindowAttributes(mHwnd, RGB(0, 0, 0), 0, LWA_COLORKEY); // Transparent color key
 	
-	HWND wallpaper = getDesktopWallpaper();
-	
-	HWND defView = FindWindowEx(wallpaper, nullptr, "SHELLDLL_DefView", nullptr);
-	if (defView != nullptr) {
-		HWND sysListView32 = FindWindowEx(defView, nullptr, "SysListView32", nullptr);
-		SetParent(mHwnd, sysListView32);
-		SetWindowPos(mHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	} else
-		throw std::runtime_error("Cannot find defview");
+//	HWND wallpaper = getDesktopWallpaper();
+//
+//	HWND defView = FindWindowEx(wallpaper, nullptr, "SHELLDLL_DefView", nullptr);
+//	if (defView != nullptr) {
+//		HWND sysListView32 = FindWindowEx(defView, nullptr, "SysListView32", nullptr);
+//		SetParent(mHwnd, sysListView32);
+//		SetWindowPos(mHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+//	} else
+//		throw std::runtime_error("Cannot find defview");
 }
 
 Madline::Window::~Window() {
@@ -328,8 +328,6 @@ std::vector<int> Madline::Window::getButtonsReleased() const {
 
 #ifdef RENDER_VULKAN
 void Madline::Window::getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) const {
-	
-	
 	VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
 	surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
 	surfaceCreateInfo.hwnd = getDesktopWallpaper();
@@ -368,32 +366,68 @@ LRESULT CALLBACK Madline::Window::staticWindowProc(HWND pHwnd, unsigned int msg,
 }
 
 HWND Madline::Window::getDesktopWallpaper() {
-	HWND progmanHwnd = FindWindow("progman", nullptr);
+	HWND progman = FindWindow("Progman", nullptr);
+
+	ULONG_PTR result = 0;
+	SendMessageTimeout(
+        progman,
+        0x052C,
+        NULL,
+        NULL,
+        SMTO_NORMAL,
+        1000,
+        &result
+	);
+
+	HWND defView = nullptr;
+
+	EnumWindows([](HWND topHandle, LPARAM tmp) -> BOOL {
+			HWND p = FindWindowEx(topHandle,
+				nullptr,
+				"SHELLDLL_DefView",
+				nullptr
+			);
+		    if (p != nullptr)
+			    *((HWND *) tmp) = FindWindowEx(
+		            nullptr,
+		            topHandle,
+		            "WorkerW",
+		            nullptr
+				);
+
+
+	        return true;
+        },
+        (LPARAM)(&defView)
+    );
 	
-	if (progmanHwnd != nullptr) {
-		HWND defView = FindWindowEx(progmanHwnd, nullptr, "SHELLDLL_DefView", nullptr);
-		
-		if (defView == nullptr) {
-			HWND desktopHwnd = GetDesktopWindow();
-			HWND workerW{};
-			unsigned int counter = 0;
-			do {
-				workerW = FindWindowEx(desktopHwnd, workerW, "WorkerW", nullptr);
-				defView = FindWindowEx(workerW, nullptr, "SHELLDLL_DefView", nullptr);
-				counter++;
-			} while (!defView && workerW && counter < 10000);
-			if (counter >= 10000)
-				throw std::runtime_error("Cannot find program manager (WorkerW and SHELLDLL_DefView)");
-			else
-				return workerW;
-		} else
-			return progmanHwnd;
-		
-		// for putting window on top of desktop completely
-//		if (defView != nullptr) {
-//			HWND sysListView32 = FindWindowEx(defView, nullptr, "SysListView32", nullptr);
+	return defView;
+//	HWND progmanHwnd = FindWindow("Progman", nullptr);
+//
+//	if (progmanHwnd != nullptr) {
+//		HWND defView = FindWindowEx(progmanHwnd, nullptr, "SHELLDLL_DefView", nullptr);
+//
+//		if (defView == nullptr) {
+//			HWND desktopHwnd = GetDesktopWindow();
+//			HWND workerW{};
+//			unsigned int counter = 0;
+//			do {
+//				workerW = FindWindowEx(desktopHwnd, workerW, "WorkerW", nullptr);
+//				defView = FindWindowEx(workerW, nullptr, "SHELLDLL_DefView", nullptr);
+//				counter++;
+//			} while (!defView && workerW && counter < 10000);
+//			if (counter >= 10000)
+//				throw std::runtime_error("Cannot find program manager (WorkerW and SHELLDLL_DefView)");
+//			else
+//				return workerW;
 //		} else
-//			throw std::runtime_error("Cannot find defview");
-	} else
-		throw std::runtime_error("Cannot find program manager (progman)");
+//			return progmanHwnd;
+//
+//		// for putting window on top of desktop completely
+////		if (defView != nullptr) {
+////			HWND sysListView32 = FindWindowEx(defView, nullptr, "SysListView32", nullptr);
+////		} else
+////			throw std::runtime_error("Cannot find defview");
+//	} else
+//		throw std::runtime_error("Cannot find program manager (progman)");
 }

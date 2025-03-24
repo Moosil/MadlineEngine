@@ -26,9 +26,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="fixed colour to float">
+    <list default="true" id="29d3bc69-7048-4cf8-8a4a-a2cbd295777e" name="Changes" comment="only have 1 shot. after that:&#10;Assertion failed: m_init, file C:/Users/School/CLionProjects/MadlineEngine/third_party/vkbootstrap/VkBootstrap.h, line 1&#10;32&#10;and the new background is static and doesn't go away lmao">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/platform/include/winapi/game_window.h" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/include/winapi/game_window.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/vulkan/vk_engine.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Engine/platform/src/winapi/game_window.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/platform/src/winapi/game_window.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -132,6 +132,11 @@
       <option name="PARAMETERS" value="" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Project" type="CMakeListConfigurationType" factoryName="CMakeListConfigurationFactory" temporary="true">
       <method v="2" />
     </configuration>
@@ -142,11 +147,6 @@
       </method>
     </configuration>
     <configuration name="Engine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MadlineEngine" TARGET_NAME="Engine" CONFIG_NAME="Debug">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -366,7 +366,8 @@
       <workItem from="1742793765082" duration="1466000" />
       <workItem from="1742796609602" duration="3905000" />
       <workItem from="1742805895877" duration="5530000" />
-      <workItem from="1742811686339" duration="5339000" />
+      <workItem from="1742811686339" duration="5680000" />
+      <workItem from="1742818902727" duration="1966000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <option name="closed" value="true" />
@@ -512,7 +513,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742811665610</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="only have 1 shot. after that:&#10;Assertion failed: m_init, file C:/Users/School/CLionProjects/MadlineEngine/third_party/vkbootstrap/VkBootstrap.h, line 1&#10;32&#10;and the new background is static and doesn't go away lmao">
+      <option name="closed" value="true" />
+      <created>1742817402436</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1742817402436</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -562,15 +571,21 @@
     <MESSAGE value="IT FUCKING WORKS YYAYAYAYAYAYAYAAYAYAYYAA" />
     <MESSAGE value="YEYYYSYYSYSYSS" />
     <MESSAGE value="fixed colour to float" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed colour to float" />
+    <MESSAGE value="only have 1 shot. after that:&#10;Assertion failed: m_init, file C:/Users/School/CLionProjects/MadlineEngine/third_party/vkbootstrap/VkBootstrap.h, line 1&#10;32&#10;and the new background is static and doesn't go away lmao" />
+    <option name="LAST_COMMIT_MESSAGE" value="only have 1 shot. after that:&#10;Assertion failed: m_init, file C:/Users/School/CLionProjects/MadlineEngine/third_party/vkbootstrap/VkBootstrap.h, line 1&#10;32&#10;and the new background is static and doesn't go away lmao" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/third_party/vkbootstrap/VkBootstrap.cpp</url>
+          <line>1893</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/Engine/platform/src/winapi/game_window.cpp</url>
-          <line>384</line>
-          <option name="timeStamp" value="2" />
+          <line>382</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
