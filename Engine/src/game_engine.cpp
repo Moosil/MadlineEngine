@@ -20,7 +20,7 @@ int Madline::startGame(Madline::Engine& gameEngine) {
 		if (!gameEngine.process(adt, gameWindow)) {
 			gameWindow.stopRunning();
 		}
-		
+
 //		graphicsEngine.drawLoop();
 
 		if (!gameWindow.isFocused()) {

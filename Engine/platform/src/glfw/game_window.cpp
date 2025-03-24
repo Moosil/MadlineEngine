@@ -84,14 +84,31 @@ void Madline::Window::initWindow() {
 	DwmExtendFrameIntoClientArea(windowHwnd, &margins); // Make the window background transparent
 	SetLayeredWindowAttributes(windowHwnd, RGB(0, 0, 0), 0, LWA_COLORKEY); // Transparent color key
 	
-	HWND progmanHwnd = FindWindow("Progman", nullptr);
+	HWND progmanHwnd = FindWindow("progman", nullptr);
+	
 	
 	if (progmanHwnd != nullptr) {
-		SetParent(windowHwnd, progmanHwnd);
-		SetWindowPos(windowHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	} else {
+		HWND defView = FindWindowEx(progmanHwnd, nullptr, "SHELLDLL_DefView", nullptr);
+		
+		if (defView == nullptr) {
+			HWND desktopHwnd = GetDesktopWindow();
+			HWND workerW{};
+			do {
+				workerW = FindWindowEx(desktopHwnd, workerW, "WorkerW", nullptr);
+				defView = FindWindowEx(workerW, nullptr, "SHELLDLL_DefView", nullptr);
+			} while (!defView && workerW);
+		}
+		
+		if (defView != nullptr) {
+			HWND sysListView32 = FindWindowEx(defView, nullptr, "SysListView32", nullptr);
+			SetParent(windowHwnd, sysListView32);
+			RECT rect{};
+			GetWindowRect(sysListView32, &rect);
+			SetWindowPos(windowHwnd, HWND_BOTTOM, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0);
+		} else
+			throw std::runtime_error("Cannot find defview");
+	} else
 		throw std::runtime_error("Cannot find program manager");
-	}
 }
 
 Madline::Window::~Window() {
@@ -158,6 +175,12 @@ void Madline::Window::gameLoop() {
 		return rez;
 	}
 #endif
+
+void Madline::Window::getRect() const {
+	RECT rect{};
+	GetWindowRect(windowHwnd, &rect);
+	std::printf("%ld %ld\n", rect.right-rect.left, rect.bottom-rect.top);
+}
 
 GLFWwindow* Madline::Window::getWindow() const {
 	return mWindow;

@@ -61,6 +61,8 @@ void Madline::GraphicsEngine::init(Madline::Window& pWindow) {
 	windowExtent.height = screenRect.getHeight();
 	windowExtent.width = screenRect.getWidth();
 	
+	pWindow.getRect();
+	
 	initSwapchain();
 	
 	initCommands();

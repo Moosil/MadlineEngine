@@ -43,6 +43,8 @@ namespace Madline {
 		
 		Input* getInput();
 		
+		void getRect() const;
+		
 		void setFocused(bool val);
 		[[nodiscard]] bool isFocused() const;
 		
