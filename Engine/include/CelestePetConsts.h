@@ -14,7 +14,8 @@
 #define BUILD_DEBUG 0
 #define BUILD_RELEASE 1
 
-#define CLASS_NAME "MadlineWindowClass"
+#define WALLPAPER_CLASS_NAME "MadlineWallpaper"
+#define INPUT_CLASS_NAME "MadlineInput"
 #define WINDOW_NAME GAME_NAME
 
 #ifndef SHADER_PATH

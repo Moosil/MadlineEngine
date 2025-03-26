@@ -43,18 +43,29 @@ Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) { 
 
 void Madline::Window::initWindow() {
 	std::printf("Started Creating Window\n");
-	WNDCLASS wc = {sizeof(WNDCLASS)};
-	const std::string className = CLASS_NAME;
+	WNDCLASS wpWndCls = {sizeof(WNDCLASS)};
+	WNDCLASS inpWndCls = {sizeof(WNDCLASS)};
 	
-	if (!GetClassInfo(GetModuleHandle(nullptr), className.c_str(), &wc)) {
-		wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-		wc.hInstance = GetModuleHandle(nullptr);
-		wc.lpszClassName = className.c_str();
-		wc.style = CS_DBLCLKS;
-		wc.lpfnWndProc = &staticWindowProc;
-		wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
+	if (!GetClassInfo(GetModuleHandle(nullptr), WALLPAPER_CLASS_NAME, &wpWndCls)) {
+		wpWndCls.hCursor       = LoadCursor(nullptr, IDC_ARROW);
+		wpWndCls.hInstance     = GetModuleHandle(nullptr);
+		wpWndCls.lpszClassName = WALLPAPER_CLASS_NAME;
+		wpWndCls.style         = CS_DBLCLKS;
+		wpWndCls.lpfnWndProc   = &staticMainWindowProc;
+		wpWndCls.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
 		
-		assert(RegisterClass(&wc));
+		assert(RegisterClass(&wpWndCls));
+	}
+	
+	if (!GetClassInfo(GetModuleHandle(nullptr), INPUT_CLASS_NAME, &inpWndCls)) {
+		inpWndCls.hCursor       = LoadCursor(nullptr, IDC_ARROW);
+		inpWndCls.hInstance     = GetModuleHandle(nullptr);
+		inpWndCls.lpszClassName = INPUT_CLASS_NAME;
+		inpWndCls.style         = CS_DBLCLKS;
+		inpWndCls.lpfnWndProc   = &staticInputWindowProc;
+		inpWndCls.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
+		
+		assert(RegisterClass(&inpWndCls));
 	}
 
 	DEVMODEA devMode = {};
@@ -66,7 +77,19 @@ void Madline::Window::initWindow() {
 	
 	mHwnd = CreateWindowEx(
         WS_EX_TOOLWINDOW | WS_EX_LAYERED,
-        wc.lpszClassName,
+        wpWndCls.lpszClassName,
+        WINDOW_NAME,
+        WS_VISIBLE | WS_POPUP | WS_CLIPSIBLINGS,
+        0,
+        0,
+        screenRect.getWidth(),
+        screenRect.getHeight(),
+        nullptr, nullptr, GetModuleHandle(nullptr), this
+	);
+	
+	inputHwnd = CreateWindowEx(
+        WS_EX_TOOLWINDOW | WS_EX_LAYERED,
+        inpWndCls.lpszClassName,
         WINDOW_NAME,
         WS_VISIBLE | WS_POPUP | WS_CLIPSIBLINGS,
         0,
@@ -77,19 +100,21 @@ void Madline::Window::initWindow() {
 	);
 	
 //	SetLayeredWindowAttributes(mHwnd, RGB(0, 0, 0), 0, LWA_COLORKEY); // Transparent color key
-	
+
 	HWND wallpaperHwnd = getDesktopWallpaper();
-
-	SetWindowPos(mHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-
-	SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, nullptr, SPIF_UPDATEINIFILE);
 	
-	workerDefaultWindowProc = reinterpret_cast<WNDPROC>(GetClassLongPtr(wallpaperHwnd, GCLP_WNDPROC));
-	
-	SetWindowLongPtr(wallpaperHwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(workerWindowProc));
+	HWND topOfWpHwnd = getTopOfWallpaper();
 	
 	if (SetParent(mHwnd, wallpaperHwnd) == nullptr)
-		throw std::runtime_error("Cannot find defview");
+		throw std::runtime_error("Cannot find wallpaper handle");
+	
+	if (SetParent(inputHwnd, topOfWpHwnd) == nullptr)
+		throw std::runtime_error("Cannot find top of wallpaper");
+	
+	SetWindowPos(mHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+	SetWindowPos(inputHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+
+	SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, nullptr, SPIF_UPDATEINIFILE);
 }
 
 Madline::Window::~Window() {
@@ -117,73 +142,123 @@ void Madline::Window::gameLoop() {
 	GetCursorPos(&point);
 	ScreenToClient(mHwnd, &point);
 	input.cursorPos = static_cast<Madline::Vec2i>(point);
-	
-//	RECT rect = {};
-//	GetWindowRect(mHwnd, &rect);
-//	screenRect = static_cast<Rect2<int>>(rect);
+
+//	std::printf("foreground window handle: %p\n", GetForegroundWindow());
 }
 
-LRESULT CALLBACK Madline::Window::windowProc(unsigned int msg, WPARAM wp, LPARAM lp) {
+LRESULT CALLBACK Madline::Window::inputWindowProc(unsigned int msg, WPARAM wp, LPARAM lp) {
 	LRESULT rez = 0;
+	
+	bool pressed = false;
+	
+	switch (msg) {
+		case WM_CLOSE: {
+			running = false;
+			break;
+		}
+		
+		case WM_DESTROY: {
+			PostQuitMessage(0);
+			break;
+		}
+		
+		case WM_LBUTTONDOWN: {
+			processEventButton(input.lmb, true);
+			break;
+		}
+		
+		case WM_LBUTTONUP: {
+			processEventButton(input.lmb, false);
+			break;
+		}
 
-    bool pressed = false;
+		case WM_RBUTTONDOWN: {
+			processEventButton(input.rmb, true);
+			break;
+		}
+
+		case WM_RBUTTONUP: {
+			processEventButton(input.rmb, false);
+			break;
+		}
+	 
+		case WM_SETFOCUS: {
+			setFocused(true);
+			break;
+		}
+		
+		case WM_KILLFOCUS: {
+			setFocused(false);
+			break;
+		}
+		
+		case WM_SYSKEYDOWN: case WM_KEYDOWN:
+			pressed = true;
+		case WM_SYSKEYUP: case WM_KEYUP: {
+			bool altPressed = lp & (1 << 29);
+			
+			for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
+				if (wp == Button::buttonValues[i]) {
+					processEventButton(input.keyBoard[i], pressed);
+					input.keyBoard[i].altPressed = altPressed;
+				}
+			}
+
+			// so alt + f4 works
+			rez = DefWindowProc(mHwnd, msg, wp, lp);
+		} break;
+		
+		case WM_COMMAND: {
+			// User selected the quit button
+			switch (LOWORD(wp)) {
+				case ID_EXIT: {
+					delete (this);
+					break;
+				}
+			}
+		}
+		
+		case WM_WINDOWPOSCHANGING: {
+			auto *pos = (WINDOWPOS *) lp;
+			
+			if (pos->x == -32000) {
+				// Set the flags to prevent this and "survive" to the desktop toggle
+				pos->flags |= SWP_NOMOVE | SWP_NOSIZE;
+			}
+
+			pos->hwndInsertAfter = HWND_BOTTOM;
+			break;
+		}
+		
+		case WM_MENUOPEN: {
+			// User opened the menu
+			if (LOWORD(lp) == WM_CONTEXTMENU)
+				showContextMenu({LOWORD(wp), HIWORD(wp)});
+			break;
+		}
+		
+		default: {
+			rez = DefWindowProc(mHwnd, msg, wp, lp);
+			break;
+		}
+	}
+	
+	return rez;
+}
+
+LRESULT CALLBACK Madline::Window::mainWindowProc(unsigned int msg, WPARAM wp, LPARAM lp) {
+	LRESULT rez = 0;
     
 	switch (msg) {
 	    case WM_CLOSE: {
 		    running = false;
 		    break;
 	    }
-		   
-	    case WM_LBUTTONDOWN: {
-		    processEventButton(input.lmb, true);
-		    break;
-	    }
-
-	    case WM_LBUTTONUP: {
-		    processEventButton(input.lmb, false);
-		    break;
-	    }
-
-	    case WM_RBUTTONDOWN: {
-		    processEventButton(input.rmb, true);
-		    break;
-	    }
-
-	    case WM_RBUTTONUP: {
-		    processEventButton(input.rmb, false);
-		    break;
-	    }
-
-	    case WM_SYSKEYDOWN: case WM_KEYDOWN:
-		    pressed = true;
-	    case WM_SYSKEYUP: case WM_KEYUP: {
-		    bool altPressed = lp & (1 << 29);
-
-		    for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
-			    if (wp == Button::buttonValues[i]) {
-				    processEventButton(input.keyBoard[i], pressed);
-				    input.keyBoard[i].altPressed = altPressed;
-			    }
-		    }
-
-		    // so alt + f4 works
-		    rez = DefWindowProc(mHwnd, msg, wp, lp);
-	    } break;
-		   
-	    case WM_SIZE: {
-		    // Handle size changes if needed
-		    break;
-	    }
-	    
-	    case WM_SETFOCUS: {
-		    setFocused(true);
-		    break;
-	    }
-		   
-	    case WM_KILLFOCUS: {
-		    setFocused(false);
-		    break;
-	    }
+		
+		case WM_DESTROY: {
+			PostQuitMessage(0);
+			break;
+		}
 	
 	    case WM_WINDOWPOSCHANGING: {
 		    auto *pos = (WINDOWPOS *) lp;
@@ -201,21 +276,6 @@ LRESULT CALLBACK Madline::Window::windowProc(unsigned int msg, WPARAM wp, LPARAM
 //		    rez = HTNOWHERE;
 //		    break;
 //	    }
-		
-		case WM_COMMAND:
-			// User selected the quit button
-			switch (LOWORD(wp)) {
-				case ID_EXIT: {
-					delete (this);
-					break;
-				}
-			}
-
-		case WM_MENUOPEN:
-			// User opened the menu
-			if (LOWORD(lp) == WM_CONTEXTMENU)
-				showContextMenu({ LOWORD(wp), HIWORD(wp) });
-			break;
 	
 	    default: {
 		    rez = DefWindowProc(mHwnd, msg, wp, lp);
@@ -394,7 +454,7 @@ void Madline::Window::showContextMenu(POINT pt) {
 	DestroyMenu(hMenu);
 }
 
-LRESULT CALLBACK Madline::Window::staticWindowProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
+LRESULT CALLBACK Madline::Window::staticMainWindowProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
 	if (ImGui_ImplWin32_WndProcHandler(pHwnd, msg, wp, lp))
 		return true;
 	
@@ -410,24 +470,20 @@ LRESULT CALLBACK Madline::Window::staticWindowProc(HWND pHwnd, unsigned int msg,
 		self = static_cast<Window*>(cs->lpCreateParams);
 		self->mHwnd = pHwnd;
 		SetLastError(0);
-		if (SetWindowLongPtr(pHwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(self)) == 0)
-		{
+		if (SetWindowLongPtr(pHwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(self)) == 0) {
 			if (GetLastError() != 0)
 				return false;
 		}
-	}
-	else
-	{
+	} else
 		self = reinterpret_cast<Window*>(GetWindowLongPtr(pHwnd, GWLP_USERDATA));
-	}
 	
 	if (self)
-		return self->windowProc(msg, wp, lp);
+		return self->mainWindowProc(msg, wp, lp);
 
 	return DefWindowProc(pHwnd, msg, wp, lp);
 }
 
-BOOL CALLBACK Madline::Window::enumWindowsProc(HWND hwnd, LPARAM lParam) {
+BOOL CALLBACK Madline::Window::enumWindowsProcDesktopWallpaper(HWND hwnd, LPARAM lParam) {
 	HWND p = FindWindowEx(hwnd, nullptr, "SHELLDLL_DefView", nullptr);
 	HWND* ret = reinterpret_cast<HWND*>(lParam);
 	
@@ -439,7 +495,7 @@ BOOL CALLBACK Madline::Window::enumWindowsProc(HWND hwnd, LPARAM lParam) {
 
 HWND Madline::Window::getDesktopWallpaper() {
 	HWND progman = FindWindow("Progman", nullptr);
-
+	
 	SendMessageTimeout(
         progman,
         0x052C,
@@ -451,7 +507,7 @@ HWND Madline::Window::getDesktopWallpaper() {
 	);
 
 	HWND wallpaperHwnd = nullptr;
-	EnumWindows(enumWindowsProc, reinterpret_cast<LPARAM>(&wallpaperHwnd));
+	EnumWindows(enumWindowsProcDesktopWallpaper, reinterpret_cast<LPARAM>(&wallpaperHwnd));
 	
 	if (wallpaperHwnd == nullptr) {
 		wallpaperHwnd = FindWindowEx(progman, nullptr, "WorkerW", nullptr);
@@ -459,19 +515,35 @@ HWND Madline::Window::getDesktopWallpaper() {
 	
 	std::cout << "Wallpaper handle: " << wallpaperHwnd << std::endl;
 	
+	if (wallpaperHwnd == nullptr) {
+		throw std::runtime_error("Could not find wallpaper");
+	}
+	
 	return wallpaperHwnd;
 }
 
-LRESULT CALLBACK Madline::Window::workerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-	LRESULT rez = 0;
-
-	switch (msg) {
-		default: {
-			std::printf("Hello world %u", msg);
-			// Pass the message to the default window procedure for other cases
-			rez = CallWindowProc(workerDefaultWindowProc, hwnd, msg, wParam, lParam);
-		}
+BOOL CALLBACK Madline::Window::enumWindowsProcTopOfWallpaper(HWND hwnd, LPARAM lParam) {
+	HWND defView = FindWindowEx(hwnd, nullptr, "SHELLDLL_DefView", nullptr);
+	HWND* ret = reinterpret_cast<HWND*>(lParam);
+	
+	if (defView != nullptr) {
+		HWND folderView = FindWindowEx(defView, nullptr, "SysListView32", nullptr);
+		if (folderView != nullptr)
+			*ret = folderView;
 	}
-
-	return rez;
+	return true;
 }
+
+HWND Madline::Window::getTopOfWallpaper() {
+	HWND topHwnd = nullptr;
+	EnumWindows(enumWindowsProcTopOfWallpaper, reinterpret_cast<LPARAM>(&topHwnd));
+	
+	if (topHwnd == nullptr) {
+		throw std::runtime_error("Could not find top of wallpaper");
+	}
+	
+	std::cout << "Top of wallpaper handle: " << topHwnd << std::endl;
+	
+	return topHwnd;
+}
+

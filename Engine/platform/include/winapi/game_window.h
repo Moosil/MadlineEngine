@@ -79,20 +79,24 @@ namespace Madline {
 		bool running = true;
 		int minFps;
 		HWND mHwnd;
+		HWND inputHwnd;
 		Input input;
 		std::chrono::high_resolution_clock::time_point lastFrameTime;
 		
 		void initWindow();
 		static WINBOOL addTrayIcon(HWND hwnd);
 		
-		static LRESULT CALLBACK staticWindowProc(HWND hwnd, unsigned int msg, WPARAM wp, LPARAM lp);
-		LRESULT CALLBACK windowProc(unsigned int msg, WPARAM wp, LPARAM lp);
+		static LRESULT CALLBACK staticMainWindowProc(HWND hwnd, unsigned int msg, WPARAM wp, LPARAM lp);
+		static LRESULT CALLBACK statiInputWindowProc(HWND hwnd, unsigned int msg, WPARAM wp, LPARAM lp);
+		LRESULT CALLBACK inputWindowProc(unsigned int msg, WPARAM wp, LPARAM lp);
+		LRESULT CALLBACK mainWindowProc(unsigned int msg, WPARAM wp, LPARAM lp);
 		
-		static BOOL CALLBACK enumWindowsProc(HWND hwnd, LPARAM lParam);
-		static HWND getDesktopWallpaper();
 		void showContextMenu(POINT pt);
 		
-		static LRESULT CALLBACK workerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+		static BOOL CALLBACK enumWindowsProcDesktopWallpaper(HWND hwnd, LPARAM lParam);
+		static HWND getDesktopWallpaper();
+		static BOOL CALLBACK enumWindowsProcTopOfWallpaper(HWND hwnd, LPARAM lParam);
+        static HWND getTopOfWallpaper();
 	};
 }
 
