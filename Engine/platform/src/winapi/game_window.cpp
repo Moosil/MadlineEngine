@@ -20,15 +20,16 @@
 #endif
 
 #include <imgui.h>
-#include <imgui_impl_win32.h>
 #include <imgui_impl_win32.cpp>
+#include <imgui_impl_win32.h>
+#include <iostream>
 
 #include "winapi/game_window.h"
 
-namespace Madline {
-	WNDPROC originalWindowProc;
-}
 
+namespace Madline {
+	WNDPROC workerDefaultWindowProc;
+}
 
 Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) { // NOLINT(*-pro-type-member-init)
 	std::printf("Started Creating Window\n");
@@ -77,15 +78,18 @@ void Madline::Window::initWindow() {
 	
 //	SetLayeredWindowAttributes(mHwnd, RGB(0, 0, 0), 0, LWA_COLORKEY); // Transparent color key
 	
-//	HWND wallpaper = getDesktopWallpaper();
-//
-//	HWND defView = FindWindowEx(wallpaper, nullptr, "SHELLDLL_DefView", nullptr);
-//	if (defView != nullptr) {
-//		HWND sysListView32 = FindWindowEx(defView, nullptr, "SysListView32", nullptr);
-//		SetParent(mHwnd, sysListView32);
-//		SetWindowPos(mHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-//	} else
-//		throw std::runtime_error("Cannot find defview");
+	HWND wallpaperHwnd = getDesktopWallpaper();
+
+	SetWindowPos(mHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+
+	SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, nullptr, SPIF_UPDATEINIFILE);
+	
+	workerDefaultWindowProc = reinterpret_cast<WNDPROC>(GetClassLongPtr(wallpaperHwnd, GCLP_WNDPROC));
+	
+	SetWindowLongPtr(wallpaperHwnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(workerWindowProc));
+	
+	if (SetParent(mHwnd, wallpaperHwnd) == nullptr)
+		throw std::runtime_error("Cannot find defview");
 }
 
 Madline::Window::~Window() {
@@ -197,6 +201,21 @@ LRESULT CALLBACK Madline::Window::windowProc(unsigned int msg, WPARAM wp, LPARAM
 //		    rez = HTNOWHERE;
 //		    break;
 //	    }
+		
+		case WM_COMMAND:
+			// User selected the quit button
+			switch (LOWORD(wp)) {
+				case ID_EXIT: {
+					delete (this);
+					break;
+				}
+			}
+
+		case WM_MENUOPEN:
+			// User opened the menu
+			if (LOWORD(lp) == WM_CONTEXTMENU)
+				showContextMenu({ LOWORD(wp), HIWORD(wp) });
+			break;
 	
 	    default: {
 		    rez = DefWindowProc(mHwnd, msg, wp, lp);
@@ -330,12 +349,50 @@ std::vector<int> Madline::Window::getButtonsReleased() const {
 void Madline::Window::getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) const {
 	VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
 	surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-	surfaceCreateInfo.hwnd = getDesktopWallpaper();
+	surfaceCreateInfo.hwnd = mHwnd;
 	surfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
 	
 	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, surface));
 }
 #endif//RENDER_VULKAN
+
+BOOL Madline::Window::addTrayIcon(HWND hwnd)
+{
+	NOTIFYICONDATA nid   = { sizeof(nid) };
+	nid.hWnd             = hwnd;
+	nid.uID              = 1;
+	nid.uFlags           = NIF_ICON | NIF_TIP | NIF_MESSAGE | NIF_SHOWTIP;
+	nid.uCallbackMessage = WM_MENUOPEN;
+	nid.hIcon            = LoadIcon(GetModuleHandle(nullptr), IDI_INFORMATION);
+	lstrcpy(nid.szTip, "My Tray Icon");
+	
+	// Spawns the icon
+	Shell_NotifyIcon(NIM_ADD, &nid);
+
+	nid.uVersion = NOTIFYICON_VERSION_4;
+	return Shell_NotifyIcon(NIM_SETVERSION, &nid);
+}
+
+void Madline::Window::showContextMenu(POINT pt) {
+	HMENU hMenu = LoadMenu(GetModuleHandle(nullptr), IDI_INFORMATION);
+	if (hMenu == nullptr) return;
+	
+	HMENU hSubMenu = GetSubMenu(hMenu, 0);
+	if (hSubMenu == nullptr) {
+		DestroyMenu(hMenu);
+		return;
+	}
+
+	// The window must be in the foreground before calling TrackPopupMenu or the menu will not disappear when the user clicks away
+	SetForegroundWindow(mHwnd);
+
+	// Drop alignment
+	const int uFlags = TPM_RIGHTBUTTON | (GetSystemMetrics(SM_MENUDROPALIGNMENT) ? TPM_RIGHTALIGN : TPM_LEFTALIGN);
+
+	TrackPopupMenuEx(hSubMenu, uFlags, pt.x, pt.y, mHwnd, nullptr);
+
+	DestroyMenu(hMenu);
+}
 
 LRESULT CALLBACK Madline::Window::staticWindowProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
 	if (ImGui_ImplWin32_WndProcHandler(pHwnd, msg, wp, lp))
@@ -344,6 +401,11 @@ LRESULT CALLBACK Madline::Window::staticWindowProc(HWND pHwnd, unsigned int msg,
 	Window* self;
 	
 	if (msg == WM_NCCREATE)	{
+		if (addTrayIcon(pHwnd) == 0) {
+			DestroyWindow(pHwnd);
+			throw std::runtime_error("Cannot create system tray icon");
+		}
+		
 		auto *cs = (CREATESTRUCT*) lp;
 		self = static_cast<Window*>(cs->lpCreateParams);
 		self->mHwnd = pHwnd;
@@ -365,69 +427,51 @@ LRESULT CALLBACK Madline::Window::staticWindowProc(HWND pHwnd, unsigned int msg,
 	return DefWindowProc(pHwnd, msg, wp, lp);
 }
 
+BOOL CALLBACK Madline::Window::enumWindowsProc(HWND hwnd, LPARAM lParam) {
+	HWND p = FindWindowEx(hwnd, nullptr, "SHELLDLL_DefView", nullptr);
+	HWND* ret = reinterpret_cast<HWND*>(lParam);
+	
+	if (p != nullptr) {
+		*ret = FindWindowEx(nullptr, hwnd, "WorkerW", nullptr);
+	}
+	return true;
+}
+
 HWND Madline::Window::getDesktopWallpaper() {
 	HWND progman = FindWindow("Progman", nullptr);
 
-	ULONG_PTR result = 0;
 	SendMessageTimeout(
         progman,
         0x052C,
-        NULL,
-        NULL,
+        0xD,
+        0x1,
         SMTO_NORMAL,
         1000,
-        &result
+        nullptr
 	);
 
-	HWND defView = nullptr;
-
-	EnumWindows([](HWND topHandle, LPARAM tmp) -> BOOL {
-			HWND p = FindWindowEx(topHandle,
-				nullptr,
-				"SHELLDLL_DefView",
-				nullptr
-			);
-		    if (p != nullptr)
-			    *((HWND *) tmp) = FindWindowEx(
-		            nullptr,
-		            topHandle,
-		            "WorkerW",
-		            nullptr
-				);
-
-
-	        return true;
-        },
-        (LPARAM)(&defView)
-    );
+	HWND wallpaperHwnd = nullptr;
+	EnumWindows(enumWindowsProc, reinterpret_cast<LPARAM>(&wallpaperHwnd));
 	
-	return defView;
-//	HWND progmanHwnd = FindWindow("Progman", nullptr);
-//
-//	if (progmanHwnd != nullptr) {
-//		HWND defView = FindWindowEx(progmanHwnd, nullptr, "SHELLDLL_DefView", nullptr);
-//
-//		if (defView == nullptr) {
-//			HWND desktopHwnd = GetDesktopWindow();
-//			HWND workerW{};
-//			unsigned int counter = 0;
-//			do {
-//				workerW = FindWindowEx(desktopHwnd, workerW, "WorkerW", nullptr);
-//				defView = FindWindowEx(workerW, nullptr, "SHELLDLL_DefView", nullptr);
-//				counter++;
-//			} while (!defView && workerW && counter < 10000);
-//			if (counter >= 10000)
-//				throw std::runtime_error("Cannot find program manager (WorkerW and SHELLDLL_DefView)");
-//			else
-//				return workerW;
-//		} else
-//			return progmanHwnd;
-//
-//		// for putting window on top of desktop completely
-////		if (defView != nullptr) {
-////			HWND sysListView32 = FindWindowEx(defView, nullptr, "SysListView32", nullptr);
-////		} else
-////			throw std::runtime_error("Cannot find defview");
-//	} else
-//		throw std::runtime_error("Cannot find program manager (progman)");
+	if (wallpaperHwnd == nullptr) {
+		wallpaperHwnd = FindWindowEx(progman, nullptr, "WorkerW", nullptr);
+	}
+	
+	std::cout << "Wallpaper handle: " << wallpaperHwnd << std::endl;
+	
+	return wallpaperHwnd;
+}
+
+LRESULT CALLBACK Madline::Window::workerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	LRESULT rez = 0;
+
+	switch (msg) {
+		default: {
+			std::printf("Hello world %u", msg);
+			// Pass the message to the default window procedure for other cases
+			rez = CallWindowProc(workerDefaultWindowProc, hwnd, msg, wParam, lParam);
+		}
+	}
+
+	return rez;
 }

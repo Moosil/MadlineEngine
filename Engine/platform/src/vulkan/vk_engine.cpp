@@ -96,7 +96,9 @@ void Madline::GraphicsEngine::cleanup() {
 		
 		destroySwapchain();
 		
-		vkDestroySurfaceKHR(instance, surface, nullptr);
+		for (auto surface : surfaces) {
+			vkDestroySurfaceKHR(instance, surface, nullptr);
+		}
 		vkDestroyDevice(device, nullptr);
 		
 		vkb::destroy_debug_utils_messenger(instance, debugMessenger);
@@ -331,7 +333,8 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 	debugMessenger = vkbInstance.debug_messenger;
 	
 	// Create Windows api surface for Vulkan. If surface is non created successfully, throw a runtime error
-	window.getVulkanSurface(instance, &surface);
+	surfaces.push_back(nullptr);
+	window.getVulkanSurface(instance, &surfaces[0]);
 	
 	//vulkan 1.3 features
 	VkPhysicalDeviceVulkan13Features features{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES };
@@ -350,7 +353,7 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 		.set_minimum_version(1, 3)
 		.set_required_features_13(features)
 		.set_required_features_12(features12)
-		.set_surface(surface)
+		.set_surface(surfaces[0])
 		.select()
 		.value();
 	
@@ -382,7 +385,7 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 	#pragma endregion
 	
 	VkSurfaceCapabilitiesKHR surfaceCapabilities = {};
-	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &surfaceCapabilities);
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surfaces[0], &surfaceCapabilities);
 	std::printf("supported composite alpha: %u\n", surfaceCapabilities.supportedCompositeAlpha);
 }
 
@@ -396,7 +399,7 @@ void Madline::GraphicsEngine::destroySwapchain() {
 }
 
 void Madline::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height) {
-	vkb::SwapchainBuilder swapchainBuilder{chosenGpu, device, surface };
+	vkb::SwapchainBuilder swapchainBuilder{chosenGpu, device, surfaces[0] };
 	
 	vkDestroySwapchainKHR(device, swapchain, nullptr);
 	

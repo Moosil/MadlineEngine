@@ -83,7 +83,7 @@ namespace Madline {
 		VkQueue graphicsQueue{};
 		uint32_t graphicsQueueFamily{};
 		
-		VkSurfaceKHR surface{};// Vulkan mWindow surface
+		std::vector<VkSurfaceKHR> surfaces{};// Vulkan mWindow surface
 		VkSwapchainKHR swapchain{};
 		VkFormat swapchainImageFormat{};
 		VkExtent2D swapchainExtent{};

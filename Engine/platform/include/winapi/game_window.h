@@ -23,6 +23,9 @@
 #include <Windows.h>
 #endif
 
+#define WM_MENUOPEN (WM_APP + 1)
+#define ID_EXIT 40004
+
 namespace Madline {
 	class Window {
 	public:
@@ -78,17 +81,18 @@ namespace Madline {
 		HWND mHwnd;
 		Input input;
 		std::chrono::high_resolution_clock::time_point lastFrameTime;
-
-		#ifdef _WIN32
-		HWND windowHwnd;
-		#endif
 		
 		void initWindow();
+		static WINBOOL addTrayIcon(HWND hwnd);
 		
 		static LRESULT CALLBACK staticWindowProc(HWND hwnd, unsigned int msg, WPARAM wp, LPARAM lp);
 		LRESULT CALLBACK windowProc(unsigned int msg, WPARAM wp, LPARAM lp);
-
+		
+		static BOOL CALLBACK enumWindowsProc(HWND hwnd, LPARAM lParam);
 		static HWND getDesktopWallpaper();
+		void showContextMenu(POINT pt);
+		
+		static LRESULT CALLBACK workerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	};
 }
 
