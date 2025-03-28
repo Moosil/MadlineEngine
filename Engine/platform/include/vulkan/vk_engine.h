@@ -63,7 +63,7 @@ namespace Madline {
 	};
 	
 	struct SurfaceComponents {
-		HWND window{};
+		HWND handle{};
 		int frameNumber {0};
 		bool hasImgui { false };
 		
@@ -128,7 +128,7 @@ namespace Madline {
 		void initBackgroundPipelines(SurfaceComponents surfComp);
 		void initImgui(SurfaceComponents &surfComp);
 		
-		void createSwapchain(uint32_t width, uint32_t height, SurfaceComponents &parts);
+		void createSwapchain(uint32_t width, uint32_t height, SurfaceComponents &surfComp);
 		void destroySwapchain(SurfaceComponents &surfComp);
 		
 		void draw(SurfaceComponents &surfComp);

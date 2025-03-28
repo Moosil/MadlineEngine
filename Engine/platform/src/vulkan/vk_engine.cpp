@@ -67,7 +67,8 @@ void Madline::GraphicsEngine::init(Madline::Window& pWindow) {
 		
 		initPipelines(surfComp);
 		
-		initImgui(surfComp);
+		if (surfComp.hasImgui)
+			initImgui(surfComp);
 		}
 	
 	isInitialized = true;
@@ -342,11 +343,14 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 	debugMessenger = vkbInstance.debug_messenger;
 	
 	// Create Windows api surface for Vulkan. If surface is non created successfully, throw a runtime error
-	for (auto& [surfName, surface] : window.getVulkanSurfaces(instance)) {
+	for (auto& [surfName, surfInfo] : window.getVulkanSurfaces(instance)) {
 		SurfaceComponents component{};
-		component.surface = surface;
+		component.surface = surfInfo.surface;
+		component.handle = surfInfo.handle;
 		surfaces[surfName] = component;
 	}
+	
+	surfaces[INPUT_WINDOW].hasImgui = true;
 	
 	//vulkan 1.3 features
 	VkPhysicalDeviceVulkan13Features features{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES };
@@ -412,14 +416,14 @@ void Madline::GraphicsEngine::destroySwapchain(SurfaceComponents &surfComp) {
 	}
 }
 
-void Madline::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height, SurfaceComponents &parts) {
-	vkb::SwapchainBuilder swapchainBuilder{chosenGpu, device, parts.surface };
+void Madline::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height, SurfaceComponents &surfComp) {
+	vkb::SwapchainBuilder swapchainBuilder{chosenGpu, device, surfComp.surface };
 	
-	parts.swapchainImageFormat = VK_FORMAT_B8G8R8A8_UNORM;
+	surfComp.swapchainImageFormat = VK_FORMAT_B8G8R8A8_UNORM;
 	
 	vkb::Swapchain vkbSwapchain = swapchainBuilder
 		//.use_default_format_selection()
-		.set_desired_format(VkSurfaceFormatKHR{ .format = parts.swapchainImageFormat, .colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR })
+		.set_desired_format(VkSurfaceFormatKHR{ .format = surfComp.swapchainImageFormat, .colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR })
 		//use vsync present mode
 		.set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR)
 		.set_desired_extent(width, height)
@@ -428,11 +432,11 @@ void Madline::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height, S
 		.build()
 		.value();
 	
-	parts.swapchainExtent = vkbSwapchain.extent;
+	surfComp.swapchainExtent = vkbSwapchain.extent;
 	//store swapchain and its related images
-	parts.swapchain = vkbSwapchain.swapchain;
-	parts.swapchainImages = vkbSwapchain.get_images().value();
-	parts.swapchainImageViews = vkbSwapchain.get_image_views().value();
+	surfComp.swapchain = vkbSwapchain.swapchain;
+	surfComp.swapchainImages = vkbSwapchain.get_images().value();
+	surfComp.swapchainImageViews = vkbSwapchain.get_image_views().value();
 }
 
 void Madline::GraphicsEngine::initSwapchain(SurfaceComponents &surfComp) {
@@ -655,7 +659,7 @@ void Madline::GraphicsEngine::initImgui(SurfaceComponents &surfComp) {
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 
 	// this initializes imgui for Win32
-	ImGui_ImplWin32_Init(surfComp.window);
+	ImGui_ImplWin32_Init(surfComp.handle);
 
 	// this initializes imgui for Vulkan
 	ImGui_ImplVulkan_InitInfo initInfo = {};

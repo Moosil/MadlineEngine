@@ -31,7 +31,7 @@ namespace Madline {
 	WNDPROC workerDefaultWindowProc;
 }
 
-Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) { // NOLINT(*-pro-type-member-init)
+Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
 	std::printf("Started Creating Window\n");
 	
 	initWindow();
@@ -90,7 +90,7 @@ void Madline::Window::initWindow() {
 	inputHwnd = CreateWindowEx(
         WS_EX_TOOLWINDOW | WS_EX_LAYERED,
         inpWndCls.lpszClassName,
-        WINDOW_NAME,
+        std::format("{}Input",WINDOW_NAME).c_str(),
         WS_VISIBLE | WS_POPUP | WS_CLIPSIBLINGS,
         0,
         0,
@@ -406,20 +406,20 @@ std::vector<int> Madline::Window::getButtonsReleased() const {
 }
 
 #ifdef RENDER_VULKAN
-std::unordered_map<std::string, VkSurfaceKHR> Madline::Window::getVulkanSurfaces(VkInstance instance) const {
-	std::unordered_map<std::string, VkSurfaceKHR> surfaces{};
-	surfaces["main"] = nullptr;
-	surfaces["input"] = nullptr;
+std::unordered_map<std::string, Madline::SurfaceInfo> Madline::Window::getVulkanSurfaces(VkInstance instance) const {
+	std::unordered_map<std::string, SurfaceInfo> surfaces{};
+	surfaces[MAIN_WINDOW] = SurfaceInfo(mHwnd);
+	surfaces[INPUT_WINDOW] = SurfaceInfo(inputHwnd);
 	
 	VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
 	surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
 	surfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
 	
-	surfaceCreateInfo.hwnd = mHwnd;
-	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, &surfaces[MAIN_WINDOW]));
+	surfaceCreateInfo.hwnd = surfaces[MAIN_WINDOW].handle;
+	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, &surfaces[MAIN_WINDOW].surface));
 	
-	surfaceCreateInfo.hwnd = inputHwnd;
-	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, &surfaces[INPUT_WINDOW]));
+	surfaceCreateInfo.hwnd = surfaces[INPUT_WINDOW].handle;
+	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, &surfaces[INPUT_WINDOW].surface));
 	
 	return surfaces;
 }

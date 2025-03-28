@@ -32,6 +32,12 @@
 #define INPUT_WINDOW "inputWnd"
 
 namespace Madline {
+	struct SurfaceInfo {
+		VkSurfaceKHR surface{};
+		HWND handle{};
+		explicit SurfaceInfo(HWND handle = nullptr): handle(handle) {};
+	};
+	
 	class Window {
 	public:
 		explicit Window(int minFps = 5);
@@ -77,14 +83,14 @@ namespace Madline {
 		[[nodiscard]] std::vector<int> getButtonsReleased() const;
 		
 		#ifdef RENDER_VULKAN
-			std::unordered_map<std::string, VkSurfaceKHR> getVulkanSurfaces(VkInstance instance) const;
+			std::unordered_map<std::string, SurfaceInfo> getVulkanSurfaces(VkInstance instance) const;
 		#endif
 	private:
 		Madline::Rect2<int> screenRect;
 		bool running = true;
 		int minFps;
-		HWND mHwnd;
-		HWND inputHwnd;
+		HWND mHwnd = nullptr;
+		HWND inputHwnd = nullptr;
 		Input input;
 		std::chrono::high_resolution_clock::time_point lastFrameTime;
 		
