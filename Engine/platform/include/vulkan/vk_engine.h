@@ -61,42 +61,32 @@ namespace Madline {
 	struct PipelineShader {
 	
 	};
-
 	
-	class GraphicsEngine {
-	private:
-		bool isInitialized { false };
+	struct SurfaceComponents {
+		HWND window{};
 		int frameNumber {0};
+		bool hasImgui { false };
 		
-		VkExtent2D windowExtent{ sizeof(VkExtent2D) };
-		
-		Window* mWindow{ nullptr };
-		
-		VkInstance instance{};// Vulkan library handle
-		VkDebugUtilsMessengerEXT debugMessenger{};// Vulkan debug output handle
-		VkPhysicalDevice chosenGpu{};// GPU chosen as the default device
-		VkDevice device{}; // Vulkan device for commands
-	
-		std::array<FrameData, 2> frames;
-		FrameData& getCurrentFrame() { return frames[frameNumber % FRAME_OVERLAP]; };
-		
-		VkQueue graphicsQueue{};
-		uint32_t graphicsQueueFamily{};
-		
-		std::vector<VkSurfaceKHR> surfaces{};// Vulkan mWindow surface
+		VkSurfaceKHR surface{};
 		VkSwapchainKHR swapchain{};
 		VkFormat swapchainImageFormat{};
 		VkExtent2D swapchainExtent{};
 		VkExtent2D drawExtent{};
-	
+		
 		std::vector<VkImage> swapchainImages;
 		std::vector<VkImageView> swapchainImageViews;
 		
-		VkDescriptorSet drawImageDescriptors{};
-		VkDescriptorSetLayout drawImageDescriptorLayout{};
+		std::array<FrameData, 2> frames;
+		FrameData& getCurrentFrame() { return frames[frameNumber % FRAME_OVERLAP]; };
 		
 		VkPipeline gradientPipeline{};
 		VkPipelineLayout gradientPipelineLayout{};
+		
+		VkQueue graphicsQueue{};
+		uint32_t graphicsQueueFamily{};
+		
+		VkDescriptorSet drawImageDescriptors{};
+		VkDescriptorSetLayout drawImageDescriptorLayout{};
 		
 		// immediate submit structures
 		VkFence immFence{};
@@ -112,29 +102,46 @@ namespace Madline {
 		
 		std::vector<ComputeEffect> backgroundEffects;
 		int currentBackgroundEffect{ 0 };
+	};
+
+	
+	class GraphicsEngine {
+	private:
+		bool isInitialized { false };
+		
+		Window* mWindow{ nullptr };
+		VkExtent2D windowExtent{ sizeof(VkExtent2D) };
+		
+		VkInstance instance{};// Vulkan library handle
+		VkDebugUtilsMessengerEXT debugMessenger{};// Vulkan debug output handle
+		VkPhysicalDevice chosenGpu{};// GPU chosen as the default device
+		VkDevice device{}; // Vulkan device for commands
+		
+		std::unordered_map<std::string, SurfaceComponents> surfaces{};
 		
 		void initVulkan(const Madline::Window& window);
-		void initSwapchain();
-		void initCommands();
-		void initSyncStructures();
-		void initDescriptors();
-		void initPipelines();
-		void initBackgroundPipelines();
-		void initImgui();
+		void initSwapchain(SurfaceComponents &surfComp);
+		void initCommands(SurfaceComponents &surfComp);
+		void initSyncStructures(SurfaceComponents &surfComp);
+		void initDescriptors(SurfaceComponents &surfComp);
+		void initPipelines(SurfaceComponents &surfComp);
+		void initBackgroundPipelines(SurfaceComponents surfComp);
+		void initImgui(SurfaceComponents &surfComp);
 		
-		void createSwapchain(uint32_t width, uint32_t height);
-		void destroySwapchain();
+		void createSwapchain(uint32_t width, uint32_t height, SurfaceComponents &parts);
+		void destroySwapchain(SurfaceComponents &surfComp);
 		
-		void draw();
-		void drawImgui(VkCommandBuffer cmd, VkImageView targetImageView);
-		void drawBackground(VkCommandBuffer cmd) const;
+		void draw(SurfaceComponents &surfComp);
+		void drawImgui(VkCommandBuffer cmd, VkImageView targetImageView, SurfaceComponents &surfComp);
+		void drawBackground(VkCommandBuffer cmd, SurfaceComponents &surfComp) const;
 		
-		void immediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function);
+		void immediateSubmit(std::function<void(VkCommandBuffer cmd)> &&function,
+		                     SurfaceComponents &surfComp);
 		
-		void createComputeShader(
-	        const std::string& shaderName, const ComputePushConstants& pushConstants,
-	        VkPipelineShaderStageCreateInfo* stageInfo, VkComputePipelineCreateInfo* computePipelineCreateInfo
-        );
+		void createComputeShader(const std::string &shaderName, const ComputePushConstants &pushConstants,
+		                         VkPipelineShaderStageCreateInfo *stageInfo,
+		                         VkComputePipelineCreateInfo *computePipelineCreateInfo,
+		                         SurfaceComponents &surfComp);
 	public:
 		//initializes everything in the engine
 		void init(Madline::Window& pWindow);

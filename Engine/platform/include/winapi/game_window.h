@@ -21,10 +21,15 @@
 
 #ifdef _WIN64
 #include <Windows.h>
+#include <unordered_map>
+
 #endif
 
 #define WM_MENUOPEN (WM_APP + 1)
 #define ID_EXIT 40004
+
+#define MAIN_WINDOW "mainWnd"
+#define INPUT_WINDOW "inputWnd"
 
 namespace Madline {
 	class Window {
@@ -40,7 +45,7 @@ namespace Madline {
 		
 		[[nodiscard]] HWND getHwnd() const;
 		[[nodiscard]] int getMinFps() const;
-		[[nodiscard]] Rect2<int> getScreenRect() const;
+		[[nodiscard]] Rect2<int> getWindowRect() const;
 		[[nodiscard]] bool isRunning() const;
 		void stopRunning();
 		
@@ -72,7 +77,7 @@ namespace Madline {
 		[[nodiscard]] std::vector<int> getButtonsReleased() const;
 		
 		#ifdef RENDER_VULKAN
-			void getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) const;
+			std::unordered_map<std::string, VkSurfaceKHR> getVulkanSurfaces(VkInstance instance) const;
 		#endif
 	private:
 		Madline::Rect2<int> screenRect;
@@ -86,10 +91,11 @@ namespace Madline {
 		void initWindow();
 		static WINBOOL addTrayIcon(HWND hwnd);
 		
-		static LRESULT CALLBACK staticMainWindowProc(HWND hwnd, unsigned int msg, WPARAM wp, LPARAM lp);
-		static LRESULT CALLBACK statiInputWindowProc(HWND hwnd, unsigned int msg, WPARAM wp, LPARAM lp);
-		LRESULT CALLBACK inputWindowProc(unsigned int msg, WPARAM wp, LPARAM lp);
-		LRESULT CALLBACK mainWindowProc(unsigned int msg, WPARAM wp, LPARAM lp);
+		LRESULT CALLBACK inputWndProc(unsigned int msg, WPARAM wp, LPARAM lp);
+		LRESULT CALLBACK mainWndProc(unsigned int msg, WPARAM wp, LPARAM lp);
+		
+		static LRESULT CALLBACK staticMainWndProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp);
+		static LRESULT CALLBACK staticInputWndProc(HWND hwnd, unsigned int msg, WPARAM wp, LPARAM lp);
 		
 		void showContextMenu(POINT pt);
 		

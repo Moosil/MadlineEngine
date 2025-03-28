@@ -52,21 +52,23 @@ void Madline::GraphicsEngine::init(Madline::Window& pWindow) {
 	
 	initVulkan(pWindow);
 	
-	const Rect2<int> screenRect = pWindow.getScreenRect();
+	const Rect2<int> screenRect = pWindow.getWindowRect();
 	windowExtent.height = screenRect.getHeight();
 	windowExtent.width = screenRect.getWidth();
 	
-	initSwapchain();
-	
-	initCommands();
-	
-	initSyncStructures();
-	
-	initDescriptors();
-	
-	initPipelines();
-	
-	initImgui();
+	for (auto& [_, surfComp] : surfaces) {
+		initSwapchain(surfComp);
+		
+		initCommands(surfComp);
+		
+		initSyncStructures(surfComp);
+		
+		initDescriptors(surfComp);
+		
+		initPipelines(surfComp);
+		
+		initImgui(surfComp);
+		}
 	
 	isInitialized = true;
 	std::printf("Finished Vulkan initialisation\n");
@@ -79,25 +81,25 @@ void Madline::GraphicsEngine::cleanup() {
 		vkDeviceWaitIdle(device);
 		
 		//free per-frame structures and deletion queue
-		for (auto & frame : frames) {
+		for (auto& [_, surfComp] : surfaces) {
+			for (auto &frame: surfComp.frames) {
+				
+				vkDestroyCommandPool(device, frame.commandPool, nullptr);
+				
+				//destroy sync objects
+				vkDestroyFence(device, frame.renderFence, nullptr);
+				vkDestroySemaphore(device, frame.renderSemaphore, nullptr);
+				vkDestroySemaphore(device, frame.swapchainSemaphore, nullptr);
+				
+				frame.deletionQueue.flush();
+			}
 			
-			vkDestroyCommandPool(device, frame.commandPool, nullptr);
-
-			//destroy sync objects
-			vkDestroyFence(device, frame.renderFence, nullptr);
-			vkDestroySemaphore(device, frame.renderSemaphore, nullptr);
-			vkDestroySemaphore(device, frame.swapchainSemaphore, nullptr);
-
-			frame.deletionQueue.flush();
-		}
-
-		//flush the global deletion queue
-		mainDeletionQueue.flush();
-		
-		destroySwapchain();
-		
-		for (auto surface : surfaces) {
-			vkDestroySurfaceKHR(instance, surface, nullptr);
+			//flush the global deletion queue
+			surfComp.mainDeletionQueue.flush();
+			
+			destroySwapchain(surfComp);
+			
+			vkDestroySurfaceKHR(instance, surfComp.surface, nullptr);
 		}
 		vkDestroyDevice(device, nullptr);
 		
@@ -115,54 +117,60 @@ void Madline::GraphicsEngine::cleanup() {
 
 void Madline::GraphicsEngine::drawLoop() {
 	// imgui new frame
-	ImGui_ImplVulkan_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-	
-	if (ImGui::Begin("background")) {
-		
-		ComputeEffect& selected = backgroundEffects[currentBackgroundEffect];
-		
-		ImGui::Text("Selected effect: ", selected.name.c_str());
-		
-		ImGui::SliderInt("Effect Index", &currentBackgroundEffect,0, static_cast<int>(backgroundEffects.size() - 1));
-		
-		ImGui::InputFloat4("data1",(float*)& selected.data.data1);
-		ImGui::InputFloat4("data2",(float*)& selected.data.data2);
-		ImGui::InputFloat4("data3",(float*)& selected.data.data3);
-		ImGui::InputFloat4("data4",(float*)& selected.data.data4);
+	for (auto& [_, surfComp] : surfaces) {
+		if (surfComp.hasImgui) {
+			ImGui_ImplVulkan_NewFrame();
+			ImGui_ImplWin32_NewFrame();
+			ImGui::NewFrame();
+			
+			if (ImGui::Begin("background")) {
+				
+				ComputeEffect &selected = surfComp.backgroundEffects[surfComp.currentBackgroundEffect];
+				
+				ImGui::Text("Selected effect: ", selected.name.c_str());
+				
+				ImGui::SliderInt("Effect Index", &surfComp.currentBackgroundEffect, 0,
+				                 static_cast<int>(surfComp.backgroundEffects.size() - 1));
+				
+				ImGui::InputFloat4("data1", (float *) &selected.data.data1);
+				ImGui::InputFloat4("data2", (float *) &selected.data.data2);
+				ImGui::InputFloat4("data3", (float *) &selected.data.data3);
+				ImGui::InputFloat4("data4", (float *) &selected.data.data4);
+			}
+			ImGui::End();
+			
+			ImGui::Render();
+		}
 	}
-	ImGui::End();
-	
-	ImGui::Render();
 	
 	//our draw function
-	draw();
+	for (auto& [_, surfComp] : surfaces)
+		draw(surfComp);
 }
 
-void Madline::GraphicsEngine::drawBackground(VkCommandBuffer cmd) const {
-	ComputeEffect effect = backgroundEffects[currentBackgroundEffect];
+void Madline::GraphicsEngine::drawBackground(VkCommandBuffer cmd, SurfaceComponents &surfComp) const {
+	ComputeEffect effect = surfComp.backgroundEffects[surfComp.currentBackgroundEffect];
 	
 	// bind the background compute pipeline
 	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, effect.pipeline);
 
 	// bind the descriptor set containing the draw image for the compute pipeline
-	vkCmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, gradientPipelineLayout, 0, 1,
-		&drawImageDescriptors, 0, nullptr
+	vkCmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, surfComp.gradientPipelineLayout, 0, 1,
+		&surfComp.drawImageDescriptors, 0, nullptr
     );
 
-	vkCmdPushConstants(cmd, gradientPipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof(ComputePushConstants), &effect.data);
+	vkCmdPushConstants(cmd, surfComp.gradientPipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof(ComputePushConstants), &effect.data);
 	// Execute the compute pipeline dispatch. We are using 16x16 workgroup size, so we need to divide by it
-	vkCmdDispatch(cmd, std::ceil(static_cast<float>(drawExtent.width) / 16.0),
-		std::ceil(static_cast<float>(drawExtent.height) / 16.0), 1
+	vkCmdDispatch(cmd, std::ceil(static_cast<float>(surfComp.drawExtent.width) / 16.0),
+		std::ceil(static_cast<float>(surfComp.drawExtent.height) / 16.0), 1
 	);
 
 
 }
 
-void Madline::GraphicsEngine::drawImgui(VkCommandBuffer cmd, VkImageView targetImageView) {
+void Madline::GraphicsEngine::drawImgui(VkCommandBuffer cmd, VkImageView targetImageView, SurfaceComponents &surfComp) {
 	VkRenderingAttachmentInfo colorAttachment = VkInit::attachmentInfo(targetImageView, nullptr, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
-	VkRenderingInfo renderInfo = VkInit::renderingInfo(swapchainExtent, &colorAttachment, nullptr);
+	VkRenderingInfo renderInfo = VkInit::renderingInfo(surfComp.swapchainExtent, &colorAttachment, nullptr);
 	
 	vkCmdBeginRendering(cmd, &renderInfo);
 
@@ -172,33 +180,33 @@ void Madline::GraphicsEngine::drawImgui(VkCommandBuffer cmd, VkImageView targetI
 }
 
 
-void Madline::GraphicsEngine::draw() {
+void Madline::GraphicsEngine::draw(SurfaceComponents &surfComp) {
 	#pragma region Flush deletion queue
 		//Wait until the gpu has finished rendering the last frame. Timeout of 1 second
-		VK_CHECK(vkWaitForFences(device, 1, &getCurrentFrame().renderFence, true, 1000000000));
-		
-		getCurrentFrame().deletionQueue.flush();
+		VK_CHECK(vkWaitForFences(device, 1, &surfComp.getCurrentFrame().renderFence, true, 1000000000));
+	
+		surfComp.getCurrentFrame().deletionQueue.flush();
 	#pragma endregion
 	
 	#pragma region Draw 1
 		// Wait until the gpu has finished rendering the last frame. Timeout of 1
 		// second
-		VK_CHECK(vkWaitForFences(device, 1, &getCurrentFrame().renderFence, VK_TRUE, 1'000'000'000u));
-		VK_CHECK(vkResetFences(device, 1, &getCurrentFrame().renderFence));
+		VK_CHECK(vkWaitForFences(device, 1, &surfComp.getCurrentFrame().renderFence, VK_TRUE, 1'000'000'000u));
+		VK_CHECK(vkResetFences(device, 1, &surfComp.getCurrentFrame().renderFence));
 	#pragma endregion
 	
 	#pragma region Draw 2
 		//request image from the swapchain
 		uint32_t swapchainImageIndex;
 		VK_CHECK(vkAcquireNextImageKHR(
-            device, swapchain, 1'000'000'000, getCurrentFrame().swapchainSemaphore,
+            device, surfComp.swapchain, 1'000'000'000, surfComp.getCurrentFrame().swapchainSemaphore,
 			nullptr, &swapchainImageIndex
 		));
 	#pragma endregion
 
 	#pragma region Draw 3
 		//naming it cmd for shorter writing
-		VkCommandBuffer cmd = getCurrentFrame().mainCommandBuffer;
+		VkCommandBuffer cmd = surfComp.getCurrentFrame().mainCommandBuffer;
 		
 		// now that we are sure that the commands finished executing, we can safely
 		// reset the command buffer to begin recording again.
@@ -208,35 +216,35 @@ void Madline::GraphicsEngine::draw() {
 		VkCommandBufferBeginInfo cmdBeginInfo = VkInit::commandBufferBeginInfo(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 
 	#pragma region Record command buffer
-	    drawExtent.width = drawImage.imageExtent.width;
-	    drawExtent.height = drawImage.imageExtent.height;
+		surfComp.drawExtent.width = surfComp.drawImage.imageExtent.width;
+		surfComp.drawExtent.height = surfComp.drawImage.imageExtent.height;
 	    
 	    VK_CHECK(vkBeginCommandBuffer(cmd, &cmdBeginInfo));
 
 	    // transition our main draw image into general layout, so we can write into it,
 	    // we will overwrite it all, so we don't care about what was the older layout
-	    VkUtil::transitionImage(cmd, drawImage.image, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_GENERAL);
-
-	    drawBackground(cmd);
+	    VkUtil::transitionImage(cmd, surfComp.drawImage.image, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_GENERAL);
+	
+		drawBackground(cmd, surfComp);
 
 	    //transition the draw image and the swapchain image into their correct transfer layouts
-	    VkUtil::transitionImage(cmd, drawImage.image, VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL);
-	    VkUtil::transitionImage(cmd, swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+	    VkUtil::transitionImage(cmd, surfComp.drawImage.image, VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL);
+	    VkUtil::transitionImage(cmd, surfComp.swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
 	    // execute a copy from the draw image into the swapchain
-	    VkUtil::copyImageToImage(cmd, drawImage.image, swapchainImages[swapchainImageIndex], drawExtent, swapchainExtent);
+	    VkUtil::copyImageToImage(cmd, surfComp.drawImage.image, surfComp.swapchainImages[swapchainImageIndex], surfComp.drawExtent, surfComp.swapchainExtent);
 	    
 	    // set swapchain image layout to Attachment Optimal, so we can draw it
-	    VkUtil::transitionImage(cmd, swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+	    VkUtil::transitionImage(cmd, surfComp.swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 	#pragma endregion
 
 	#pragma region Draw Imgui
 	    
 	    //draw imgui into the swapchain image
-	    drawImgui(cmd,  swapchainImageViews[swapchainImageIndex]);
+		drawImgui(cmd, surfComp.swapchainImageViews[swapchainImageIndex], surfComp);
 
 	    // set swapchain image layout to Present, so we can draw it
-	    VkUtil::transitionImage(cmd, swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
+	    VkUtil::transitionImage(cmd, surfComp.swapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 
 	    //finalize the command buffer (we can no longer add commands, but it can now be executed)
 	    VK_CHECK(vkEndCommandBuffer(cmd));
@@ -249,14 +257,14 @@ void Madline::GraphicsEngine::draw() {
 		
 		VkCommandBufferSubmitInfo cmdInfo = VkInit::commandBufferSubmitInfo(cmd);
 		
-		VkSemaphoreSubmitInfo waitInfo = VkInit::semaphoreSubmitInfo(VK_PIPELINE_STAGE_2_COLOR_ATTACHMENT_OUTPUT_BIT_KHR, getCurrentFrame().swapchainSemaphore);
-		VkSemaphoreSubmitInfo signalInfo = VkInit::semaphoreSubmitInfo(VK_PIPELINE_STAGE_2_ALL_GRAPHICS_BIT, getCurrentFrame().renderSemaphore);
+		VkSemaphoreSubmitInfo waitInfo = VkInit::semaphoreSubmitInfo(VK_PIPELINE_STAGE_2_COLOR_ATTACHMENT_OUTPUT_BIT_KHR, surfComp.getCurrentFrame().swapchainSemaphore);
+		VkSemaphoreSubmitInfo signalInfo = VkInit::semaphoreSubmitInfo(VK_PIPELINE_STAGE_2_ALL_GRAPHICS_BIT, surfComp.getCurrentFrame().renderSemaphore);
 		
 		VkSubmitInfo2 submit = VkInit::submitInfo(&cmdInfo, &signalInfo, &waitInfo);
 		
 		//Submit command buffer to the queue and execute it.
 		// _renderFence will now block until the graphic commands finish execution
-		VK_CHECK(vkQueueSubmit2(graphicsQueue, 1, &submit, getCurrentFrame().renderFence));
+		VK_CHECK(vkQueueSubmit2(surfComp.graphicsQueue, 1, &submit, surfComp.getCurrentFrame().renderFence));
 	#pragma endregion
 	
 	#pragma region Draw 6
@@ -267,27 +275,28 @@ void Madline::GraphicsEngine::draw() {
 		VkPresentInfoKHR presentInfo = {};
 		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 		presentInfo.pNext = nullptr;
-		presentInfo.pSwapchains = &swapchain;
+		presentInfo.pSwapchains = &surfComp.swapchain;
 		presentInfo.swapchainCount = 1;
 		
-		presentInfo.pWaitSemaphores = &getCurrentFrame().renderSemaphore;
+		presentInfo.pWaitSemaphores = &surfComp.getCurrentFrame().renderSemaphore;
 		presentInfo.waitSemaphoreCount = 1;
 		
 		presentInfo.pImageIndices = &swapchainImageIndex;
 		
-		VK_CHECK(vkQueuePresentKHR(graphicsQueue, &presentInfo));
+		VK_CHECK(vkQueuePresentKHR(surfComp.graphicsQueue, &presentInfo));
 		
 		//increase the number of frames drawn
-		frameNumber++;
+		surfComp.frameNumber++;
 	#pragma endregion
 }
 
-void Madline::GraphicsEngine::immediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function)
-{
-	VK_CHECK(vkResetFences(device, 1, &immFence));
-	VK_CHECK(vkResetCommandBuffer(immCommandBuffer, 0));
+void Madline::GraphicsEngine::immediateSubmit(std::function<void(VkCommandBuffer cmd)> &&function,
+	SurfaceComponents &surfComp
+) {
+	VK_CHECK(vkResetFences(device, 1, &surfComp.immFence));
+	VK_CHECK(vkResetCommandBuffer(surfComp.immCommandBuffer, 0));
 	
-	VkCommandBuffer cmd = immCommandBuffer;
+	VkCommandBuffer cmd = surfComp.immCommandBuffer;
 
 	VkCommandBufferBeginInfo cmdBeginInfo = VkInit::commandBufferBeginInfo(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 
@@ -302,9 +311,9 @@ void Madline::GraphicsEngine::immediateSubmit(std::function<void(VkCommandBuffer
 
 	// Submit command buffer to the queue and execute it.
 	//  _renderFence will now block until the graphic commands finish execution
-	VK_CHECK(vkQueueSubmit2(graphicsQueue, 1, &submit, immFence));
+	VK_CHECK(vkQueueSubmit2(surfComp.graphicsQueue, 1, &submit, surfComp.immFence));
 
-	VK_CHECK(vkWaitForFences(device, 1, &immFence, true, 9999999999));
+	VK_CHECK(vkWaitForFences(device, 1, &surfComp.immFence, true, 9999999999));
 }
 
 
@@ -333,8 +342,11 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 	debugMessenger = vkbInstance.debug_messenger;
 	
 	// Create Windows api surface for Vulkan. If surface is non created successfully, throw a runtime error
-	surfaces.push_back(nullptr);
-	window.getVulkanSurface(instance, &surfaces[0]);
+	for (auto& [surfName, surface] : window.getVulkanSurfaces(instance)) {
+		SurfaceComponents component{};
+		component.surface = surface;
+		surfaces[surfName] = component;
+	}
 	
 	//vulkan 1.3 features
 	VkPhysicalDeviceVulkan13Features features{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES };
@@ -347,13 +359,13 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 	features12.descriptorIndexing = true;
 	
 	//Use vkbootstrap to select a gpu.
-	//We want a gpu that can write to the SDL surface and supports vulkan 1.3 with the correct features
+	//We want a gpu that can write to the WinAPI surface and supports vulkan 1.3 with the correct features
 	vkb::PhysicalDeviceSelector selector{ vkbInstance };
 	vkb::PhysicalDevice physicalDevice = selector
 		.set_minimum_version(1, 3)
 		.set_required_features_13(features)
 		.set_required_features_12(features12)
-		.set_surface(surfaces[0])
+		.set_surface(surfaces[MAIN_WINDOW].surface)
 		.select()
 		.value();
 	
@@ -367,47 +379,47 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window& window) {
 	chosenGpu = physicalDevice.physical_device;
 	
 	// use vkbootstrap to get a Graphics queue
-	graphicsQueue = vkbDevice.get_queue(vkb::QueueType::graphics).value();
-	graphicsQueueFamily = vkbDevice.get_queue_index(vkb::QueueType::graphics).value();
-	
-	#pragma region VMA init
-		// initialize the memory allocator
-		VmaAllocatorCreateInfo allocatorInfo = {};
-		allocatorInfo.physicalDevice = chosenGpu;
-		allocatorInfo.device = device;
-		allocatorInfo.instance = instance;
-		allocatorInfo.flags = VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT;
-		vmaCreateAllocator(&allocatorInfo, &allocator);
+	for (auto& [_, surfComp] : surfaces) {
+		surfComp.graphicsQueue = vkbDevice.get_queue(vkb::QueueType::graphics).value();
+		surfComp.graphicsQueueFamily = vkbDevice.get_queue_index(vkb::QueueType::graphics).value();
 		
-		mainDeletionQueue.pushFunction([&]() {
-			vmaDestroyAllocator(allocator);
-		});
-	#pragma endregion
+		#pragma region VMA init
+			// initialize the memory allocator
+			VmaAllocatorCreateInfo allocatorInfo = {};
+			allocatorInfo.physicalDevice = chosenGpu;
+			allocatorInfo.device = device;
+			allocatorInfo.instance = instance;
+			allocatorInfo.flags = VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT;
+			vmaCreateAllocator(&allocatorInfo, &surfComp.allocator);
+			
+			surfComp.mainDeletionQueue.pushFunction([&]() {
+				vmaDestroyAllocator(surfComp.allocator);
+			});
+		#pragma endregion
+	}
 	
 	VkSurfaceCapabilitiesKHR surfaceCapabilities = {};
-	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surfaces[0], &surfaceCapabilities);
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surfaces[MAIN_WINDOW].surface, &surfaceCapabilities);
 	std::printf("supported composite alpha: %u\n", surfaceCapabilities.supportedCompositeAlpha);
 }
 
-void Madline::GraphicsEngine::destroySwapchain() {
-	vkDestroySwapchainKHR(device, swapchain, nullptr);
+void Madline::GraphicsEngine::destroySwapchain(SurfaceComponents &surfComp) {
+	vkDestroySwapchainKHR(device, surfComp.swapchain, nullptr);
 	
 	// destroy swapchain resources
-	for (auto& swapchainImageView : swapchainImageViews) {
+	for (auto &swapchainImageView: surfComp.swapchainImageViews) {
 		vkDestroyImageView(device, swapchainImageView, nullptr);
 	}
 }
 
-void Madline::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height) {
-	vkb::SwapchainBuilder swapchainBuilder{chosenGpu, device, surfaces[0] };
+void Madline::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height, SurfaceComponents &parts) {
+	vkb::SwapchainBuilder swapchainBuilder{chosenGpu, device, parts.surface };
 	
-	vkDestroySwapchainKHR(device, swapchain, nullptr);
-	
-	swapchainImageFormat = VK_FORMAT_B8G8R8A8_UNORM;
+	parts.swapchainImageFormat = VK_FORMAT_B8G8R8A8_UNORM;
 	
 	vkb::Swapchain vkbSwapchain = swapchainBuilder
 		//.use_default_format_selection()
-		.set_desired_format(VkSurfaceFormatKHR{ .format = swapchainImageFormat, .colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR })
+		.set_desired_format(VkSurfaceFormatKHR{ .format = parts.swapchainImageFormat, .colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR })
 		//use vsync present mode
 		.set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR)
 		.set_desired_extent(width, height)
@@ -416,15 +428,15 @@ void Madline::GraphicsEngine::createSwapchain(uint32_t width, uint32_t height) {
 		.build()
 		.value();
 	
-	swapchainExtent = vkbSwapchain.extent;
+	parts.swapchainExtent = vkbSwapchain.extent;
 	//store swapchain and its related images
-	swapchain = vkbSwapchain.swapchain;
-	swapchainImages = vkbSwapchain.get_images().value();
-	swapchainImageViews = vkbSwapchain.get_image_views().value();
+	parts.swapchain = vkbSwapchain.swapchain;
+	parts.swapchainImages = vkbSwapchain.get_images().value();
+	parts.swapchainImageViews = vkbSwapchain.get_image_views().value();
 }
 
-void Madline::GraphicsEngine::initSwapchain() {
-	createSwapchain(windowExtent.width, windowExtent.height);
+void Madline::GraphicsEngine::initSwapchain(SurfaceComponents &surfComp) {
+	createSwapchain(windowExtent.width, windowExtent.height, surfComp);
 	
 	//draw image size will match the mWindow
 	VkExtent3D drawImageExtent = {
@@ -434,8 +446,8 @@ void Madline::GraphicsEngine::initSwapchain() {
 	};
 	
 	//hardcoding the draw format to 32-bit float
-	drawImage.imageFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
-	drawImage.imageExtent = drawImageExtent;
+	surfComp.drawImage.imageFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
+	surfComp.drawImage.imageExtent = drawImageExtent;
 	
 	VkImageUsageFlags drawImageUsages{};
 	drawImageUsages |= VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
@@ -443,7 +455,7 @@ void Madline::GraphicsEngine::initSwapchain() {
 	drawImageUsages |= VK_IMAGE_USAGE_STORAGE_BIT;
 	drawImageUsages |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-	VkImageCreateInfo rImgInfo = VkInit::imageCreateInfo(drawImage.imageFormat, drawImageUsages, drawImageExtent);
+	VkImageCreateInfo rImgInfo = VkInit::imageCreateInfo(surfComp.drawImage.imageFormat, drawImageUsages, drawImageExtent);
 
 	//for the draw image, we want to allocate it from gpu local memory
 	VmaAllocationCreateInfo rImgAllocInfo = {};
@@ -451,27 +463,27 @@ void Madline::GraphicsEngine::initSwapchain() {
 	rImgAllocInfo.requiredFlags = VkMemoryPropertyFlags(VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
 	//allocate and create the image
-	vmaCreateImage(allocator, &rImgInfo, &rImgAllocInfo, &drawImage.image, &drawImage.allocation, nullptr);
+	vmaCreateImage(surfComp.allocator, &rImgInfo, &rImgAllocInfo, &surfComp.drawImage.image, &surfComp.drawImage.allocation, nullptr);
 
 	//build an image-view for the draw image to use for rendering
-	VkImageViewCreateInfo rViewInfo = VkInit::imageviewCreateInfo(drawImage.imageFormat, drawImage.image, VK_IMAGE_ASPECT_COLOR_BIT);
+	VkImageViewCreateInfo rViewInfo = VkInit::imageviewCreateInfo(surfComp.drawImage.imageFormat, surfComp.drawImage.image, VK_IMAGE_ASPECT_COLOR_BIT);
 
-	VK_CHECK(vkCreateImageView(device, &rViewInfo, nullptr, &drawImage.imageView));
+	VK_CHECK(vkCreateImageView(device, &rViewInfo, nullptr, &surfComp.drawImage.imageView));
 
 	//add to deletion queues
-	mainDeletionQueue.pushFunction([=, this]() {
-		vkDestroyImageView(device, drawImage.imageView, nullptr);
-		vmaDestroyImage(allocator, drawImage.image, drawImage.allocation);
+	surfComp.mainDeletionQueue.pushFunction([=, this]() {
+		vkDestroyImageView(device, surfComp.drawImage.imageView, nullptr);
+		vmaDestroyImage(surfComp.allocator, surfComp.drawImage.image, surfComp.drawImage.allocation);
 	});
 }
 
-void Madline::GraphicsEngine::initCommands() {
+void Madline::GraphicsEngine::initCommands(SurfaceComponents &surfComp) {
 	//Create a command pool for commands submitted to the graphics queue.
 	//We also want the pool to allow for resetting of individual command buffers
 	VkCommandPoolCreateInfo commandPoolInfo = VkInit::commandPoolCreateInfo(
-	        graphicsQueueFamily, VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT);
+        surfComp.graphicsQueueFamily, VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT);
 	
-	for (auto& frame : frames) {
+	for (auto& frame : surfComp.frames) {
 		
 		VK_CHECK(vkCreateCommandPool(device, &commandPoolInfo, nullptr, &frame.commandPool));
 		
@@ -481,18 +493,18 @@ void Madline::GraphicsEngine::initCommands() {
 		VK_CHECK(vkAllocateCommandBuffers(device, &cmdAllocInfo, &frame.mainCommandBuffer));
 	}
 	
-	VK_CHECK(vkCreateCommandPool(device, &commandPoolInfo, nullptr, &immCommandPool));
+	VK_CHECK(vkCreateCommandPool(device, &commandPoolInfo, nullptr, &surfComp.immCommandPool));
 	
 	// allocate the command buffer for immediate submits
-	VkCommandBufferAllocateInfo cmdAllocInfo = VkInit::commandBufferAllocateInfo(immCommandPool, 1);
+	VkCommandBufferAllocateInfo cmdAllocInfo = VkInit::commandBufferAllocateInfo(surfComp.immCommandPool, 1);
 
-	VK_CHECK(vkAllocateCommandBuffers(device, &cmdAllocInfo, &immCommandBuffer));
-
-	mainDeletionQueue.pushFunction([=, this]() {
-		vkDestroyCommandPool(device, immCommandPool, nullptr);
+	VK_CHECK(vkAllocateCommandBuffers(device, &cmdAllocInfo, &surfComp.immCommandBuffer));
+	
+	surfComp.mainDeletionQueue.pushFunction([=, this]() {
+		vkDestroyCommandPool(device, surfComp.immCommandPool, nullptr);
 	});
 }
-void Madline::GraphicsEngine::initSyncStructures() {
+void Madline::GraphicsEngine::initSyncStructures(SurfaceComponents &surfComp) {
 	//create synchronisation structures
 	//one fence to control when the gpu has finished rendering the frame,
 	//and 2 semaphores to synchronise rendering with swapchain
@@ -500,46 +512,46 @@ void Madline::GraphicsEngine::initSyncStructures() {
 	VkFenceCreateInfo fenceCreateInfo = VkInit::fenceCreateInfo(VK_FENCE_CREATE_SIGNALED_BIT);
 	VkSemaphoreCreateInfo semaphoreCreateInfo = VkInit::semaphoreCreateInfo();
 	
-	for (auto& frame : frames) {
+	for (auto& frame : surfComp.frames) {
 		VK_CHECK(vkCreateFence(device, &fenceCreateInfo, nullptr, &frame.renderFence));
 		
 		VK_CHECK(vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &frame.swapchainSemaphore));
 		VK_CHECK(vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &frame.renderSemaphore));
 	}
 	
-	VK_CHECK(vkCreateFence(device, &fenceCreateInfo, nullptr, &immFence));
-	mainDeletionQueue.pushFunction([=, this]() { vkDestroyFence(device, immFence, nullptr); });
+	VK_CHECK(vkCreateFence(device, &fenceCreateInfo, nullptr, &surfComp.immFence));
+	surfComp.mainDeletionQueue.pushFunction([=, this]() { vkDestroyFence(device, surfComp.immFence, nullptr); });
 }
 
-void Madline::GraphicsEngine::initDescriptors() {
+void Madline::GraphicsEngine::initDescriptors(SurfaceComponents &surfComp) {
 	//create a descriptor pool that will hold 10 sets with 1 image each
 	std::vector<DescriptorAllocator::PoolSizeRatio> sizes =
     {
 		{ VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1 }
     };
 	
-	globalDescriptorAllocator.initPool(device, 10, sizes);
+	surfComp.globalDescriptorAllocator.initPool(device, 10, sizes);
 
 	//make the descriptor set layout for our compute draw
 	{
 		DescriptorLayoutBuilder builder;
 		builder.addBinding(0, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE);
-		drawImageDescriptorLayout = builder.build(device, VK_SHADER_STAGE_COMPUTE_BIT);
+		surfComp.drawImageDescriptorLayout = builder.build(device, VK_SHADER_STAGE_COMPUTE_BIT);
 	}
 	
 	//allocate a descriptor set for our draw image
-	drawImageDescriptors = globalDescriptorAllocator.allocate(device,drawImageDescriptorLayout);
+	surfComp.drawImageDescriptors = surfComp.globalDescriptorAllocator.allocate(device,surfComp.drawImageDescriptorLayout);
 	
 	VkDescriptorImageInfo imgInfo{};
 	imgInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
-	imgInfo.imageView = drawImage.imageView;
+	imgInfo.imageView = surfComp.drawImage.imageView;
 	
 	VkWriteDescriptorSet drawImageWrite = {};
 	drawImageWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 	drawImageWrite.pNext = nullptr;
 	
 	drawImageWrite.dstBinding = 0;
-	drawImageWrite.dstSet = drawImageDescriptors;
+	drawImageWrite.dstSet = surfComp.drawImageDescriptors;
 	drawImageWrite.descriptorCount = 1;
 	drawImageWrite.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
 	drawImageWrite.pImageInfo = &imgInfo;
@@ -547,23 +559,23 @@ void Madline::GraphicsEngine::initDescriptors() {
 	vkUpdateDescriptorSets(device, 1, &drawImageWrite, 0, nullptr);
 
 	//make sure both the descriptor allocator and the new layout get cleaned up properly
-	mainDeletionQueue.pushFunction([&]() {
-		globalDescriptorAllocator.destroyPool(device);
+	surfComp.mainDeletionQueue.pushFunction([&]() {
+		surfComp.globalDescriptorAllocator.destroyPool(device);
 
-		vkDestroyDescriptorSetLayout(device, drawImageDescriptorLayout, nullptr);
+		vkDestroyDescriptorSetLayout(device, surfComp.drawImageDescriptorLayout, nullptr);
 	});
 }
 
-void Madline::GraphicsEngine::initPipelines() {
-	initBackgroundPipelines();
+void Madline::GraphicsEngine::initPipelines(SurfaceComponents &surfComp) {
+	initBackgroundPipelines(surfComp);
 }
 
 // add push constants if necessary
-void Madline::GraphicsEngine::initBackgroundPipelines() {
+void Madline::GraphicsEngine::initBackgroundPipelines(SurfaceComponents surfComp) {
 	VkPipelineLayoutCreateInfo computeLayout{};
 	computeLayout.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 	computeLayout.pNext = nullptr;
-	computeLayout.pSetLayouts = &drawImageDescriptorLayout;
+	computeLayout.pSetLayouts = &surfComp.drawImageDescriptorLayout;
 	computeLayout.setLayoutCount = 1;
 	
 	VkPushConstantRange pushConstant{};
@@ -574,7 +586,7 @@ void Madline::GraphicsEngine::initBackgroundPipelines() {
 	computeLayout.pPushConstantRanges = &pushConstant;
 	computeLayout.pushConstantRangeCount = 1;
 
-	VK_CHECK(vkCreatePipelineLayout(device, &computeLayout, nullptr, &gradientPipelineLayout));
+	VK_CHECK(vkCreatePipelineLayout(device, &computeLayout, nullptr, &surfComp.gradientPipelineLayout));
 	
 	VkPipelineShaderStageCreateInfo stageInfo{};
 	stageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -585,7 +597,7 @@ void Madline::GraphicsEngine::initBackgroundPipelines() {
 	VkComputePipelineCreateInfo computePipelineCreateInfo{};
 	computePipelineCreateInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
 	computePipelineCreateInfo.pNext = nullptr;
-	computePipelineCreateInfo.layout = gradientPipelineLayout;
+	computePipelineCreateInfo.layout = surfComp.gradientPipelineLayout;
 	computePipelineCreateInfo.stage = stageInfo;
 	
 	const std::string gradientShaderName = "gradient_colour";
@@ -593,17 +605,17 @@ void Madline::GraphicsEngine::initBackgroundPipelines() {
 	pcGradient.data1 = static_cast<glm::vec4>(Colour(255, 0, 0, 255));
 	pcGradient.data2 = static_cast<glm::vec4>(Colour(0, 0, 255, 255));
 	
-	createComputeShader(gradientShaderName, pcGradient, &stageInfo, &computePipelineCreateInfo);
+	createComputeShader(gradientShaderName, pcGradient, &stageInfo, &computePipelineCreateInfo, surfComp);
 	computePipelineCreateInfo.stage = stageInfo;
 	
 	const std::string skyShaderName = "sky";
 	ComputePushConstants pcSky{};
 	pcSky.data1 = glm::vec4(0.1, 0.2, 0.4 ,0.97);
 	
-	createComputeShader(skyShaderName, pcSky, &stageInfo, &computePipelineCreateInfo);
+	createComputeShader(skyShaderName, pcSky, &stageInfo, &computePipelineCreateInfo, surfComp);
 }
 
-void Madline::GraphicsEngine::initImgui() {
+void Madline::GraphicsEngine::initImgui(SurfaceComponents &surfComp) {
 	// 1: create descriptor pool for IMGUI
 	//  the size of the pool is very oversize, but it's copied from imgui demo
 	//  itself.
@@ -643,14 +655,14 @@ void Madline::GraphicsEngine::initImgui() {
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 
 	// this initializes imgui for Win32
-	ImGui_ImplWin32_Init(mWindow->getHwnd());
+	ImGui_ImplWin32_Init(surfComp.window);
 
 	// this initializes imgui for Vulkan
 	ImGui_ImplVulkan_InitInfo initInfo = {};
 	initInfo.Instance = instance;
 	initInfo.PhysicalDevice = chosenGpu;
 	initInfo.Device = device;
-	initInfo.Queue = graphicsQueue;
+	initInfo.Queue = surfComp.graphicsQueue;
 	initInfo.DescriptorPool = imguiPool;
 	initInfo.MinImageCount = 3;
 	initInfo.ImageCount = 3;
@@ -659,7 +671,7 @@ void Madline::GraphicsEngine::initImgui() {
 	//dynamic rendering parameters for imgui to use
 	initInfo.PipelineRenderingCreateInfo = {.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO};
 	initInfo.PipelineRenderingCreateInfo.colorAttachmentCount = 1;
-	initInfo.PipelineRenderingCreateInfo.pColorAttachmentFormats = &swapchainImageFormat;
+	initInfo.PipelineRenderingCreateInfo.pColorAttachmentFormats = &surfComp.swapchainImageFormat;
 
 
 	initInfo.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
@@ -669,15 +681,18 @@ void Madline::GraphicsEngine::initImgui() {
 	ImGui_ImplVulkan_CreateFontsTexture();
 
 	// add the deletor for the imgui created structures
-	mainDeletionQueue.pushFunction([=, this]() {
+	surfComp.mainDeletionQueue.pushFunction([=, this]() {
 		ImGui_ImplVulkan_Shutdown();
 		vkDestroyDescriptorPool(device, imguiPool, nullptr);
 	});
 }
 
-void Madline::GraphicsEngine::createComputeShader(
-    const std::string& shaderName, const ComputePushConstants& pushConstants,
-    VkPipelineShaderStageCreateInfo* stageInfo, VkComputePipelineCreateInfo* computePipelineCreateInfo
+void
+Madline::GraphicsEngine::createComputeShader(const std::string &shaderName,
+	const ComputePushConstants &pushConstants,
+	VkPipelineShaderStageCreateInfo *stageInfo,
+	VkComputePipelineCreateInfo *computePipelineCreateInfo,
+	SurfaceComponents &surfComp
 ) {
 	VkShaderModule computeDrawShader{};
 	std::string shaderPath = std::format("{}/spv/{}.comp.spv", SHADER_PATH, shaderName);
@@ -690,16 +705,16 @@ void Madline::GraphicsEngine::createComputeShader(
 	computePipelineCreateInfo->stage = *stageInfo;
 	
 	ComputeEffect shader;
-	shader.layout = gradientPipelineLayout;
+	shader.layout = surfComp.gradientPipelineLayout;
 	shader.name = shaderName;
 	shader.data = pushConstants;
 	
 	VK_CHECK(vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, computePipelineCreateInfo, nullptr, &shader.pipeline));
 	
-	backgroundEffects.push_back(shader);
+	surfComp.backgroundEffects.push_back(shader);
 	
 	vkDestroyShaderModule(device, computeDrawShader, nullptr);
-	mainDeletionQueue.pushFunction([=, this]() {
-		vkDestroyPipelineLayout(device, gradientPipelineLayout, nullptr);
+	surfComp.mainDeletionQueue.pushFunction([=, this]() {
+		vkDestroyPipelineLayout(device, surfComp.gradientPipelineLayout, nullptr);
 	});
 }

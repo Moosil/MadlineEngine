@@ -51,7 +51,7 @@ void Madline::Window::initWindow() {
 		wpWndCls.hInstance     = GetModuleHandle(nullptr);
 		wpWndCls.lpszClassName = WALLPAPER_CLASS_NAME;
 		wpWndCls.style         = CS_DBLCLKS;
-		wpWndCls.lpfnWndProc   = &staticMainWindowProc;
+		wpWndCls.lpfnWndProc   = &staticMainWndProc;
 		wpWndCls.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
 		
 		assert(RegisterClass(&wpWndCls));
@@ -62,7 +62,7 @@ void Madline::Window::initWindow() {
 		inpWndCls.hInstance     = GetModuleHandle(nullptr);
 		inpWndCls.lpszClassName = INPUT_CLASS_NAME;
 		inpWndCls.style         = CS_DBLCLKS;
-		inpWndCls.lpfnWndProc   = &staticInputWindowProc;
+		inpWndCls.lpfnWndProc   = &staticInputWndProc;
 		inpWndCls.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
 		
 		assert(RegisterClass(&inpWndCls));
@@ -146,7 +146,7 @@ void Madline::Window::gameLoop() {
 //	std::printf("foreground window handle: %p\n", GetForegroundWindow());
 }
 
-LRESULT CALLBACK Madline::Window::inputWindowProc(unsigned int msg, WPARAM wp, LPARAM lp) {
+LRESULT CALLBACK Madline::Window::inputWndProc(unsigned int msg, WPARAM wp, LPARAM lp) {
 	LRESULT rez = 0;
 	
 	bool pressed = false;
@@ -246,7 +246,7 @@ LRESULT CALLBACK Madline::Window::inputWindowProc(unsigned int msg, WPARAM wp, L
 	return rez;
 }
 
-LRESULT CALLBACK Madline::Window::mainWindowProc(unsigned int msg, WPARAM wp, LPARAM lp) {
+LRESULT CALLBACK Madline::Window::mainWndProc(unsigned int msg, WPARAM wp, LPARAM lp) {
 	LRESULT rez = 0;
     
 	switch (msg) {
@@ -294,7 +294,7 @@ int Madline::Window::getMinFps() const {
 	return minFps;
 }
 
-Madline::Rect2<int> Madline::Window::getScreenRect() const {
+Madline::Rect2<int> Madline::Window::getWindowRect() const {
 	return screenRect;
 }
 
@@ -406,13 +406,22 @@ std::vector<int> Madline::Window::getButtonsReleased() const {
 }
 
 #ifdef RENDER_VULKAN
-void Madline::Window::getVulkanSurface(VkInstance instance, VkSurfaceKHR* surface) const {
+std::unordered_map<std::string, VkSurfaceKHR> Madline::Window::getVulkanSurfaces(VkInstance instance) const {
+	std::unordered_map<std::string, VkSurfaceKHR> surfaces{};
+	surfaces["main"] = nullptr;
+	surfaces["input"] = nullptr;
+	
 	VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
 	surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-	surfaceCreateInfo.hwnd = mHwnd;
 	surfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
 	
-	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, surface));
+	surfaceCreateInfo.hwnd = mHwnd;
+	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, &surfaces[MAIN_WINDOW]));
+	
+	surfaceCreateInfo.hwnd = inputHwnd;
+	VK_CHECK(vkCreateWin32SurfaceKHR(instance, &surfaceCreateInfo, nullptr, &surfaces[INPUT_WINDOW]));
+	
+	return surfaces;
 }
 #endif//RENDER_VULKAN
 
@@ -454,7 +463,7 @@ void Madline::Window::showContextMenu(POINT pt) {
 	DestroyMenu(hMenu);
 }
 
-LRESULT CALLBACK Madline::Window::staticMainWindowProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
+LRESULT CALLBACK Madline::Window::staticMainWndProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
 	if (ImGui_ImplWin32_WndProcHandler(pHwnd, msg, wp, lp))
 		return true;
 	
@@ -478,8 +487,37 @@ LRESULT CALLBACK Madline::Window::staticMainWindowProc(HWND pHwnd, unsigned int 
 		self = reinterpret_cast<Window*>(GetWindowLongPtr(pHwnd, GWLP_USERDATA));
 	
 	if (self)
-		return self->mainWindowProc(msg, wp, lp);
+		return self->mainWndProc(msg, wp, lp);
 
+	return DefWindowProc(pHwnd, msg, wp, lp);
+}
+
+LRESULT CALLBACK Madline::Window::staticInputWndProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
+	if (ImGui_ImplWin32_WndProcHandler(pHwnd, msg, wp, lp))
+		return true;
+	
+	Window* self;
+	
+	if (msg == WM_NCCREATE)	{
+		if (addTrayIcon(pHwnd) == 0) {
+			DestroyWindow(pHwnd);
+			throw std::runtime_error("Cannot create system tray icon");
+		}
+		
+		auto *cs = (CREATESTRUCT*) lp;
+		self = static_cast<Window*>(cs->lpCreateParams);
+		self->mHwnd = pHwnd;
+		SetLastError(0);
+		if (SetWindowLongPtr(pHwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(self)) == 0) {
+			if (GetLastError() != 0)
+				return false;
+		}
+	} else
+		self = reinterpret_cast<Window*>(GetWindowLongPtr(pHwnd, GWLP_USERDATA));
+	
+	if (self)
+		return self->inputWndProc(msg, wp, lp);
+	
 	return DefWindowProc(pHwnd, msg, wp, lp);
 }
 
@@ -546,4 +584,3 @@ HWND Madline::Window::getTopOfWallpaper() {
 	
 	return topHwnd;
 }
-
