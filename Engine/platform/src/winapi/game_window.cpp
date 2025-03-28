@@ -43,20 +43,15 @@ Madline::Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
 
 void Madline::Window::initWindow() {
 	std::printf("Started Creating Window\n");
-	WNDCLASS wpWndCls = {sizeof(WNDCLASS)};
-	WNDCLASS inpWndCls = {sizeof(WNDCLASS)};
 	
-	if (!GetClassInfo(GetModuleHandle(nullptr), WALLPAPER_CLASS_NAME, &wpWndCls)) {
-		wpWndCls.hCursor       = LoadCursor(nullptr, IDC_ARROW);
-		wpWndCls.hInstance     = GetModuleHandle(nullptr);
-		wpWndCls.lpszClassName = WALLPAPER_CLASS_NAME;
-		wpWndCls.style         = CS_DBLCLKS;
-		wpWndCls.lpfnWndProc   = &staticMainWndProc;
-		wpWndCls.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
-		
-		assert(RegisterClass(&wpWndCls));
-	}
+	DEVMODEA devMode = {};
+	devMode.dmSize = sizeof(DEVMODEA);
+	EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &devMode);
+	screenRect = Rect2<int>(static_cast<int>(devMode.dmPelsWidth), static_cast<int>(devMode.dmPelsHeight));
 	
+	
+	// Has to be in this order because inputHwnd for some reason overwrites mHwnd when it gets assigned to???
+	WNDCLASS inpWndCls{};
 	if (!GetClassInfo(GetModuleHandle(nullptr), INPUT_CLASS_NAME, &inpWndCls)) {
 		inpWndCls.hCursor       = LoadCursor(nullptr, IDC_ARROW);
 		inpWndCls.hInstance     = GetModuleHandle(nullptr);
@@ -67,30 +62,33 @@ void Madline::Window::initWindow() {
 		
 		assert(RegisterClass(&inpWndCls));
 	}
-
-	DEVMODEA devMode = {};
-	devMode.dmSize = sizeof(DEVMODEA);
+	inputHwnd = CreateWindowEx(
+			WS_EX_TOOLWINDOW | WS_EX_LAYERED,
+			inpWndCls.lpszClassName,
+			std::format("{}Input",WINDOW_NAME).c_str(),
+			WS_VISIBLE | WS_POPUP | WS_CLIPSIBLINGS,
+			0,
+			0,
+			screenRect.getWidth(),
+			screenRect.getHeight(),
+			nullptr, nullptr, GetModuleHandle(nullptr), this
+	);
 	
-	EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &devMode);
-	
-	screenRect = Rect2<int>(static_cast<int>(devMode.dmPelsWidth), static_cast<int>(devMode.dmPelsHeight));
-	
+	WNDCLASS wpWndCls{};
+	if (!GetClassInfo(GetModuleHandle(nullptr), WALLPAPER_CLASS_NAME, &wpWndCls)) {
+		wpWndCls.hCursor       = LoadCursor(nullptr, IDC_ARROW);
+		wpWndCls.hInstance     = GetModuleHandle(nullptr);
+		wpWndCls.lpszClassName = WALLPAPER_CLASS_NAME;
+		wpWndCls.style         = CS_DBLCLKS;
+		wpWndCls.lpfnWndProc   = &staticMainWndProc;
+		wpWndCls.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
+		
+		assert(RegisterClass(&wpWndCls));
+	}
 	mHwnd = CreateWindowEx(
         WS_EX_TOOLWINDOW | WS_EX_LAYERED,
         wpWndCls.lpszClassName,
         WINDOW_NAME,
-        WS_VISIBLE | WS_POPUP | WS_CLIPSIBLINGS,
-        0,
-        0,
-        screenRect.getWidth(),
-        screenRect.getHeight(),
-        nullptr, nullptr, GetModuleHandle(nullptr), this
-	);
-	
-	inputHwnd = CreateWindowEx(
-        WS_EX_TOOLWINDOW | WS_EX_LAYERED,
-        inpWndCls.lpszClassName,
-        std::format("{}Input",WINDOW_NAME).c_str(),
         WS_VISIBLE | WS_POPUP | WS_CLIPSIBLINGS,
         0,
         0,

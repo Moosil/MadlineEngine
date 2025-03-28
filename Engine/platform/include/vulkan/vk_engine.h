@@ -66,6 +66,7 @@ namespace Madline {
 		HWND handle{};
 		int frameNumber {0};
 		bool hasImgui { false };
+		bool drawingEnabled { false };
 		
 		VkSurfaceKHR surface{};
 		VkSwapchainKHR swapchain{};
@@ -102,6 +103,8 @@ namespace Madline {
 		
 		std::vector<ComputeEffect> backgroundEffects;
 		int currentBackgroundEffect{ 0 };
+		
+		void (*createImguiStuff)(SurfaceComponents&) = nullptr;
 	};
 
 	
@@ -125,7 +128,7 @@ namespace Madline {
 		void initSyncStructures(SurfaceComponents &surfComp);
 		void initDescriptors(SurfaceComponents &surfComp);
 		void initPipelines(SurfaceComponents &surfComp);
-		void initBackgroundPipelines(SurfaceComponents surfComp);
+		void initBackgroundPipelines(SurfaceComponents &surfComp);
 		void initImgui(SurfaceComponents &surfComp);
 		
 		void createSwapchain(uint32_t width, uint32_t height, SurfaceComponents &surfComp);
@@ -142,6 +145,8 @@ namespace Madline {
 		                         VkPipelineShaderStageCreateInfo *stageInfo,
 		                         VkComputePipelineCreateInfo *computePipelineCreateInfo,
 		                         SurfaceComponents &surfComp);
+		
+		static void mainWindowCreateImgui(SurfaceComponents &surfComp);
 	public:
 		//initializes everything in the engine
 		void init(Madline::Window& pWindow);

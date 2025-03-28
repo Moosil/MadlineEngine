@@ -89,8 +89,8 @@ namespace Madline {
 		Madline::Rect2<int> screenRect;
 		bool running = true;
 		int minFps;
-		HWND mHwnd = nullptr;
-		HWND inputHwnd = nullptr;
+		HWND mHwnd{};
+		HWND inputHwnd{};
 		Input input;
 		std::chrono::high_resolution_clock::time_point lastFrameTime;
 		
