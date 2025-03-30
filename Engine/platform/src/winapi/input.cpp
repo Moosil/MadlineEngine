@@ -37,9 +37,8 @@ namespace Madline {
 	}
 	
 	void Input::setMouseButtonState(Button::MouseButton mouseButton, bool newState) {
-		Button b;
-		if (mouseButton == Button::LMB) b = lmb;
-		else if (mouseButton == Button::RMB) b = rmb;
+		Button &b = lmb;
+		if (mouseButton == Button::RMB) b = rmb;
 		setButtonState(b, newState);
 	}
 	

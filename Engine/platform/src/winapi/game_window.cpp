@@ -28,6 +28,8 @@
 
 
 namespace Madline {
+	std::vector<Window*> Window::createdWindows;
+	
 	Window::Window(int minFps): minFps(minFps), screenRect(Rect2<int>()) {
 		std::printf("Started Creating Window\n");
 	
@@ -115,7 +117,7 @@ namespace Madline {
 	}
 
 	LRESULT CALLBACK Window::MouseProc(int nCode, WPARAM wp, LPARAM lp) {
-		if (nCode != HC_ACTION)	{
+		if (nCode == HC_ACTION)	{
 			bool mButtonDown = (wp == WM_LBUTTONDOWN || wp == WM_RBUTTONDOWN);
 			
 			if (mButtonDown || wp == WM_LBUTTONUP || wp == WM_RBUTTONUP) {
