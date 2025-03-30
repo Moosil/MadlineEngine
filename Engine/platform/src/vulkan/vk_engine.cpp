@@ -357,8 +357,7 @@ void Madline::GraphicsEngine::initVulkan(const Madline::Window &window) {
 
 	surfaces[MAIN_WINDOW].createImguiStuff = mainWindowCreateImgui;
 	surfaces[MAIN_WINDOW].drawingEnabled = true;
-
-	//surfaces[INPUT_WINDOW].hasImgui = true;
+	surfaces[MAIN_WINDOW].hasImgui = true;
 	
 
 	//vulkan 1.3 features

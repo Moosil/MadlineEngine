@@ -23,12 +23,6 @@ namespace Madline {
 			LMB = 0,
 			RMB
 		};
-		enum Modifier {
-			CTRL = 0x1,
-			SHIFT = 0x2,
-			ALT = 0x4,
-			SUPER = 0x8
-		};
 		enum ButtonID {
 			A = 0,
 			B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
@@ -133,7 +127,7 @@ namespace Madline {
 		
 		void setMouseButtonState(Button::MouseButton mouseButton, bool newState);
 		
-		void setKeyModifiers(Button::ButtonID id, int mods, int states);
+		void setKeyAltPressed(Button::ButtonID id, bool newState);
 	private:
 		static void setButtonState(Button &b, bool newState);
 	};

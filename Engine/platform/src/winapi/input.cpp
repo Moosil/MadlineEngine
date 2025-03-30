@@ -57,7 +57,7 @@ namespace Madline {
 			b.justReleased = true;
 		}
 	}
-	void Input::setKeyModifiers(Button::ButtonID id, int mods, int states) {
-		if (mods & Button::Modifier::ALT) keyBoard[id].altPressed = ((states & Button::Modifier::ALT) != 0);
+	void Input::setKeyAltPressed(Button::ButtonID id, bool newState) {
+		keyBoard[id].altPressed = newState;
 	}
 }

@@ -120,6 +120,14 @@ namespace Madline {
 		if (nCode == HC_ACTION)	{
 			bool mButtonDown = (wp == WM_LBUTTONDOWN || wp == WM_RBUTTONDOWN);
 			
+			auto* mouseInfo = reinterpret_cast<MSLLHOOKSTRUCT*>(lp);
+			
+			LPARAM newLp = LOWORD(mouseInfo->pt.x) + HIWORD(mouseInfo->pt.y);
+		 
+			for (auto currWnd : Window::createdWindows) {
+				PostMessage(currWnd->getHwnd(), wp, NULL, newLp);
+			}
+			
 			if (mButtonDown || wp == WM_LBUTTONUP || wp == WM_RBUTTONUP) {
 				Button::MouseButton mButton = (wp == WM_LBUTTONDOWN || wp == WM_LBUTTONUP) ? Button::LMB : Button::RMB;
 				for (auto currWnd : Window::createdWindows) {
@@ -135,21 +143,25 @@ namespace Madline {
 			bool keyDown = (wp == WM_KEYDOWN || wp == WM_SYSKEYDOWN);
 			
 			if (keyDown || wp == WM_KEYUP || wp == WM_SYSKEYUP) {
-				auto* keyInfo = (KBDLLHOOKSTRUCT*)lp;
+				auto* keyInfo = reinterpret_cast<KBDLLHOOKSTRUCT*>(lp);
+				LPARAM newLp = (1 << 0) | // Repeat count (1 key press)
+				                   (keyInfo->scanCode << 16) | // Scan code
+				                   ((keyInfo->flags & LLKHF_EXTENDED) ? (1 << 24) : 0) | // Extended key
+				                   ((keyInfo->flags & LLKHF_ALTDOWN) << 29) | // Context code (1 for key down)
+				                   (!keyDown << 31);  // Transition state (key down)
 				
-				bool pressed = keyDown;
-
-				
+				Button::ButtonID buttonID = Button::BUTTONS_COUNT;
 				for (int i = Button::A; i != Button::BUTTONS_COUNT; i++) {
 					if (keyInfo->vkCode == Button::buttonValues[i]) {
-						for (auto currWnd: Window::createdWindows) {
-							auto bID = static_cast<Button::ButtonID>(i);
-							currWnd->input.setKeyState(bID, pressed);
-							if (keyInfo->flags & LLKHF_ALTDOWN) {
-								currWnd->input.setKeyModifiers(bID, Button::Modifier::ALT, Button::Modifier::ALT);
-							}
-						}
+						buttonID = static_cast<Button::ButtonID>(i);
 					}
+				}
+				
+				for (auto currWnd: Window::createdWindows) {
+					newLp |= (currWnd->isButtonHeld(buttonID) << 30);
+					PostMessage(currWnd->getHwnd(), wp, keyInfo->vkCode, newLp);
+					currWnd->input.setKeyState(buttonID, keyDown);
+					currWnd->input.setKeyAltPressed(buttonID, keyInfo->flags & LLKHF_ALTDOWN);
 				}
 			}
 		}
