@@ -27,6 +27,6 @@
 
 #include "game_logic.h"
 
-#include "CelestePetConsts.h"
+#include "MadlineEngineDefines.h"
 
 #endif//CELESTEPET_CELESTEPETHEADERS_H

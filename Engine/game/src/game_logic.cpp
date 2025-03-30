@@ -15,6 +15,8 @@ bool Madline::EngineDebug::initGameplay() {
 	return true;
 }
 
+// when implementing your own process function, make sure to remove the Window& parameter
+// and instead pass in each part of window, for example the input, seperately to reduce the scope
 bool Madline::EngineDebug::process(float delta, Window& gameWindow) {
 	data.frameCounter += 1;
 	data.timeCounter += delta;
@@ -23,6 +25,12 @@ bool Madline::EngineDebug::process(float delta, Window& gameWindow) {
 		std::printf("FPS: %i ~ Debug mode\n", data.frameCounter);
 		data.frameCounter = 0;
 	}
+	
+	if (gameWindow.isButtonJustPressed(Button::A))
+		std::printf("Hello world\n");
+	
+	if (gameWindow.isLmbJustPressed())
+		std::printf("LMB\n");
 	
 	return true;
 }

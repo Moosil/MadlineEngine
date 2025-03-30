@@ -4,43 +4,61 @@
 
 #include "winapi/input.h"
 
-void Madline::resetInput(Madline::Input* input) {
-	input->lmb = {};
-	input->rmb = {};
-	
-	std::fill(input->keyBoard.begin(), input->keyBoard.end(), Button());
-}
 
-void Madline::processInputAfter(Madline::Input* input) {
-	for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
-		input->keyBoard[i].pressed = false;
-		input->keyBoard[i].released = false;
-		input->keyBoard[i].triggered = false;
-		input->keyBoard[i].altPressed = false;
+
+namespace Madline {
+	void Input::resetInput() {
+		lmb = {};
+		rmb = {};
+	
+		std::fill(keyBoard.begin(), keyBoard.end(), Button());
 	}
 	
-	input->lmb.pressed = false;
-	input->lmb.triggered = false;
-	input->lmb.released = false;
-	input->lmb.altPressed = false;
-	input->rmb.pressed = false;
-	input->rmb.triggered = false;
-	input->rmb.released = false;
-	input->lmb.altPressed = false;
-}
-
-void Madline::processEventButton(Madline::Button &b, bool newState) {
-	if (newState) {
-		if (!b.held) {
-			b.pressed = true;
-			b.triggered = true;
-			b.held = true;
+	void Input::clearInput() {
+		for (int i = 0; i < Button::BUTTONS_COUNT; i++) {
+			keyBoard[i].justPressed = false;
+			keyBoard[i].justReleased = false;
+			keyBoard[i].triggered = false;
+			keyBoard[i].altPressed = false;
 		}
-		b.triggered = true;
-	} else {
-		b.pressed = false;
-		b.triggered = false;
-		b.held = false;
-		b.released = true;
+
+		lmb.justPressed = false;
+		lmb.triggered = false;
+		lmb.justReleased = false;
+		lmb.altPressed = false;
+		rmb.justPressed = false;
+		rmb.triggered = false;
+		rmb.justReleased = false;
+		lmb.altPressed = false;
+	}
+	
+	void Input::setKeyState(Button::ButtonID id, bool newState) {
+		setButtonState(keyBoard[id], newState);
+	}
+	
+	void Input::setMouseButtonState(Button::MouseButton mouseButton, bool newState) {
+		Button b;
+		if (mouseButton == Button::LMB) b = lmb;
+		else if (mouseButton == Button::RMB) b = rmb;
+		setButtonState(b, newState);
+	}
+	
+	void Input::setButtonState(Button &b, bool newState) {
+		if (newState) {
+			if (!b.held) {
+				b.justPressed = true;
+				b.triggered = true;
+				b.held = true;
+			}
+			b.triggered = true;
+		} else {
+			b.justPressed = false;
+			b.triggered = false;
+			b.held = false;
+			b.justReleased = true;
+		}
+	}
+	void Input::setKeyModifiers(Button::ButtonID id, int mods, int states) {
+		if (mods & Button::Modifier::ALT) keyBoard[id].altPressed = ((states & Button::Modifier::ALT) != 0);
 	}
 }

@@ -7,12 +7,12 @@
 
 #include <format>
 
-#include "winapi/game_window.h"
+#include "MadlineEngine.h"
 
 namespace Madline {
 	class Engine {
 	public:
-		virtual ~Engine() {};
+		virtual ~Engine() = default;
 		
 		virtual bool initGameplay() = 0;
 

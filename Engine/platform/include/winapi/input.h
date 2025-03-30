@@ -14,12 +14,22 @@
 namespace Madline {
 	struct Button
 	{
-		unsigned char pressed = 0;
+		unsigned char justPressed = 0;
 		unsigned char triggered = 0;
 		unsigned char held = 0;
-		unsigned char released = 0;
+		unsigned char justReleased = 0;
 		unsigned char altPressed = 0;
-		enum {
+		enum MouseButton {
+			LMB = 0,
+			RMB
+		};
+		enum Modifier {
+			CTRL = 0x1,
+			SHIFT = 0x2,
+			ALT = 0x4,
+			SUPER = 0x8
+		};
+		enum ButtonID {
 			A = 0,
 			B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
 			Num0, Num1, Num2, Num3, Num4, Num5, Num6, Num7, Num8, Num9,
@@ -114,12 +124,19 @@ namespace Madline {
 		Button rmb = {};
 		
 		bool focused = false;
+		
+		void resetInput();
+		
+		void clearInput();
+	
+		void setKeyState(Button::ButtonID id, bool newState);
+		
+		void setMouseButtonState(Button::MouseButton mouseButton, bool newState);
+		
+		void setKeyModifiers(Button::ButtonID id, int mods, int states);
+	private:
+		static void setButtonState(Button &b, bool newState);
 	};
-	void resetInput(Input *input);
-	
-	void processInputAfter(Input *input);
-	
-	void processEventButton(Button &b, bool newState);
 }
 
 #endif//MADLINEENGINE_INPUT_H

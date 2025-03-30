@@ -11,8 +11,6 @@ int Madline::startGame(Madline::Engine& gameEngine) {
 	Madline::GraphicsEngine graphicsEngine{ gameWindow };
 
 	while (gameWindow.isRunning()) {
-		
-		
 		gameWindow.gameLoop();
 		float dt = gameWindow.getDeltaTime();
 		float adt = (dt > 1.f / (float) gameWindow.getMinFps()) ? 1.f / (float) gameWindow.getMinFps() : dt;// augmented delta time
@@ -24,10 +22,10 @@ int Madline::startGame(Madline::Engine& gameEngine) {
 		graphicsEngine.drawLoop();
 
 		if (!gameWindow.isFocused()) {
-			resetInput(gameWindow.getInput());
+			gameWindow.getInput()->resetInput();
 		}
 
-		processInputAfter(gameWindow.getInput());
+		gameWindow.getInput()->clearInput();
 	}
 
 	gameEngine.onCloseGame();

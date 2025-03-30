@@ -5,7 +5,7 @@
 #ifndef CELESTEPET_GAME_ENGINE_H
 #define CELESTEPET_GAME_ENGINE_H
 
-#include "CelestePetHeaders.h"
+#include "MadlineEngine.h"
 
 namespace Madline {
 	int startGame(Madline::Engine &gameEngine);

@@ -7,7 +7,7 @@
 
 #include <chrono>
 
-#include "CelestePetConsts.h"
+#include "MadlineEngineDefines.h"
 
 #include <Windows.h>
 #include <imgui_impl_win32.h>
@@ -46,6 +46,8 @@ namespace Madline {
 		Window(const Window&) = delete;
 		Window &operator=(const Window&) = delete;
 		
+		static std::vector<Window*> createdWindows;
+		
 		void gameLoop();
 		float getDeltaTime();
 		
@@ -62,20 +64,20 @@ namespace Madline {
 		void setFocused(bool val);
 		[[nodiscard]] bool isFocused() const;
 		
-		[[nodiscard]] bool isButtonPressed(int buttonIndex) const;
+		[[nodiscard]] bool isButtonJustPressed(int buttonIndex) const;
 		[[nodiscard]] bool isButtonTriggered(int buttonIndex) const;
 		[[nodiscard]] bool isButtonHeld(int buttonIndex) const;
-		[[nodiscard]] bool isButtonReleased(int buttonIndex) const;
+		[[nodiscard]] bool isButtonJustReleased(int buttonIndex) const;
 
-		[[nodiscard]] bool isLmbPressed() const;
+		[[nodiscard]] bool isLmbJustPressed() const;
 		[[nodiscard]] bool isLmbTriggered() const;
 		[[nodiscard]] bool isLmbHeld() const;
-		[[nodiscard]] bool isLmbReleased() const;
+		[[nodiscard]] bool isLmbJustReleased() const;
 
-		[[nodiscard]] bool isRmbPressed() const;
+		[[nodiscard]] bool isRmbJustPressed() const;
 		[[nodiscard]] bool isRmbTriggered() const;
 		[[nodiscard]] bool isRmbHeld() const;
-		[[nodiscard]] bool isRmbReleased() const;
+		[[nodiscard]] bool isRmbJustReleased() const;
 
 		[[nodiscard]] std::vector<int> getButtonsPressed() const;
 		[[nodiscard]] std::vector<int> getButtonsTriggered() const;
@@ -90,18 +92,39 @@ namespace Madline {
 		bool running = true;
 		int minFps;
 		HWND mHwnd{};
-		HWND inputHwnd{};
 		Input input;
 		std::chrono::high_resolution_clock::time_point lastFrameTime;
 		
+		HHOOK mouseHook{};
+		HHOOK keyboardHook{};
+		
 		void initWindow();
 		static WINBOOL addTrayIcon(HWND hwnd);
+		void SetHooks()		{
+			// Set the low-level keyboard hook
+			keyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardProc, nullptr, 0);
+			if (keyboardHook == nullptr) throw std::runtime_error("Failed to set keyboard hook!");
+			
+			// Set the low-level mouse hook
+			mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseProc, nullptr, 0);
+			if (mouseHook == nullptr) throw std::runtime_error("Failed to set mouse hook!");
+		}
 		
-		LRESULT CALLBACK inputWndProc(unsigned int msg, WPARAM wp, LPARAM lp);
+		void RemoveHooks() {
+			if (keyboardHook) {
+				UnhookWindowsHookEx(keyboardHook);
+			}
+			if (mouseHook) {
+				UnhookWindowsHookEx(mouseHook);
+			}
+		}
+		
 		LRESULT CALLBACK mainWndProc(unsigned int msg, WPARAM wp, LPARAM lp);
 		
+		static LRESULT CALLBACK MouseProc(int nCode, WPARAM wp, LPARAM lp);
+		static LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wp, LPARAM lp);
+		
 		static LRESULT CALLBACK staticMainWndProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp);
-		static LRESULT CALLBACK staticInputWndProc(HWND hwnd, unsigned int msg, WPARAM wp, LPARAM lp);
 		
 		void showContextMenu(POINT pt);
 		
