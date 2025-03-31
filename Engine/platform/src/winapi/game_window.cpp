@@ -123,6 +123,8 @@ namespace Madline {
 			auto* mouseInfo = reinterpret_cast<MSLLHOOKSTRUCT*>(lp);
 			
 			LPARAM newLp = LOWORD(mouseInfo->pt.x) + HIWORD(mouseInfo->pt.y);
+			
+			ImGuiIO& io = ImGui::GetIO();
 		 
 			for (auto currWnd : Window::createdWindows) {
 				PostMessage(currWnd->getHwnd(), wp, NULL, newLp);
@@ -130,9 +132,36 @@ namespace Madline {
 			
 			if (mButtonDown || wp == WM_LBUTTONUP || wp == WM_RBUTTONUP) {
 				Button::MouseButton mButton = (wp == WM_LBUTTONDOWN || wp == WM_LBUTTONUP) ? Button::LMB : Button::RMB;
+				
+				Window* defaultWindow = Window::createdWindows[0];
+				
 				for (auto currWnd : Window::createdWindows) {
 					currWnd->input.setMouseButtonState(mButton, mButtonDown);
 				}
+				
+				if (mButtonDown) {
+					if (mButton == Button::LMB && defaultWindow->isLmbJustPressed()) {
+						std::printf("Lmb just pressed");
+						io.AddMouseButtonEvent(mButton, mButtonDown);
+						io.AddFocusEvent(true);
+					} else if (mButton == Button::RMB && defaultWindow->isRmbJustPressed()) {
+						std::printf("Rmb just pressed");
+						io.AddMouseButtonEvent(mButton, mButtonDown);
+						io.AddFocusEvent(true);
+					}
+				} else {
+					if (mButton == Button::LMB && defaultWindow->isLmbJustReleased()) {
+						std::printf("Lmb just released");
+						io.AddMouseButtonEvent(mButton, mButtonDown);
+						io.AddFocusEvent(true);
+					} else if (mButton == Button::RMB && defaultWindow->isLmbJustReleased()) {
+						std::printf("Rmb just released");
+						io.AddMouseButtonEvent(mButton, mButtonDown);
+						io.AddFocusEvent(true);
+					}
+				}
+			} else if (wp == WM_MOUSEMOVE) {
+				io.AddMousePosEvent(static_cast<float>(mouseInfo->pt.x), static_cast<float>(mouseInfo->pt.y));  // Simulate mouse movement
 			}
 		}
 		return CallNextHookEx(nullptr, nCode, wp, lp);
@@ -400,8 +429,9 @@ namespace Madline {
 	}
 
 	LRESULT CALLBACK Window::staticMainWndProc(HWND pHwnd, unsigned int msg, WPARAM wp, LPARAM lp) {
-		if (ImGui_ImplWin32_WndProcHandler(pHwnd, msg, wp, lp))
+		if (ImGui_ImplWin32_WndProcHandler(pHwnd, msg, wp, lp)) {
 			return true;
+		}
 	
 		Window* self;
 	
