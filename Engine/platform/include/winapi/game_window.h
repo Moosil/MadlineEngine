@@ -121,6 +121,7 @@ namespace Madline {
 		
 		LRESULT CALLBACK mainWndProc(unsigned int msg, WPARAM wp, LPARAM lp);
 		
+		static WORD getMouseProcKeyState();
 		static LRESULT CALLBACK MouseProc(int nCode, WPARAM wp, LPARAM lp);
 		static LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wp, LPARAM lp);
 		
